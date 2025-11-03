@@ -9,16 +9,15 @@ subprojects {
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
 
-    group = parent?.group.toString()
-    version = parent?.version.toString()
+    group = rootProject.group.toString()
+    version = rootProject.version.toString()
 
     repositories {
         maven {
             name = "roro"
-            url = uri("https://repo.roro.ovh/repository/libraries/")
+            url = uri("https://repo.roro.ovh/repository/global/")
         }
     }
-
 
     extensions.configure<JavaPluginExtension> {
         // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.

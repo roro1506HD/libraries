@@ -10,7 +10,13 @@ plugins {
 
 rootProject.name = "libraries"
 
-/*sequenceOf(
+sequenceOf(
+    "library-loader",
+    "reflection-util",
+    "packet-listener",
+    "component-util",
+    "language-api",
+    "inventory-api"
 ).forEach {
     include(it)
-}*/
+}
