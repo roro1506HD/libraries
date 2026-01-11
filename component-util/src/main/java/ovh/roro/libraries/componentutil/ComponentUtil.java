@@ -12,7 +12,7 @@ import net.kyori.adventure.text.format.Style;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringDecomposer;
 import org.apache.commons.lang3.mutable.MutableFloat;
@@ -51,8 +51,8 @@ public final class ComponentUtil {
     private static final @NotNull Int2ObjectMap<GlyphData> GLYPH_DATA = new Int2ObjectOpenHashMap<>();
     private static final int NEWLINE_CODE_POINT = '\n';
 
-    private static final @NotNull net.minecraft.network.chat.Component FOREGROUND_PREFIX_COMPONENT = net.minecraft.network.chat.Component.empty().withStyle(style -> style.withFont(new FontDescription.Resource(ResourceLocation.fromNamespaceAndPath("component-util", "foreground"))));
-    private static final @NotNull net.minecraft.network.chat.Style BACKGROUND_STYLE = net.minecraft.network.chat.Style.EMPTY.withFont(new FontDescription.Resource(ResourceLocation.fromNamespaceAndPath("component-util", "default"))).withShadowColor(0);
+    private static final @NotNull net.minecraft.network.chat.Component FOREGROUND_PREFIX_COMPONENT = net.minecraft.network.chat.Component.empty().withStyle(style -> style.withFont(new FontDescription.Resource(Identifier.fromNamespaceAndPath("component-util", "foreground"))));
+    private static final @NotNull net.minecraft.network.chat.Style BACKGROUND_STYLE = net.minecraft.network.chat.Style.EMPTY.withFont(new FontDescription.Resource(Identifier.fromNamespaceAndPath("component-util", "default"))).withShadowColor(0);
 
     /**
      * @hidden

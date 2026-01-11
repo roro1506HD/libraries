@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "ovh.roro.libraries"
-version = "1.21.10"
+version = "1.21.11"
 
 subprojects {
     apply(plugin = "java-library")
