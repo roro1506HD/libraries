@@ -68,6 +68,16 @@ public interface LanguageManager {
     @NotNull Component translate(@NotNull Language language, @NotNull String translationKey, @NotNull Placeholder... placeholders);
 
     /**
+     * Translates a translatable object using placeholders for the specified language
+     *
+     * @param language     the language to translate to
+     * @param translatable the translatable object to translate
+     * @param placeholders the placeholders to use
+     * @return the translated component
+     */
+    @NotNull Component translate(@NotNull Language language, @NotNull Translatable translatable, @NotNull Placeholder... placeholders);
+
+    /**
      * Translates a translation for the specified language
      *
      * @param language    the language to translate to

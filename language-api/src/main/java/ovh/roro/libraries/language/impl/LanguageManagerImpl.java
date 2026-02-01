@@ -19,11 +19,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ovh.roro.libraries.language.api.Language;
 import ovh.roro.libraries.language.api.LanguageManager;
 import ovh.roro.libraries.language.api.Placeholder;
+import ovh.roro.libraries.language.api.Translatable;
 import ovh.roro.libraries.language.api.Translation;
 import ovh.roro.libraries.language.api.data.LanguageNumberData;
 import ovh.roro.libraries.language.impl.data.LanguageNumberDataImpl;
@@ -207,6 +209,11 @@ public class LanguageManagerImpl implements LanguageManager {
         }
 
         return this.miniMessage.deserialize(translation, resolvers);
+    }
+
+    @Override
+    public @NotNull Component translate(@NotNull Language language, @NotNull Translatable translatable, @NonNull @NotNull Placeholder... placeholders) {
+        return this.translate(language, translatable.translationKey(), placeholders);
     }
 
     @Override

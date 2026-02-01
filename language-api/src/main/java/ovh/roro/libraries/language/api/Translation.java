@@ -27,6 +27,19 @@ public interface Translation extends Translatable {
     }
 
     /**
+     * Creates a new translation from the provided translatable object and the provided placeholders.
+     * The translatable object's translation key is the key that will be look for in lang files.
+     * Placeholders are optional, but great for dynamic content in translations.
+     *
+     * @param translatable the translatable object
+     * @param placeholders the placeholders
+     * @return a new translation
+     */
+    static @NotNull Translation translation(@NotNull Translatable translatable, @NotNull Placeholder... placeholders) {
+        return Translation.translation(translatable.translationKey(), placeholders);
+    }
+
+    /**
      * Returns this translation's translation key
      *
      * @return the translation key
