@@ -9,13 +9,11 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.TagPattern;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.minecraft.util.GsonHelper;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
@@ -69,32 +67,7 @@ public class LanguageManagerImpl implements LanguageManager {
 
     private LanguageManagerImpl() {
         this.miniMessage = MiniMessage.builder()
-                .tags(TagResolver.resolver(
-                        StandardTags.decorations(),
-                        StandardTags.color(),
-                        StandardTags.hoverEvent(),
-                        StandardTags.keybind(),
-                        StandardTags.translatable(),
-                        StandardTags.insertion(),
-                        StandardTags.reset(),
-                        StandardTags.newline(),
-                        StandardTags.selector(),
-                        TagResolver.resolver(
-                                "click",
-                                (args, context) -> {
-                                    String actionName = args.popOr(() -> "A click tag requires an action of one of " + ClickEvent.Action.NAMES.keys()).lowerValue();
-                                    ClickEvent.Action action = ClickEvent.Action.NAMES.value(actionName);
-
-                                    if (action == null) {
-                                        throw context.newException("Unknown click event action '" + actionName + "'", args);
-                                    }
-
-                                    String value = args.popOr("Click event actions require a value").value();
-
-                                    return Tag.styling(ClickEvent.clickEvent(action, LegacyComponentSerializer.legacyAmpersand().serialize(context.deserialize(value))));
-                                }
-                        )
-                ))
+                .tags(StandardTags.defaults())
                 .build();
 
         this.languagesById = new Int2ObjectArrayMap<>();
