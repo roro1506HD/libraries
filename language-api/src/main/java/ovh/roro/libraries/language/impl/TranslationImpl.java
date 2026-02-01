@@ -5,6 +5,9 @@ import org.jetbrains.annotations.NotNull;
 import ovh.roro.libraries.language.api.Placeholder;
 import ovh.roro.libraries.language.api.Translation;
 
+/**
+ * @hidden
+ */
 @ApiStatus.Internal
 public record TranslationImpl(
         @NotNull String translationKey,

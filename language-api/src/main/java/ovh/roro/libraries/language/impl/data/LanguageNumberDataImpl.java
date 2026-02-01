@@ -4,6 +4,9 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import ovh.roro.libraries.language.api.data.LanguageNumberData;
 
+/**
+ * @hidden
+ */
 @ApiStatus.Internal
 public record LanguageNumberDataImpl(
         @NotNull String groupSeparator,

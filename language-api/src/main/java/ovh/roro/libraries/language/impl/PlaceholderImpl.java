@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.function.Function;
 
+/**
+ * @hidden
+ */
 @ApiStatus.Internal
 public final class PlaceholderImpl implements Placeholder {
 

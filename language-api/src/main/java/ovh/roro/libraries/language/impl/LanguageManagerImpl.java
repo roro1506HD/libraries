@@ -44,6 +44,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * @hidden
+ */
 @ApiStatus.Internal
 public class LanguageManagerImpl implements LanguageManager {
 

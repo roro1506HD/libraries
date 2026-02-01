@@ -9,6 +9,9 @@ import ovh.roro.libraries.language.api.data.LanguageNumberData;
 
 import java.util.Map;
 
+/**
+ * @hidden
+ */
 @ApiStatus.Internal
 public class LanguageImpl implements Language {
 

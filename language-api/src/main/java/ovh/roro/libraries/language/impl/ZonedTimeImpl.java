@@ -6,6 +6,9 @@ import ovh.roro.libraries.language.api.ZonedTime;
 
 import java.time.ZoneId;
 
+/**
+ * @hidden
+ */
 @ApiStatus.Internal
 public record ZonedTimeImpl(
         long millis,
