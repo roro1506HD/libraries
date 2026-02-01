@@ -43,13 +43,6 @@ public interface Language {
     @Nullable Language fallbackLanguage();
 
     /**
-     * Returns the texture value of a player head associated with this language, to be shown in an inventory
-     *
-     * @return the texture value
-     */
-    @NotNull String headTexture();
-
-    /**
      * Returns the number data of this language, including group separator and decimal separator.
      *
      * @return the number data

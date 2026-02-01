@@ -21,7 +21,6 @@ public class LanguageImpl implements Language {
     private final @NotNull String name;
     private final @NotNull String alpha;
     private final @Nullable String fallbackLanguage;
-    private final @NotNull String headTexture;
     private final @NotNull LanguageNumberData numberData;
 
     private final @NotNull Map<String, String> translations;
@@ -32,7 +31,6 @@ public class LanguageImpl implements Language {
             @NotNull String name,
             @NotNull String alpha,
             @Nullable String fallbackLanguage,
-            @NotNull String headTexture,
             @NotNull LanguageNumberData numberData
     ) {
         this.languageManager = languageManager;
@@ -41,7 +39,6 @@ public class LanguageImpl implements Language {
         this.name = name;
         this.alpha = alpha;
         this.fallbackLanguage = fallbackLanguage;
-        this.headTexture = headTexture;
         this.numberData = numberData;
 
         this.translations = new Object2ObjectOpenHashMap<>();
@@ -73,11 +70,6 @@ public class LanguageImpl implements Language {
         }
 
         return this.languageManager.language(this.fallbackLanguage);
-    }
-
-    @Override
-    public @NotNull String headTexture() {
-        return this.headTexture;
     }
 
     @Override

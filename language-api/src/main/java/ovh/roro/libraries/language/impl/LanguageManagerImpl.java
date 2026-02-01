@@ -157,7 +157,6 @@ public class LanguageManagerImpl implements LanguageManager {
                     String name = GsonHelper.getAsString(data, "name");
                     String alpha = GsonHelper.getAsString(data, "alpha");
                     String fallbackLanguage = data.has("fallback_language") ? GsonHelper.getAsString(data, "fallback_language") : null;
-                    String headTexture = GsonHelper.getAsString(data, "head_texture");
 
                     // Number data
                     JsonObject numberData = GsonHelper.getAsJsonObject(data, "number_data");
@@ -171,7 +170,6 @@ public class LanguageManagerImpl implements LanguageManager {
                             name,
                             alpha,
                             fallbackLanguage,
-                            headTexture,
                             languageNumberData
                     );
 
