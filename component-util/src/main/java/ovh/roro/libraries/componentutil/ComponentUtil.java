@@ -276,13 +276,14 @@ public final class ComponentUtil {
 
         ComponentUtil.GLYPH_DATA.defaultReturnValue(new GlyphData(boldWidth, normalWidth));
 
-        while (byteBuf.readableBytes() > 0) {
+        int differentSizes = byteBuf.readVarInt();
+        for (int i = 0; i < differentSizes; i++) {
             boldWidth = ComponentUtil.readWidth(byteBuf);
             normalWidth = ComponentUtil.readWidth(byteBuf);
             GlyphData glyphData = new GlyphData(boldWidth, normalWidth);
             int codePoints = byteBuf.readVarInt();
 
-            for (int i = 0; i < codePoints; i++) {
+            for (int j = 0; j < codePoints; j++) {
                 ComponentUtil.GLYPH_DATA.put(byteBuf.readVarInt(), glyphData);
             }
         }
