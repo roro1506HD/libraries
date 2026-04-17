@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -79,6 +81,54 @@ public final class ComponentUtil {
     public static void load(@NotNull JavaPlugin plugin, @NotNull Int2ObjectMap<GlyphData> extraGlyphData) {
         try (InputStream inputStream = plugin.getClass().getResourceAsStream("/font_data")) {
             ComponentUtil.load(Objects.requireNonNull(inputStream, "font_data not found").readAllBytes());
+
+            ComponentUtil.GLYPH_DATA.putAll(extraGlyphData);
+        } catch (IOException ex) {
+            ComponentUtil.LOGGER.error("An error occurred while loading ComponentUtil's font data", ex);
+        }
+    }
+
+    /**
+     * Loads font data from the provided file, without providing extra glyphs
+     *
+     * @param path the path to the {@literal font_data} file
+     */
+    public static void loadCustom(@NotNull Path path) {
+        ComponentUtil.loadCustom(path, Int2ObjectMaps.emptyMap());
+    }
+
+    /**
+     * Loads font data from the provided file, and add extra glyphs.
+     * Extra glyphs override any glyphs included in the file if they have the same codepoint
+     *
+     * @param path the path to the {@literal font_data} file
+     */
+    public static void loadCustom(@NotNull Path path, @NotNull Int2ObjectMap<GlyphData> extraGlyphData) {
+        try (InputStream inputStream = Files.newInputStream(path)) {
+            ComponentUtil.loadCustom(inputStream, extraGlyphData);
+        } catch (IOException ex) {
+            ComponentUtil.LOGGER.error("An error occurred while loading ComponentUtil's font data", ex);
+        }
+    }
+
+    /**
+     * Loads font data from the provided {@link InputStream}, without providing extra glyphs
+     *
+     * @param inputStream the {@link InputStream} containing the glyphs
+     */
+    public static void loadCustom(@NotNull InputStream inputStream) {
+        ComponentUtil.loadCustom(inputStream, Int2ObjectMaps.emptyMap());
+    }
+
+    /**
+     * Loads font data from the provided {@link InputStream}, and add extra glyphs.
+     * Extra glyphs override any glyphs included in the {@link InputStream} if they have the same codepoint
+     *
+     * @param inputStream the {@link InputStream} containing the glyphs
+     */
+    public static void loadCustom(@NotNull InputStream inputStream, @NotNull Int2ObjectMap<GlyphData> extraGlyphData) {
+        try {
+            ComponentUtil.load(inputStream.readAllBytes());
 
             ComponentUtil.GLYPH_DATA.putAll(extraGlyphData);
         } catch (IOException ex) {
@@ -271,16 +321,16 @@ public final class ComponentUtil {
         FriendlyByteBuf byteBuf = new FriendlyByteBuf(Unpooled.copiedBuffer(data));
 
         // "Missing" data
-        float boldWidth = ComponentUtil.readWidth(byteBuf);
         float normalWidth = ComponentUtil.readWidth(byteBuf);
+        float boldOffset = ComponentUtil.readWidth(byteBuf);
 
-        ComponentUtil.GLYPH_DATA.defaultReturnValue(new GlyphData(boldWidth, normalWidth));
+        ComponentUtil.GLYPH_DATA.defaultReturnValue(new GlyphData(normalWidth, normalWidth + boldOffset));
 
         int differentSizes = byteBuf.readVarInt();
         for (int i = 0; i < differentSizes; i++) {
-            boldWidth = ComponentUtil.readWidth(byteBuf);
             normalWidth = ComponentUtil.readWidth(byteBuf);
-            GlyphData glyphData = new GlyphData(boldWidth, normalWidth);
+            boldOffset = ComponentUtil.readWidth(byteBuf);
+            GlyphData glyphData = new GlyphData(normalWidth, normalWidth + boldOffset);
             int codePoints = byteBuf.readVarInt();
 
             for (int j = 0; j < codePoints; j++) {
