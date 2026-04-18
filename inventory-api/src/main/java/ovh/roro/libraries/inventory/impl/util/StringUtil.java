@@ -1,4 +1,4 @@
-package ovh.roro.libraries.inventory.util;
+package ovh.roro.libraries.inventory.impl.util;
 
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;

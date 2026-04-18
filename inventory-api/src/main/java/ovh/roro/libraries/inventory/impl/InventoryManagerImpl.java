@@ -57,7 +57,7 @@ import ovh.roro.libraries.inventory.impl.listener.ItemInventoryListener;
 import ovh.roro.libraries.inventory.impl.pageable.PageableInventoryImpl;
 import ovh.roro.libraries.inventory.impl.pageable.item.NextItem;
 import ovh.roro.libraries.inventory.impl.pageable.item.PreviousItem;
-import ovh.roro.libraries.inventory.util.StringUtil;
+import ovh.roro.libraries.inventory.impl.util.StringUtil;
 import ovh.roro.libraries.language.api.Language;
 import ovh.roro.libraries.language.api.LanguageManager;
 import ovh.roro.libraries.language.api.Translation;
