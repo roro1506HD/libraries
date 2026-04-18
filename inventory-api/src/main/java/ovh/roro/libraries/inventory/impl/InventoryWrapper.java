@@ -71,7 +71,7 @@ public class InventoryWrapper<T, U extends InventoryInstance<T, V>, V extends In
     @Override
     public boolean isEmpty() {
         for (ItemStack stack : this.itemsCache) {
-            if (stack != null && !stack.isEmpty()) {
+            if (!stack.isEmpty()) {
                 return false;
             }
         }
@@ -106,12 +106,12 @@ public class InventoryWrapper<T, U extends InventoryInstance<T, V>, V extends In
 
     @Override
     public ItemStack removeItem(int slot, int amount) {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
     public ItemStack removeItemNoUpdate(int slot) {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -200,7 +200,7 @@ public class InventoryWrapper<T, U extends InventoryInstance<T, V>, V extends In
     }
 
     @Override
-    public InventoryHolder getOwner() {
+    public @Nullable InventoryHolder getOwner() {
         return null;
     }
 
@@ -209,7 +209,7 @@ public class InventoryWrapper<T, U extends InventoryInstance<T, V>, V extends In
     }
 
     @Override
-    public Location getLocation() {
+    public @Nullable Location getLocation() {
         return null;
     }
 

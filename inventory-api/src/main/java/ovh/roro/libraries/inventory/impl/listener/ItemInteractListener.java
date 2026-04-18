@@ -15,8 +15,6 @@ import ovh.roro.libraries.inventory.api.event.item.interact.ItemInteractRightCli
 import ovh.roro.libraries.inventory.impl.InventoryManagerImpl;
 import ovh.roro.libraries.inventory.impl.item.ItemImpl;
 
-import java.util.Objects;
-
 public class ItemInteractListener implements Listener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("InventoryManager");
@@ -33,8 +31,6 @@ public class ItemInteractListener implements Listener {
         if (event.getPlayer().getGameMode() == GameMode.SPECTATOR || event.getItem() == null) {
             return;
         }
-
-        InventoryPlayerHolder player = Objects.requireNonNull(this.inventoryManager.playerMapper().apply(event.getPlayer().getUniqueId()));
 
         this.inventoryManager.parseItem(event.getItem()).ifPresent(item -> {
             ItemInteractionSettings interactionSettings = item.instance().getClass().getAnnotation(ItemInteractionSettings.class);
@@ -59,6 +55,12 @@ public class ItemInteractListener implements Listener {
             }
 
             event.setCancelled(true);
+
+            InventoryPlayerHolder player = this.inventoryManager.playerMapper().apply(event.getPlayer().getUniqueId());
+
+            if (player == null) {
+                return;
+            }
 
             if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
                 ((ItemImpl) item).interactRightClickHandler().ifPresent(handler -> {

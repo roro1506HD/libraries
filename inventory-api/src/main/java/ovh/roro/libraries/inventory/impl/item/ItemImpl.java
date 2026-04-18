@@ -45,17 +45,17 @@ public class ItemImpl<T, U extends InventoryPlayerHolder> implements Item<T, U> 
         this.itemInstance = itemInstance;
         this.id = id;
 
-        this.dropHandler = this.handler(ItemDropHandler.class);
-        this.inventoryDropHandler = this.handler(ItemInventoryDropHandler.class);
+        this.dropHandler = this.getOptionalHandler(ItemDropHandler.class);
+        this.inventoryDropHandler = this.getOptionalHandler(ItemInventoryDropHandler.class);
 
-        this.leftClickHandler = this.handler(ItemLeftClickHandler.class);
-        this.rightClickHandler = this.handler(ItemRightClickHandler.class);
+        this.leftClickHandler = this.getOptionalHandler(ItemLeftClickHandler.class);
+        this.rightClickHandler = this.getOptionalHandler(ItemRightClickHandler.class);
 
-        this.interactLeftClickHandler = this.handler(ItemInteractLeftClickHandler.class);
-        this.interactRightClickHandler = this.handler(ItemInteractRightClickHandler.class);
+        this.interactLeftClickHandler = this.getOptionalHandler(ItemInteractLeftClickHandler.class);
+        this.interactRightClickHandler = this.getOptionalHandler(ItemInteractRightClickHandler.class);
     }
 
-    private <V> @Nullable V handler(Class<V> clazz) {
+    private <V> @Nullable V getOptionalHandler(Class<V> clazz) {
         if (clazz.isInstance(this.itemInstance)) {
             return clazz.cast(this.itemInstance);
         }

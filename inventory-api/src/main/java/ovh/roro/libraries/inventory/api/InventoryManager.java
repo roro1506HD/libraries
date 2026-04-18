@@ -30,7 +30,7 @@ public interface InventoryManager {
         return InventoryManagerImpl.LOADER.getOrCreate();
     }
 
-    void register(Function<UUID, InventoryPlayerHolder> playerMapper);
+    void register(Function<UUID, @Nullable InventoryPlayerHolder> playerMapper);
 
     <T, U extends InventoryInstance<T, V>, V extends InventoryPlayerHolder> void openInventory(Inventory<T, U, V> inventory, V player, @Nullable T value);
 

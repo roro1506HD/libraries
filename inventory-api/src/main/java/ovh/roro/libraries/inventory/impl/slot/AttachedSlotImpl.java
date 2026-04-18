@@ -17,7 +17,7 @@ public class AttachedSlotImpl<T, U, V extends InventoryPlayerHolder> implements 
 
     public static final SlotTypeImpl TYPE = new SlotTypeImpl(AttachedSlotImpl::new);
 
-    private static final BiFunction EMPTY_MAPPER = (crimsonPlayer, t) -> null;
+    private static final BiFunction EMPTY_MAPPER = (player, value) -> null;
 
     private long hash;
 

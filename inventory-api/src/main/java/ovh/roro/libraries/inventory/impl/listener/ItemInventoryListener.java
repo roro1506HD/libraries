@@ -44,6 +44,7 @@ public class ItemInventoryListener implements Listener {
         this.inventoryManager = inventoryManager;
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onInventoryClick(InventoryClickEvent event) {
         if (event.getCurrentItem() == null) {
@@ -65,6 +66,7 @@ public class ItemInventoryListener implements Listener {
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
         if (((CraftInventory) event.getInventory()).getInventory() instanceof InventoryWrapper) {
@@ -303,7 +305,7 @@ public class ItemInventoryListener implements Listener {
     }
 
     private int firstPossibleSlot(Inventory inventory, ItemStack itemStack) {
-        ItemStack[] contents = inventory.getStorageContents();
+        @Nullable ItemStack[] contents = inventory.getStorageContents();
 
         for (int i = 0; i < contents.length; i++) {
             ItemStack slotItem = contents[i];

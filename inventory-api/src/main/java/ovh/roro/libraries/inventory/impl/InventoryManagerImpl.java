@@ -110,7 +110,7 @@ public class InventoryManagerImpl implements InventoryManager {
     private @Nullable Item<PaginationContext, ?> nextItem;
 
     private boolean registered;
-    private @Nullable Function<UUID, InventoryPlayerHolder> playerMapper;
+    private @Nullable Function<UUID, @Nullable InventoryPlayerHolder> playerMapper;
 
     private InventoryManagerImpl(JavaPlugin plugin) {
         this.server = (CraftServer) plugin.getServer();
@@ -125,7 +125,7 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     @Override
-    public void register(Function<UUID, InventoryPlayerHolder> playerMapper) {
+    public void register(Function<UUID, @Nullable InventoryPlayerHolder> playerMapper) {
         Preconditions.checkArgument(!this.registered, this.plugin.getName() + "'s InventoryManager already registered");
 
         this.registered = true;
@@ -491,7 +491,7 @@ public class InventoryManagerImpl implements InventoryManager {
         return this.nextItem;
     }
 
-    public Function<UUID, InventoryPlayerHolder> playerMapper() {
+    public Function<UUID, @Nullable InventoryPlayerHolder> playerMapper() {
         return Objects.requireNonNull(this.playerMapper, "Cannot get player mapper of unregistered inventory manager");
     }
 }

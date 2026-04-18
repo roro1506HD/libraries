@@ -29,12 +29,11 @@ public abstract class InventoryImpl<T, U extends InventoryInstance<T, V>, V exte
         this.inventoryInstance = inventoryInstance;
         this.inventoryContent = inventoryContentMapper.apply(this);
 
-        this.openHandler = this.handler(InventoryOpenHandler.class);
-        this.closeHandler = this.handler(InventoryCloseHandler.class);
+        this.openHandler = this.getOptionalHandler(InventoryOpenHandler.class);
+        this.closeHandler = this.getOptionalHandler(InventoryCloseHandler.class);
     }
 
-    @Nullable
-    private <W> W handler(Class<W> clazz) {
+    private <W> @Nullable W getOptionalHandler(Class<W> clazz) {
         if (clazz.isInstance(this.inventoryInstance)) {
             return clazz.cast(this.inventoryInstance);
         }
