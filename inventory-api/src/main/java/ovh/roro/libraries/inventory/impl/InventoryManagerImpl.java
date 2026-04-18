@@ -27,10 +27,8 @@ import org.bukkit.craftbukkit.inventory.CraftInventory;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.ClassicInventory;
 import ovh.roro.libraries.inventory.api.ConfirmationInventory;
 import ovh.roro.libraries.inventory.api.Inventory;
@@ -82,12 +80,12 @@ import java.util.function.Function;
 @SuppressWarnings("rawtypes")
 public class InventoryManagerImpl implements InventoryManager {
 
-    public static final @NotNull LibraryInstanceLoader<InventoryManagerImpl> LOADER = new LibraryInstanceLoader<>(
+    public static final LibraryInstanceLoader<InventoryManagerImpl> LOADER = new LibraryInstanceLoader<>(
             "InventoryManager",
             InventoryManagerImpl::new
     );
 
-    private static final @NotNull Int2ObjectMap<MenuType<?>> ROWS_TO_MENU_TYPE = Util.make(new Int2ObjectArrayMap<>(), map -> {
+    private static final Int2ObjectMap<@Nullable MenuType<?>> ROWS_TO_MENU_TYPE = Util.make(new Int2ObjectArrayMap<>(), map -> {
         map.defaultReturnValue(null);
 
         map.put(1, MenuType.GENERIC_9x1);
@@ -98,23 +96,23 @@ public class InventoryManagerImpl implements InventoryManager {
         map.put(6, MenuType.GENERIC_9x6);
     });
 
-    private final @NotNull CraftServer server;
-    private final @NotNull JavaPlugin plugin;
-    private final @NotNull LanguageManager languageManager;
+    private final CraftServer server;
+    private final JavaPlugin plugin;
+    private final LanguageManager languageManager;
 
-    private final @NotNull AtomicInteger itemIdCounter;
-    private final @NotNull Int2ObjectMap<Item> itemById;
-    private final @NotNull Map<UUID, Deque<InventoryAttachment>> lastInventories;
+    private final AtomicInteger itemIdCounter;
+    private final Int2ObjectMap<Item> itemById;
+    private final Map<UUID, Deque<InventoryAttachment>> lastInventories;
 
-    private final @NotNull DefaultItemFactoryImpl defaultItemFactory;
+    private final DefaultItemFactoryImpl defaultItemFactory;
 
-    private @MonotonicNonNull Item<PaginationContext, ?> previousItem;
-    private @MonotonicNonNull Item<PaginationContext, ?> nextItem;
+    private @Nullable Item<PaginationContext, ?> previousItem;
+    private @Nullable Item<PaginationContext, ?> nextItem;
 
     private boolean registered;
-    private @MonotonicNonNull Function<UUID, InventoryPlayerHolder> playerMapper;
+    private @Nullable Function<UUID, InventoryPlayerHolder> playerMapper;
 
-    private InventoryManagerImpl(@NotNull JavaPlugin plugin) {
+    private InventoryManagerImpl(JavaPlugin plugin) {
         this.server = (CraftServer) plugin.getServer();
         this.plugin = plugin;
         this.languageManager = LanguageManager.languageManager();
@@ -127,7 +125,7 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     @Override
-    public void register(@NotNull Function<UUID, InventoryPlayerHolder> playerMapper) {
+    public void register(Function<UUID, InventoryPlayerHolder> playerMapper) {
         Preconditions.checkArgument(!this.registered, this.plugin.getName() + "'s InventoryManager already registered");
 
         this.registered = true;
@@ -140,7 +138,7 @@ public class InventoryManagerImpl implements InventoryManager {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T, U extends InventoryInstance<T, V>, V extends InventoryPlayerHolder> void openInventory(@NotNull Inventory<T, U, V> inventory, @NotNull V player, @Nullable T value) {
+    public <T, U extends InventoryInstance<T, V>, V extends InventoryPlayerHolder> void openInventory(Inventory<T, U, V> inventory, V player, @Nullable T value) {
         InventoryImpl<T, U, V> inventoryImpl = (InventoryImpl<T, U, V>) inventory;
         int rows = inventoryImpl.rows();
         MenuType<?> menuType = InventoryManagerImpl.ROWS_TO_MENU_TYPE.get(rows);
@@ -189,13 +187,13 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     @Override
-    public void openPreviousInventory(@NotNull InventoryPlayerHolder player) {
+    public void openPreviousInventory(InventoryPlayerHolder player) {
         this.openPreviousInventory(player, 0);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void openPreviousInventory(@NotNull InventoryPlayerHolder player, int inventoriesToSkip) {
+    public void openPreviousInventory(InventoryPlayerHolder player, int inventoriesToSkip) {
         Deque<InventoryAttachment> queue = this.lastInventories.get(player.bukkitPlayer().getUniqueId());
 
         if (queue == null) {
@@ -226,14 +224,14 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     @Override
-    public boolean hasPreviousInventory(@NotNull InventoryPlayerHolder player) {
+    public boolean hasPreviousInventory(InventoryPlayerHolder player) {
         Deque<InventoryAttachment> queue = this.lastInventories.get(player.bukkitPlayer().getUniqueId());
 
         return queue != null && queue.size() > 1;
     }
 
     @Override
-    public void updateInventory(@NotNull InventoryPlayerHolder player) {
+    public void updateInventory(InventoryPlayerHolder player) {
         AbstractContainerMenu containerMenu = ((CraftPlayer) player.bukkitPlayer()).getHandle().containerMenu;
 
         if (!(containerMenu instanceof ChestMenu chestMenu)) {
@@ -248,7 +246,7 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     @Override
-    public void softCloseInventory(@NotNull InventoryPlayerHolder player) {
+    public void softCloseInventory(InventoryPlayerHolder player) {
         AbstractContainerMenu containerMenu = ((CraftPlayer) player.bukkitPlayer()).getHandle().containerMenu;
 
         if (!(containerMenu instanceof ChestMenu chestMenu)) {
@@ -264,12 +262,12 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     @Override
-    public boolean isRegisteredInventory(org.bukkit.inventory.@NotNull Inventory inventory) {
+    public boolean isRegisteredInventory(org.bukkit.inventory.Inventory inventory) {
         return ((CraftInventory) inventory).getInventory() instanceof InventoryWrapper<?, ?, ?>;
     }
 
     @Override
-    public <T extends InventoryPlayerHolder> @NotNull List<T> getInventoryViewers(@NotNull Inventory<?, ?, T> inventory) {
+    public <T extends InventoryPlayerHolder> List<T> getInventoryViewers(Inventory<?, ?, T> inventory) {
         List<T> players = new ArrayList<>();
 
         for (CraftPlayer player : this.server.getOnlinePlayers()) {
@@ -284,13 +282,13 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     @Override
-    public @NotNull Optional<@NotNull Item> parseItem(@Nullable ItemStack itemStack) {
+    public Optional<Item> parseItem(@Nullable ItemStack itemStack) {
         return this.parseItem(CraftItemStack.asNMSCopy(itemStack));
     }
 
     @SuppressWarnings("DataFlowIssue")
     @Override
-    public @NotNull Optional<@NotNull Item> parseItem(@Nullable net.minecraft.world.item.ItemStack itemStack) {
+    public Optional<Item> parseItem(net.minecraft.world.item.@Nullable ItemStack itemStack) {
         if (itemStack == null || !itemStack.has(DataComponents.CUSTOM_DATA)) {
             return Optional.empty();
         }
@@ -302,22 +300,22 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     @Override
-    public @NotNull <T, U extends InventoryPlayerHolder> ClassicInventory<T, U> createInventory(@NotNull ClassicInventoryInstance<T, U> inventoryInstance) {
+    public <T, U extends InventoryPlayerHolder> ClassicInventory<T, U> createInventory(ClassicInventoryInstance<T, U> inventoryInstance) {
         return new ClassicInventoryImpl<>(this, inventoryInstance);
     }
 
     @Override
-    public @NotNull <T, U, V extends InventoryPlayerHolder> PageableInventory<T, U, V> createPageableInventory(@NotNull PageableInventoryInstance<T, U, V> inventoryInstance) {
+    public <T, U, V extends InventoryPlayerHolder> PageableInventory<T, U, V> createPageableInventory(PageableInventoryInstance<T, U, V> inventoryInstance) {
         return new PageableInventoryImpl<>(this, inventoryInstance);
     }
 
     @Override
-    public @NotNull <T, U extends InventoryPlayerHolder> ConfirmationInventory<T, U> createConfirmationInventory(@NotNull ConfirmationInventoryInstance<T, U> inventoryInstance) {
+    public <T, U extends InventoryPlayerHolder> ConfirmationInventory<T, U> createConfirmationInventory(ConfirmationInventoryInstance<T, U> inventoryInstance) {
         return new ConfirmationInventoryImpl<>(this, inventoryInstance);
     }
 
     @Override
-    public <T, U extends InventoryPlayerHolder> @NotNull Item<T, U> createItem(@NotNull ItemInstance<T, U> itemInstance) {
+    public <T, U extends InventoryPlayerHolder> Item<T, U> createItem(ItemInstance<T, U> itemInstance) {
         ItemImpl<T, U> item = new ItemImpl<>(this, itemInstance, this.itemIdCounter.incrementAndGet());
 
         this.itemById.put(item.id(), item);
@@ -326,7 +324,7 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     @Override
-    public @NotNull StaticItem createStaticItem(@NotNull StaticItemInstance itemInstance) {
+    public StaticItem createStaticItem(StaticItemInstance itemInstance) {
         StaticItemImpl item = new StaticItemImpl(this, itemInstance, this.itemIdCounter.incrementAndGet());
 
         this.itemById.put(item.id(), item);
@@ -335,47 +333,46 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     @Override
-    public @NotNull ItemBuilder createItemBuilder(@NotNull Material material) {
+    public ItemBuilder createItemBuilder(Material material) {
         return this.createItemBuilder(material, 1);
     }
 
     @Override
-    public @NotNull ItemBuilder createItemBuilder(@NotNull Material material, int amount) {
+    public ItemBuilder createItemBuilder(Material material, int amount) {
         return new ItemBuilderImpl(material, amount);
     }
 
     @Override
-    public @NotNull ItemBuilder fromLegacy(@NotNull ItemStack itemStack) {
+    public ItemBuilder fromLegacy(ItemStack itemStack) {
         return this.fromLegacy(CraftItemStack.asNMSCopy(itemStack));
     }
 
     @Override
-    public @NotNull ItemBuilder fromLegacy(@NotNull net.minecraft.world.item.ItemStack itemStack) {
+    public ItemBuilder fromLegacy(net.minecraft.world.item.ItemStack itemStack) {
         return new ItemBuilderImpl(itemStack);
     }
 
     @Override
-    public @NotNull <T, U extends InventoryPlayerHolder> net.minecraft.world.item.ItemStack toMinecraftStack(@NotNull Item<T, U> item, @NotNull U player, @Nullable T value) {
+    public <T, U extends InventoryPlayerHolder> net.minecraft.world.item.ItemStack toMinecraftStack(Item<T, U> item, U player, @Nullable T value) {
         return this.toMinecraftStack(player.language(), item.instance().buildItem(player, value), item);
     }
 
-    @NotNull
     @Override
-    public net.minecraft.world.item.ItemStack toMinecraftStack(@NotNull ItemBuilder builder, @NotNull Language language) {
+    public net.minecraft.world.item.ItemStack toMinecraftStack(ItemBuilder builder, Language language) {
         return this.toMinecraftStack(language, builder, null);
     }
 
     @Override
-    public @NotNull <T, U extends InventoryPlayerHolder> ItemStack toBukkitStack(@NotNull Item<T, U> item, @NotNull U player, @Nullable T value) {
+    public <T, U extends InventoryPlayerHolder> ItemStack toBukkitStack(Item<T, U> item, U player, @Nullable T value) {
         return CraftItemStack.asCraftMirror(this.toMinecraftStack(item, player, value));
     }
 
     @Override
-    public @NotNull ItemStack toBukkitStack(@NotNull ItemBuilder builder, @NotNull Language language) {
+    public ItemStack toBukkitStack(ItemBuilder builder, Language language) {
         return CraftItemStack.asCraftMirror(this.toMinecraftStack(builder, language));
     }
 
-    public @NotNull net.minecraft.world.item.ItemStack toMinecraftStack(@NotNull Language language, @NotNull ItemBuilder builder, @Nullable Item item) {
+    public net.minecraft.world.item.ItemStack toMinecraftStack(Language language, ItemBuilder builder, @Nullable Item item) {
         ItemBuilderImpl clonedBuilder = (ItemBuilderImpl) builder.clone();
         net.minecraft.world.item.ItemStack delegate = clonedBuilder.delegate();
 
@@ -421,10 +418,10 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     private @Nullable MutableComponent splitAndCollectNewlines(
-            @NotNull Component component,
-            @NotNull Style componentStyle,
+            Component component,
+            Style componentStyle,
             @Nullable MutableComponent currentComponent,
-            @NotNull Consumer<Component> consumer
+            Consumer<Component> consumer
     ) {
         if (component.getContents() instanceof PlainTextContents contents) {
             String text = contents.text();
@@ -452,9 +449,9 @@ public class InventoryManagerImpl implements InventoryManager {
         return currentComponent;
     }
 
-    private @NotNull MutableComponent setOrAppend(
+    private MutableComponent setOrAppend(
             @Nullable MutableComponent currentComponent,
-            @NotNull MutableComponent toAppend
+            MutableComponent toAppend
     ) {
         if (currentComponent == null) {
             return toAppend;
@@ -463,23 +460,22 @@ public class InventoryManagerImpl implements InventoryManager {
         return currentComponent.append(toAppend);
     }
 
-    private @NotNull Component removeDefaultItalic(@NotNull Component component) {
+    private Component removeDefaultItalic(Component component) {
         return Component.empty()
                 .withStyle(style -> style.withItalic(false))
                 .append(component);
     }
 
     @Override
-    public @NotNull DefaultItemFactoryImpl defaultItemFactory() {
+    public DefaultItemFactoryImpl defaultItemFactory() {
         return this.defaultItemFactory;
     }
 
-    @NotNull
     Map<UUID, Deque<InventoryAttachment>> lastInventories() {
         return this.lastInventories;
     }
 
-    public @NotNull Item<PaginationContext, ?> previousItem() {
+    public Item<PaginationContext, ?> previousItem() {
         if (this.previousItem == null) {
             this.previousItem = this.createItem(new PreviousItem(this));
         }
@@ -487,7 +483,7 @@ public class InventoryManagerImpl implements InventoryManager {
         return this.previousItem;
     }
 
-    public @NotNull Item<PaginationContext, ?> nextItem() {
+    public Item<PaginationContext, ?> nextItem() {
         if (this.nextItem == null) {
             this.nextItem = this.createItem(new NextItem(this));
         }
@@ -495,7 +491,7 @@ public class InventoryManagerImpl implements InventoryManager {
         return this.nextItem;
     }
 
-    public @NotNull Function<UUID, InventoryPlayerHolder> playerMapper() {
-        return this.playerMapper;
+    public Function<UUID, InventoryPlayerHolder> playerMapper() {
+        return Objects.requireNonNull(this.playerMapper, "Cannot get player mapper of unregistered inventory manager");
     }
 }

@@ -2,7 +2,6 @@ package ovh.roro.libraries.componentutil;
 
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @hidden
@@ -10,9 +9,9 @@ import org.jetbrains.annotations.NotNull;
 @ApiStatus.Internal
 class LazyGlyphWidthSupplier {
 
-    private final @NotNull Component component;
+    private final Component component;
 
-    public LazyGlyphWidthSupplier(@NotNull Component component) {
+    public LazyGlyphWidthSupplier(Component component) {
         this.component = component;
     }
 

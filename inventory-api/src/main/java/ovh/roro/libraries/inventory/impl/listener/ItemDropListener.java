@@ -4,7 +4,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
@@ -15,17 +14,17 @@ import ovh.roro.libraries.inventory.impl.item.ItemImpl;
 
 public class ItemDropListener implements Listener {
 
-    private static final @NotNull Logger LOGGER = LoggerFactory.getLogger("InventoryManager");
+    private static final Logger LOGGER = LoggerFactory.getLogger("InventoryManager");
 
-    private final @NotNull InventoryManagerImpl inventoryManager;
+    private final InventoryManagerImpl inventoryManager;
 
-    public ItemDropListener(@NotNull InventoryManagerImpl inventoryManager) {
+    public ItemDropListener(InventoryManagerImpl inventoryManager) {
         this.inventoryManager = inventoryManager;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
-    public void onPlayerDropItem(@NotNull PlayerDropItemEvent event) {
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
         InventoryPlayerHolder player = this.inventoryManager.playerMapper().apply(event.getPlayer().getUniqueId());
 
         this.inventoryManager.parseItem(event.getItemDrop().getItemStack()).ifPresent(item -> {

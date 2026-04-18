@@ -1,6 +1,6 @@
 package ovh.roro.libraries.componentutil;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A style processor specifically used in {@link ComponentUtil#fillAdventure(String, ComponentStyleFillProcessor)}

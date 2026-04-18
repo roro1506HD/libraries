@@ -6,7 +6,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
@@ -20,17 +19,17 @@ import java.util.Objects;
 
 public class ItemInteractListener implements Listener {
 
-    private static final @NotNull Logger LOGGER = LoggerFactory.getLogger("InventoryManager");
+    private static final Logger LOGGER = LoggerFactory.getLogger("InventoryManager");
 
-    private final @NotNull InventoryManagerImpl inventoryManager;
+    private final InventoryManagerImpl inventoryManager;
 
-    public ItemInteractListener(@NotNull InventoryManagerImpl inventoryManager) {
+    public ItemInteractListener(InventoryManagerImpl inventoryManager) {
         this.inventoryManager = inventoryManager;
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerInteract(@NotNull PlayerInteractEvent event) {
+    public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getPlayer().getGameMode() == GameMode.SPECTATOR || event.getItem() == null) {
             return;
         }

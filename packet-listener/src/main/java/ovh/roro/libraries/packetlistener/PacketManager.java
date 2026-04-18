@@ -8,8 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,21 +18,21 @@ import java.util.Set;
 @SuppressWarnings("rawtypes")
 public class PacketManager implements Listener {
 
-    private static final @NotNull Logger LOGGER = LoggerFactory.getLogger("PacketManager");
+    private static final Logger LOGGER = LoggerFactory.getLogger("PacketManager");
 
-    private final @NotNull Map<Class<?>, Set<PacketHandler>> handlers;
+    private final Map<Class<?>, Set<PacketHandler>> handlers;
 
-    public PacketManager(@NotNull JavaPlugin plugin) {
+    public PacketManager(JavaPlugin plugin) {
         this.handlers = new Object2ObjectOpenHashMap<>();
 
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public <T extends Packet> void addHandler(@NotNull Class<T> packetClass, @NotNull PacketHandler<T> handler) {
+    public <T extends Packet> void addHandler(Class<T> packetClass, PacketHandler<T> handler) {
         this.handlers.computeIfAbsent(packetClass, unused -> new ObjectOpenHashSet<>()).add(handler);
     }
 
-    public <T extends Packet> void removeHandler(@NotNull Class<T> packetClass, @NotNull PacketHandler<T> handler) {
+    public <T extends Packet> void removeHandler(Class<T> packetClass, PacketHandler<T> handler) {
         Set<PacketHandler> handlers = this.handlers.get(packetClass);
 
         if (handlers != null) {
@@ -43,7 +42,7 @@ public class PacketManager implements Listener {
         }
     }
 
-    public <T extends Packet> @Nullable PacketEvent<T> handlePacket(@NotNull T packet, @NotNull CraftPlayer player) {
+    public <T extends Packet> @Nullable PacketEvent<T> handlePacket(T packet, CraftPlayer player) {
         Set<PacketHandler> handlers = this.handlers.get(packet.getClass());
 
         if (handlers == null) {
@@ -65,7 +64,7 @@ public class PacketManager implements Listener {
     }
 
     @EventHandler
-    private void onPlayerJoin(@NotNull PlayerJoinEvent event) {
+    private void onPlayerJoin(PlayerJoinEvent event) {
         CraftPlayer craftPlayer = (CraftPlayer) event.getPlayer();
 
         craftPlayer.getHandle().connection.connection.channel.pipeline().addBefore("packet_handler", "ovh_roro_libraries_packet_handler", new ChannelListener(this, craftPlayer));

@@ -1,8 +1,7 @@
 package ovh.roro.libraries.language.api;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.language.api.data.LanguageNumberData;
 
 /**
@@ -23,14 +22,14 @@ public interface Language {
      *
      * @return the name
      */
-    @NotNull String name();
+    String name();
 
     /**
      * Returns the alpha of this language, a short and unique string that represents this language
      *
      * @return the alpha
      */
-    @NotNull String alpha();
+    String alpha();
 
     /**
      * Returns the fallback language. When a translation is missing from this language, the fallback language will be used instead.
@@ -47,6 +46,6 @@ public interface Language {
      *
      * @return the number data
      */
-    @NotNull LanguageNumberData numberData();
+    LanguageNumberData numberData();
 
 }

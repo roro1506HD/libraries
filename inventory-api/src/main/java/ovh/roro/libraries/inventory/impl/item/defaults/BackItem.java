@@ -2,8 +2,7 @@ package ovh.roro.libraries.inventory.impl.item.defaults;
 
 import org.bukkit.Material;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryManager;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.event.item.click.ItemClickHandler;
@@ -27,7 +26,7 @@ class BackItem implements ItemInstance<Object, InventoryPlayerHolder>, ItemClick
     }
 
     @Override
-    public @NotNull ItemBuilder buildItem(@NotNull InventoryPlayerHolder player, @Nullable Object value) {
+    public ItemBuilder buildItem(InventoryPlayerHolder player, @Nullable Object value) {
         if (!this.inventoryManager.hasPreviousInventory(player)) {
             return this.closeItem;
         }
@@ -36,7 +35,7 @@ class BackItem implements ItemInstance<Object, InventoryPlayerHolder>, ItemClick
     }
 
     @Override
-    public void onClick(@NotNull InventoryPlayerHolder player, boolean isShiftClick, @Nullable Object value) {
+    public void onClick(InventoryPlayerHolder player, boolean isShiftClick, @Nullable Object value) {
         this.inventoryManager.openPreviousInventory(player);
     }
 }

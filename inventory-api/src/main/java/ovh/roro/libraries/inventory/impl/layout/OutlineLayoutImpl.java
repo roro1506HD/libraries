@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import ovh.roro.libraries.inventory.api.layout.Layout;
 
 import java.util.Objects;
@@ -13,9 +12,9 @@ import java.util.Objects;
 @ApiStatus.Internal
 public class OutlineLayoutImpl implements Layout {
 
-    public static final @NotNull OutlineLayoutImpl INSTANCE = new OutlineLayoutImpl();
+    public static final OutlineLayoutImpl INSTANCE = new OutlineLayoutImpl();
 
-    private static final @NotNull Int2ObjectMap<int[]> SLOTS = new Int2ObjectArrayMap<>();
+    private static final Int2ObjectMap<int[]> SLOTS = new Int2ObjectArrayMap<>();
 
     private OutlineLayoutImpl() {
     }
@@ -41,7 +40,7 @@ public class OutlineLayoutImpl implements Layout {
     }
 
     @Override
-    public int @NotNull [] slots(int inventorySize) {
+    public int[] slots(int inventorySize) {
         return Objects.requireNonNull(OutlineLayoutImpl.SLOTS.get(inventorySize), "Invalid inventory size");
     }
 }

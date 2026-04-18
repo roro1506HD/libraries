@@ -1,8 +1,7 @@
 package ovh.roro.libraries.inventory.impl.content;
 
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryManager;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.instance.PageableInventoryInstance;
@@ -15,14 +14,14 @@ import ovh.roro.libraries.inventory.impl.pageable.PageableInventoryImpl;
 @SuppressWarnings("rawtypes")
 public class PageableInventoryContentImpl<T, U extends InventoryPlayerHolder> extends InventoryContentImpl<T, U> {
 
-    private @MonotonicNonNull PageableInventoryInstance inventoryInstance;
+    private @Nullable PageableInventoryInstance inventoryInstance;
 
-    public PageableInventoryContentImpl(@NotNull InventoryManager inventoryManager, @NotNull InventoryImpl<T, ?, U> inventory) {
+    public PageableInventoryContentImpl(InventoryManager inventoryManager, InventoryImpl<T, ?, U> inventory) {
         super(inventoryManager, inventory);
     }
 
     @Override
-    protected @NotNull Slot createSlot(int index) {
+    protected Slot createSlot(int index) {
         if (this.inventoryInstance == null) {
             this.inventoryInstance = ((PageableInventoryImpl) super.inventory).instance();
         }

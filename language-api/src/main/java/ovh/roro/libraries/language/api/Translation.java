@@ -1,7 +1,6 @@
 package ovh.roro.libraries.language.api;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import ovh.roro.libraries.language.impl.TranslationImpl;
 
 /**
@@ -22,7 +21,7 @@ public interface Translation extends Translatable {
      * @param placeholders   the placeholders
      * @return a new translation
      */
-    static @NotNull Translation translation(@NotNull String translationKey, @NotNull Placeholder... placeholders) {
+    static Translation translation(String translationKey, Placeholder... placeholders) {
         return new TranslationImpl(translationKey, placeholders);
     }
 
@@ -35,7 +34,7 @@ public interface Translation extends Translatable {
      * @param placeholders the placeholders
      * @return a new translation
      */
-    static @NotNull Translation translation(@NotNull Translatable translatable, @NotNull Placeholder... placeholders) {
+    static Translation translation(Translatable translatable, Placeholder... placeholders) {
         return Translation.translation(translatable.translationKey(), placeholders);
     }
 
@@ -44,7 +43,7 @@ public interface Translation extends Translatable {
      *
      * @return the translation key
      */
-    @NotNull String translationKey();
+    String translationKey();
 
     /**
      * Returns this translation's placeholders, if any.
@@ -52,6 +51,6 @@ public interface Translation extends Translatable {
      *
      * @return the placeholders
      */
-    @NotNull Placeholder @NotNull [] placeholders();
+    Placeholder[] placeholders();
 
 }

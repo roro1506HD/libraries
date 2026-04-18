@@ -1,8 +1,7 @@
 package ovh.roro.libraries.inventory.api.instance;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.item.ItemBuilder;
 
@@ -10,10 +9,10 @@ import ovh.roro.libraries.inventory.api.item.ItemBuilder;
 public interface StaticItemInstance extends ItemInstance<Object, InventoryPlayerHolder> {
 
     @Override
-    default @NotNull ItemBuilder buildItem(@NotNull InventoryPlayerHolder player, @Nullable Object value) {
+    default ItemBuilder buildItem(InventoryPlayerHolder player, @Nullable Object value) {
         return this.buildItem();
     }
 
-    @NotNull ItemBuilder buildItem();
+    ItemBuilder buildItem();
 
 }

@@ -1,8 +1,7 @@
 package ovh.roro.libraries.inventory.impl;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.event.InventoryCloseHandler;
 import ovh.roro.libraries.inventory.api.event.InventoryOpenHandler;
@@ -17,8 +16,8 @@ import java.util.function.Function;
 @ApiStatus.Internal
 public abstract class InventoryImpl<T, U extends InventoryInstance<T, V>, V extends InventoryPlayerHolder> {
 
-    protected final @NotNull U inventoryInstance;
-    protected final @NotNull InventoryContentImpl<T, V> inventoryContent;
+    protected final U inventoryInstance;
+    protected final InventoryContentImpl<T, V> inventoryContent;
 
     protected final @Nullable InventoryOpenHandler<T, V> openHandler;
     protected final @Nullable InventoryCloseHandler<T, V> closeHandler;
@@ -26,7 +25,7 @@ public abstract class InventoryImpl<T, U extends InventoryInstance<T, V>, V exte
     private boolean built;
 
     @SuppressWarnings("unchecked")
-    public InventoryImpl(@NotNull U inventoryInstance, @NotNull Function<InventoryImpl<T, U, V>, InventoryContentImpl<T, V>> inventoryContentMapper) {
+    public InventoryImpl(U inventoryInstance, Function<InventoryImpl<T, U, V>, InventoryContentImpl<T, V>> inventoryContentMapper) {
         this.inventoryInstance = inventoryInstance;
         this.inventoryContent = inventoryContentMapper.apply(this);
 
@@ -35,7 +34,7 @@ public abstract class InventoryImpl<T, U extends InventoryInstance<T, V>, V exte
     }
 
     @Nullable
-    private <W> W handler(@NotNull Class<W> clazz) {
+    private <W> W handler(Class<W> clazz) {
         if (clazz.isInstance(this.inventoryInstance)) {
             return clazz.cast(this.inventoryInstance);
         }
@@ -51,27 +50,27 @@ public abstract class InventoryImpl<T, U extends InventoryInstance<T, V>, V exte
         }
     }
 
-    public abstract @NotNull Translation title(@NotNull V player, @Nullable T value);
+    public abstract Translation title(V player, @Nullable T value);
 
     public abstract int rows();
 
     public abstract int maxStackSize();
 
-    public abstract @NotNull SlotType slotType(int index);
+    public abstract SlotType slotType(int index);
 
     public abstract void buildInventory();
 
-    public abstract void updateInventory(@NotNull V player, @Nullable T value);
+    public abstract void updateInventory(V player, @Nullable T value);
 
-    public @NotNull InventoryContentImpl<T, V> inventoryContent() {
+    public InventoryContentImpl<T, V> inventoryContent() {
         return this.inventoryContent;
     }
 
-    public @NotNull Optional<InventoryOpenHandler<T, V>> openHandler() {
+    public Optional<InventoryOpenHandler<T, V>> openHandler() {
         return Optional.ofNullable(this.openHandler);
     }
 
-    public @NotNull Optional<InventoryCloseHandler<T, V>> closeHandler() {
+    public Optional<InventoryCloseHandler<T, V>> closeHandler() {
         return Optional.ofNullable(this.closeHandler);
     }
 }

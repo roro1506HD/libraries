@@ -1,5 +1,5 @@
 plugins {
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.19" apply false
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.21" apply false
 }
 
 group = "ovh.roro.libraries"
@@ -21,7 +21,7 @@ subprojects {
 
     extensions.configure<JavaPluginExtension> {
         // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
-        toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+        toolchain.languageVersion.set(JavaLanguageVersion.of(25))
 
         withJavadocJar()
         withSourcesJar()
@@ -32,7 +32,7 @@ subprojects {
 
         // Set the release flag. This configures what version bytecode the compiler will emit, as well as what JDK APIs are usable.
         // See https://openjdk.java.net/jeps/247 for more information.
-        options.release.set(21)
+        options.release.set(25)
     }
 
     tasks.withType<Javadoc> {

@@ -2,7 +2,6 @@ package ovh.roro.libraries.language.api;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import ovh.roro.libraries.language.impl.PlaceholderImpl;
 
 /**
@@ -29,7 +28,7 @@ public interface Placeholder {
      * @param value the value to replace the code with
      * @return a new Placeholder
      */
-    static @NotNull Placeholder string(@NotNull String code, @NotNull Object value) {
+    static Placeholder string(String code, Object value) {
         return PlaceholderImpl.string(code, value);
     }
 
@@ -41,7 +40,7 @@ public interface Placeholder {
      * @param translation the value to replace the code with
      * @return a new Placeholder
      */
-    static @NotNull Placeholder translation(@NotNull String code, @NotNull Translation translation) {
+    static Placeholder translation(String code, Translation translation) {
         return PlaceholderImpl.translation(code, translation);
     }
 
@@ -55,7 +54,7 @@ public interface Placeholder {
      * @param time the value to replace the code with
      * @return a new Placeholder
      */
-    static @NotNull Placeholder date(@NotNull String code, @NotNull ZonedTime time) {
+    static Placeholder date(String code, ZonedTime time) {
         return PlaceholderImpl.date(code, time);
     }
 
@@ -71,7 +70,7 @@ public interface Placeholder {
      * @param d    the value to replace the code with
      * @return a new Placeholder
      */
-    static @NotNull Placeholder decimal(@NotNull String code, @NotNull double d) {
+    static Placeholder decimal(String code, double d) {
         return PlaceholderImpl.decimal(code, d);
     }
 
@@ -87,7 +86,7 @@ public interface Placeholder {
      * @param l    the value to replace the code with
      * @return a new Placeholder
      */
-    static @NotNull Placeholder number(@NotNull String code, @NotNull long l) {
+    static Placeholder number(String code, long l) {
         return PlaceholderImpl.number(code, l);
     }
 
@@ -98,7 +97,7 @@ public interface Placeholder {
      * @param component the value to replace the code with
      * @return a new Placeholder
      */
-    static @NotNull Placeholder translated(@NotNull String code, @NotNull Component component) {
+    static Placeholder translated(String code, Component component) {
         return PlaceholderImpl.translated(code, component);
     }
 
@@ -107,7 +106,7 @@ public interface Placeholder {
      *
      * @return the code of this placeholder
      */
-    @NotNull String code();
+    String code();
 
     /**
      * Returns the raw value of this placeholder, untranslated {@link #translation(String, Translation)}
@@ -115,6 +114,6 @@ public interface Placeholder {
      *
      * @return the value of this placeholder
      */
-    @NotNull Object value();
+    Object value();
 
 }

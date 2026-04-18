@@ -3,7 +3,6 @@ package ovh.roro.libraries.componentutil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectSortedMap;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Class containing some useful glyphs for components.
@@ -15,13 +14,13 @@ public final class ComponentGlyphs {
      * Glyph used for background edges.
      * Background edges are 1px wide and not full height
      */
-    public static final @NotNull String BACKGROUND_EDGE = "\uE500\uE601";
+    public static final String BACKGROUND_EDGE = "\uE500\uE601";
 
     /**
      * Glyphs used for background depending on the needed width.
      * The key represents the width and the value is the glyph
      */
-    public static final @NotNull Int2ObjectMap<String> BACKGROUND = new Int2ObjectLinkedOpenHashMap<>() {
+    public static final Int2ObjectMap<String> BACKGROUND = new Int2ObjectLinkedOpenHashMap<>() {
         {
             this.put(128, "\uE508\uE601");
             this.put(64, "\uE507\uE601");
@@ -37,7 +36,7 @@ public final class ComponentGlyphs {
     /**
      * Glyphs used for space padding. Keys represent the width and value is the glyph
      */
-    public static final @NotNull Int2ObjectSortedMap<String> SPACE = new Int2ObjectLinkedOpenHashMap<>() {
+    public static final Int2ObjectSortedMap<String> SPACE = new Int2ObjectLinkedOpenHashMap<>() {
         {
             this.put(-128, "\uE608");
             this.put(-64, "\uE607");

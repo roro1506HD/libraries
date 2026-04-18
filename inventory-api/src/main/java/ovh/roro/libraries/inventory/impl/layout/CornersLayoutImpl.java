@@ -5,7 +5,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import ovh.roro.libraries.inventory.api.layout.Layout;
 
 import java.util.Objects;
@@ -13,9 +12,9 @@ import java.util.Objects;
 @ApiStatus.Internal
 public class CornersLayoutImpl implements Layout {
 
-    public static final @NotNull CornersLayoutImpl INSTANCE = new CornersLayoutImpl();
+    public static final CornersLayoutImpl INSTANCE = new CornersLayoutImpl();
 
-    private static final @NotNull Int2ObjectMap<int[]> SLOTS = new Int2ObjectArrayMap<>();
+    private static final Int2ObjectMap<int[]> SLOTS = new Int2ObjectArrayMap<>();
 
     private CornersLayoutImpl() {
     }
@@ -42,7 +41,7 @@ public class CornersLayoutImpl implements Layout {
     }
 
     @Override
-    public int @NotNull [] slots(int inventorySize) {
+    public int[] slots(int inventorySize) {
         return Objects.requireNonNull(CornersLayoutImpl.SLOTS.get(inventorySize), "Invalid inventory size");
     }
 }

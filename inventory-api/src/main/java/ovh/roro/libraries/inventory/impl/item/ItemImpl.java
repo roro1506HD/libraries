@@ -5,8 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryManager;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.event.item.click.ItemLeftClickHandler;
@@ -25,9 +24,9 @@ import java.util.Optional;
 @ApiStatus.Internal
 public class ItemImpl<T, U extends InventoryPlayerHolder> implements Item<T, U> {
 
-    private final @NotNull InventoryManager inventoryManager;
+    private final InventoryManager inventoryManager;
 
-    private final @NotNull ItemInstance<T, U> itemInstance;
+    private final ItemInstance<T, U> itemInstance;
     private final int id;
 
     private final @Nullable ItemDropHandler<U> dropHandler;
@@ -40,7 +39,7 @@ public class ItemImpl<T, U extends InventoryPlayerHolder> implements Item<T, U> 
     private final @Nullable ItemInteractRightClickHandler<U> interactRightClickHandler;
 
     @SuppressWarnings("unchecked")
-    public ItemImpl(@NotNull InventoryManager inventoryManager, @NotNull ItemInstance<T, U> itemInstance, int id) {
+    public ItemImpl(InventoryManager inventoryManager, ItemInstance<T, U> itemInstance, int id) {
         this.inventoryManager = inventoryManager;
 
         this.itemInstance = itemInstance;
@@ -56,7 +55,7 @@ public class ItemImpl<T, U extends InventoryPlayerHolder> implements Item<T, U> 
         this.interactRightClickHandler = this.handler(ItemInteractRightClickHandler.class);
     }
 
-    private <V> @Nullable V handler(@NotNull Class<V> clazz) {
+    private <V> @Nullable V handler(Class<V> clazz) {
         if (clazz.isInstance(this.itemInstance)) {
             return clazz.cast(this.itemInstance);
         }
@@ -64,33 +63,32 @@ public class ItemImpl<T, U extends InventoryPlayerHolder> implements Item<T, U> 
         return null;
     }
 
-    @NotNull
-    public ItemBuilder buildItem(@NotNull U player, @Nullable T value) {
+    public ItemBuilder buildItem(U player, @Nullable T value) {
         return this.itemInstance.buildItem(player, value);
     }
 
     @Override
-    public @NotNull ItemInstance<T, U> instance() {
+    public ItemInstance<T, U> instance() {
         return this.itemInstance;
     }
 
     @Override
-    public @NotNull ItemStack asBukkitItem(@NotNull U player, @Nullable T value) {
+    public ItemStack asBukkitItem(U player, @Nullable T value) {
         return CraftItemStack.asCraftMirror(this.asMinecraftItem(player, value));
     }
 
     @Override
-    public @NotNull net.minecraft.world.item.ItemStack asMinecraftItem(@NotNull U player, @Nullable T value) {
+    public net.minecraft.world.item.ItemStack asMinecraftItem(U player, @Nullable T value) {
         return this.inventoryManager.toMinecraftStack(this, player, value);
     }
 
     @Override
-    public boolean isSimilar(@NotNull ItemStack itemStack) {
+    public boolean isSimilar(ItemStack itemStack) {
         return this.isSimilar(CraftItemStack.asNMSCopy(itemStack));
     }
 
     @Override
-    public boolean isSimilar(@NotNull net.minecraft.world.item.ItemStack itemStack) {
+    public boolean isSimilar(net.minecraft.world.item.ItemStack itemStack) {
         if (!itemStack.has(DataComponents.CUSTOM_DATA)) {
             return false;
         }
@@ -104,27 +102,27 @@ public class ItemImpl<T, U extends InventoryPlayerHolder> implements Item<T, U> 
         return this.id;
     }
 
-    public @NotNull Optional<ItemDropHandler<U>> dropHandler() {
+    public Optional<ItemDropHandler<U>> dropHandler() {
         return Optional.ofNullable(this.dropHandler);
     }
 
-    public @NotNull Optional<ItemInventoryDropHandler<T, U>> inventoryDropHandler() {
+    public Optional<ItemInventoryDropHandler<T, U>> inventoryDropHandler() {
         return Optional.ofNullable(this.inventoryDropHandler);
     }
 
-    public @NotNull Optional<ItemLeftClickHandler<T, U>> leftClickHandler() {
+    public Optional<ItemLeftClickHandler<T, U>> leftClickHandler() {
         return Optional.ofNullable(this.leftClickHandler);
     }
 
-    public @NotNull Optional<ItemRightClickHandler<T, U>> rightClickHandler() {
+    public Optional<ItemRightClickHandler<T, U>> rightClickHandler() {
         return Optional.ofNullable(this.rightClickHandler);
     }
 
-    public @NotNull Optional<ItemInteractLeftClickHandler<U>> interactLeftClickHandler() {
+    public Optional<ItemInteractLeftClickHandler<U>> interactLeftClickHandler() {
         return Optional.ofNullable(this.interactLeftClickHandler);
     }
 
-    public @NotNull Optional<ItemInteractRightClickHandler<U>> interactRightClickHandler() {
+    public Optional<ItemInteractRightClickHandler<U>> interactRightClickHandler() {
         return Optional.ofNullable(this.interactRightClickHandler);
     }
 }

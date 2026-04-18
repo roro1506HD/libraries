@@ -1,7 +1,5 @@
 package ovh.roro.libraries.componentutil;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Represents the width data of a glyph
  *
@@ -24,7 +22,7 @@ public record GlyphData(
      * @param normalWidth the normal width of the glyph
      * @return the width data
      */
-    public static @NotNull GlyphData withDefaultBoldOffset(float normalWidth) {
+    public static GlyphData withDefaultBoldOffset(float normalWidth) {
         return new GlyphData(normalWidth, normalWidth + GlyphData.DEFAULT_BOLD_OFFSET);
     }
 }

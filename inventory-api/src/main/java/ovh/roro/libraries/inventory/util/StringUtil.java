@@ -2,13 +2,14 @@ package ovh.roro.libraries.inventory.util;
 
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.List;
 
-public class StringUtil {
+@ApiStatus.Internal
+public final class StringUtil {
 
-    public static @NotNull String @NotNull [] splitNewline(@NotNull String input) {
+    public static String[] splitNewline(String input) {
         Preconditions.checkNotNull(input);
 
         List<String> list = new ObjectArrayList<>();
@@ -27,5 +28,9 @@ public class StringUtil {
         }
 
         return list.toArray(String[]::new);
+    }
+
+    private StringUtil() {
+        throw new UnsupportedOperationException();
     }
 }

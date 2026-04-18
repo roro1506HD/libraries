@@ -1,27 +1,26 @@
 package ovh.roro.libraries.reflectionutil;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-public class FieldAccessor {
+public final class FieldAccessor {
 
     private final @Nullable Class<?> clazz;
-    private final @NotNull Unsafe unsafe;
+    private final Unsafe unsafe;
     private final boolean isStatic;
     private final long fieldOffset;
 
-    FieldAccessor(@Nullable Class<?> clazz, @NotNull Field field, @NotNull Unsafe unsafe) {
+    FieldAccessor(@Nullable Class<?> clazz, Field field, Unsafe unsafe) {
         this.clazz = clazz;
         this.unsafe = unsafe;
         this.isStatic = Modifier.isStatic(field.getModifiers());
         this.fieldOffset = this.isStatic ? unsafe.staticFieldOffset(field) : unsafe.objectFieldOffset(field);
     }
 
-    FieldAccessor(@Nullable Class<?> clazz, @NotNull Unsafe unsafe, boolean isStatic, long fieldOffset) {
+    FieldAccessor(@Nullable Class<?> clazz, Unsafe unsafe, boolean isStatic, long fieldOffset) {
         this.clazz = clazz;
         this.unsafe = unsafe;
         this.isStatic = isStatic;

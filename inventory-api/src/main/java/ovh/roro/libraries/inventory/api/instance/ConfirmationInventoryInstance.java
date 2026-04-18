@@ -2,7 +2,6 @@ package ovh.roro.libraries.inventory.api.instance;
 
 import org.bukkit.Material;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.context.ConfirmationContext;
 import ovh.roro.libraries.inventory.api.item.ItemBuilder;
@@ -10,10 +9,10 @@ import ovh.roro.libraries.inventory.api.item.ItemBuilder;
 @ApiStatus.OverrideOnly
 public interface ConfirmationInventoryInstance<T, U extends InventoryPlayerHolder> extends InventoryInstance<ConfirmationContext<T, U>, U> {
 
-    @NotNull ItemBuilder buildPreviewItem(@NotNull U player, @NotNull T value);
+    ItemBuilder buildPreviewItem(U player, T value);
 
-    @NotNull Material layoutMaterial();
+    Material layoutMaterial();
 
-    void handleConfirmation(@NotNull U player, @NotNull T value);
+    void handleConfirmation(U player, T value);
 
 }

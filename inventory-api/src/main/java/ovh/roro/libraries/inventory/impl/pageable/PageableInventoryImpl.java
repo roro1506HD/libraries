@@ -2,8 +2,7 @@ package ovh.roro.libraries.inventory.impl.pageable;
 
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.PageableInventory;
 import ovh.roro.libraries.inventory.api.context.PaginationContext;
@@ -21,26 +20,26 @@ import java.util.List;
 @ApiStatus.Internal
 public class PageableInventoryImpl<T, U, V extends InventoryPlayerHolder> extends InventoryImpl<PaginationContext<T, U, V>, PageableInventoryInstance<T, U, V>, V> implements PageableInventory<T, U, V> {
 
-    private final @NotNull InventoryManagerImpl inventoryManager;
+    private final InventoryManagerImpl inventoryManager;
 
-    public PageableInventoryImpl(@NotNull InventoryManagerImpl inventoryManager, @NotNull PageableInventoryInstance<T, U, V> inventoryInstance) {
+    public PageableInventoryImpl(InventoryManagerImpl inventoryManager, PageableInventoryInstance<T, U, V> inventoryInstance) {
         super(inventoryInstance, inventory -> new PageableInventoryContentImpl<>(inventoryManager, inventory));
 
         this.inventoryManager = inventoryManager;
     }
 
     @Override
-    public @NotNull PageableInventoryInstance<T, U, V> instance() {
+    public PageableInventoryInstance<T, U, V> instance() {
         return this.inventoryInstance;
     }
 
     @Override
-    public @NotNull List<V> viewers() {
+    public List<V> viewers() {
         return this.inventoryManager.getInventoryViewers(this);
     }
 
     @Override
-    public @NotNull Translation title(@NotNull V player, @Nullable PaginationContext<T, U, V> value) {
+    public Translation title(V player, @Nullable PaginationContext<T, U, V> value) {
         return this.inventoryInstance.title(player, value);
     }
 
@@ -55,7 +54,7 @@ public class PageableInventoryImpl<T, U, V extends InventoryPlayerHolder> extend
     }
 
     @Override
-    public @NotNull SlotType slotType(int index) {
+    public SlotType slotType(int index) {
         return this.inventoryInstance.slotType(index);
     }
 
@@ -72,7 +71,7 @@ public class PageableInventoryImpl<T, U, V extends InventoryPlayerHolder> extend
             this.inventoryContent.attachment(slot, (player, value) -> {
                 Preconditions.checkNotNull(value);
 
-                List<@NotNull U> elements = value.currentElements();
+                List<U> elements = value.currentElements();
 
                 if (finalIndex >= elements.size()) {
                     return null;
@@ -91,19 +90,19 @@ public class PageableInventoryImpl<T, U, V extends InventoryPlayerHolder> extend
     }
 
     @Override
-    public void updateInventory(@NotNull V player, @Nullable PaginationContext<T, U, V> value) {
+    public void updateInventory(V player, @Nullable PaginationContext<T, U, V> value) {
         Preconditions.checkNotNull(value);
 
         value.update(this.inventoryInstance.elements(player, value.inventoryValue()));
     }
 
     @Override
-    public void openPageable(@NotNull V player, @Nullable T value) {
+    public void openPageable(V player, @Nullable T value) {
         this.openPageable(player, value, 0);
     }
 
     @Override
-    public void openPageable(@NotNull V player, @Nullable T value, int page) {
+    public void openPageable(V player, @Nullable T value, int page) {
         Preconditions.checkArgument(this.instance().rows() > 2, "Pageable inventories cannot be under 3 rows");
 
         PaginationContextImpl<T, U, V> context = new PaginationContextImpl<>(this.instance().elementsSlots().length, this, value, page);

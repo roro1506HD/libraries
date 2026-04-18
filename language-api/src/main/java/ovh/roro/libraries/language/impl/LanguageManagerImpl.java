@@ -17,9 +17,7 @@ import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.minecraft.util.GsonHelper;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ovh.roro.libraries.language.api.Language;
@@ -47,22 +45,22 @@ import java.util.stream.Stream;
 @ApiStatus.Internal
 public class LanguageManagerImpl implements LanguageManager {
 
-    public static final @NotNull LibraryInstanceLoader<LanguageManagerImpl> LOADER = new LibraryInstanceLoader<>(
+    public static final LibraryInstanceLoader<LanguageManagerImpl> LOADER = new LibraryInstanceLoader<>(
             "LanguageManager",
             plugin -> new LanguageManagerImpl()
     );
 
-    private static final @NotNull Logger LOGGER = LoggerFactory.getLogger("LanguageManager");
-    private static final @NotNull Gson GSON = new GsonBuilder()
+    private static final Logger LOGGER = LoggerFactory.getLogger("LanguageManager");
+    private static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
             .disableHtmlEscaping()
             .create();
 
-    private final @NotNull MiniMessage miniMessage;
+    private final MiniMessage miniMessage;
 
-    private final @NotNull Int2ObjectMap<Language> languagesById;
-    private final @NotNull Map<String, Language> languagesByAlpha;
-    private final @NotNull List<Language> languages;
+    private final Int2ObjectMap<Language> languagesById;
+    private final Map<String, Language> languagesByAlpha;
+    private final List<Language> languages;
 
     private LanguageManagerImpl() {
         this.miniMessage = MiniMessage.builder()
@@ -75,7 +73,7 @@ public class LanguageManagerImpl implements LanguageManager {
     }
 
     @Override
-    public void load(@NotNull Path languageFolder, @NotNull JavaPlugin plugin, @NotNull String @NotNull [] defaultFiles) {
+    public void load(Path languageFolder, JavaPlugin plugin, String[] defaultFiles) {
         if (!Files.exists(languageFolder)) {
             try {
                 Files.createDirectories(languageFolder);
@@ -108,7 +106,7 @@ public class LanguageManagerImpl implements LanguageManager {
     }
 
     @Override
-    public void load(@NotNull Path languageFolder) {
+    public void load(Path languageFolder) {
         if (!Files.exists(languageFolder)) {
             return;
         }
@@ -165,7 +163,7 @@ public class LanguageManagerImpl implements LanguageManager {
     }
 
     @Override
-    public @Nullable Language language(@NotNull String alpha) {
+    public @Nullable Language language(String alpha) {
         return this.languagesByAlpha.get(alpha);
     }
 
@@ -175,12 +173,12 @@ public class LanguageManagerImpl implements LanguageManager {
     }
 
     @Override
-    public @NotNull List<Language> languages() {
+    public List<Language> languages() {
         return this.languages;
     }
 
     @Override
-    public @NotNull Component translate(@NotNull Language language, @NotNull String translationKey, @NotNull Placeholder... placeholders) {
+    public Component translate(Language language, String translationKey, Placeholder... placeholders) {
         if (!(language instanceof LanguageImpl languageImpl)) {
             throw new IllegalArgumentException("Language is expected to be LanguageImpl");
         }
@@ -209,16 +207,16 @@ public class LanguageManagerImpl implements LanguageManager {
     }
 
     @Override
-    public @NotNull Component translate(@NotNull Language language, @NotNull Translatable translatable, @NonNull @NotNull Placeholder... placeholders) {
+    public Component translate(Language language, Translatable translatable, Placeholder... placeholders) {
         return this.translate(language, translatable.translationKey(), placeholders);
     }
 
     @Override
-    public @NotNull Component translate(@NotNull Language language, @NotNull Translation translation) {
+    public Component translate(Language language, Translation translation) {
         return this.translate(language, translation.translationKey(), translation.placeholders());
     }
 
-    @NotNull TagResolver resolveNumber(@NotNull Language language, @TagPattern @NotNull String key, @NotNull Number number) {
+    TagResolver resolveNumber(Language language, @TagPattern String key, Number number) {
         return TagResolver.resolver(key, (argumentQueue, context) -> {
             DecimalFormat decimalFormat;
             DecimalFormatSymbols symbols = this.patchDecimalFormatSymbols(language, new DecimalFormatSymbols(Locale.forLanguageTag(language.alpha())));
@@ -236,7 +234,7 @@ public class LanguageManagerImpl implements LanguageManager {
         });
     }
 
-    private @NotNull DecimalFormatSymbols patchDecimalFormatSymbols(@NotNull Language language, @NotNull DecimalFormatSymbols original) {
+    private DecimalFormatSymbols patchDecimalFormatSymbols(Language language, DecimalFormatSymbols original) {
         LanguageNumberData config = language.numberData();
 
         String groupSeparator = config.groupSeparator();

@@ -1,8 +1,7 @@
 package ovh.roro.libraries.inventory.impl.classic;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.ClassicInventory;
 import ovh.roro.libraries.inventory.api.InventoryManager;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
@@ -17,26 +16,26 @@ import java.util.List;
 @ApiStatus.Internal
 public class ClassicInventoryImpl<T, U extends InventoryPlayerHolder> extends InventoryImpl<T, ClassicInventoryInstance<T, U>, U> implements ClassicInventory<T, U> {
 
-    private final @NotNull InventoryManager inventoryManager;
+    private final InventoryManager inventoryManager;
 
-    public ClassicInventoryImpl(@NotNull InventoryManager inventoryManager, @NotNull ClassicInventoryInstance<T, U> inventoryInstance) {
+    public ClassicInventoryImpl(InventoryManager inventoryManager, ClassicInventoryInstance<T, U> inventoryInstance) {
         super(inventoryInstance, inventory -> new InventoryContentImpl<>(inventoryManager, inventory));
 
         this.inventoryManager = inventoryManager;
     }
 
     @Override
-    public @NotNull ClassicInventoryInstance<T, U> instance() {
+    public ClassicInventoryInstance<T, U> instance() {
         return this.inventoryInstance;
     }
 
     @Override
-    public @NotNull List<U> viewers() {
+    public List<U> viewers() {
         return this.inventoryManager.getInventoryViewers(this);
     }
 
     @Override
-    public @NotNull Translation title(@NotNull U player, @Nullable T value) {
+    public Translation title(U player, @Nullable T value) {
         return this.inventoryInstance.title(player, value);
     }
 
@@ -51,7 +50,7 @@ public class ClassicInventoryImpl<T, U extends InventoryPlayerHolder> extends In
     }
 
     @Override
-    public @NotNull SlotType slotType(int index) {
+    public SlotType slotType(int index) {
         return this.inventoryInstance.slotType(index);
     }
 
@@ -61,11 +60,11 @@ public class ClassicInventoryImpl<T, U extends InventoryPlayerHolder> extends In
     }
 
     @Override
-    public void updateInventory(@NotNull U player, @Nullable T value) {
+    public void updateInventory(U player, @Nullable T value) {
     }
 
     @Override
-    public void open(@NotNull U player, @Nullable T value) {
+    public void open(U player, @Nullable T value) {
         this.inventoryManager.openInventory(this, player, value);
     }
 }

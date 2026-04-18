@@ -4,8 +4,7 @@ import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Material;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryManager;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.context.PaginationContext;
@@ -21,17 +20,17 @@ import ovh.roro.libraries.inventory.impl.pageable.PageableInventoryImpl;
 @SuppressWarnings("rawtypes")
 public class PreviousItem implements ItemInstance<PaginationContext, InventoryPlayerHolder>, ItemClickHandler<PaginationContext, InventoryPlayerHolder> {
 
-    private final @NotNull InventoryManager inventoryManager;
-    private final @NotNull ItemBuilder air;
+    private final InventoryManager inventoryManager;
+    private final ItemBuilder air;
 
-    public PreviousItem(@NotNull InventoryManager inventoryManager) {
+    public PreviousItem(InventoryManager inventoryManager) {
         this.inventoryManager = inventoryManager;
         this.air = inventoryManager.createItemBuilder(Material.AIR);
     }
 
     @SuppressWarnings({"unchecked", "ConstantConditions"})
     @Override
-    public @NotNull ItemBuilder buildItem(@NotNull InventoryPlayerHolder player, @Nullable PaginationContext value) {
+    public ItemBuilder buildItem(InventoryPlayerHolder player, @Nullable PaginationContext value) {
         Preconditions.checkNotNull(value);
 
         if (!value.hasPreviousPage()) {
@@ -50,7 +49,7 @@ public class PreviousItem implements ItemInstance<PaginationContext, InventoryPl
     }
 
     @Override
-    public void onClick(@NotNull InventoryPlayerHolder player, boolean isShiftClick, @Nullable PaginationContext value) {
+    public void onClick(InventoryPlayerHolder player, boolean isShiftClick, @Nullable PaginationContext value) {
         Preconditions.checkNotNull(value);
 
         if (!value.hasPreviousPage()) {

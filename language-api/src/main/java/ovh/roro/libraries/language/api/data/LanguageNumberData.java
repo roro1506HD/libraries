@@ -1,7 +1,6 @@
 package ovh.roro.libraries.language.api.data;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents the data of numbers of a language.
@@ -18,7 +17,7 @@ public interface LanguageNumberData {
      *
      * @return the group separator
      */
-    @NotNull String groupSeparator();
+    String groupSeparator();
 
     /**
      * Represents the decimal separator of the language.
@@ -28,6 +27,6 @@ public interface LanguageNumberData {
      *
      * @return the decimal separator
      */
-    @NotNull String decimalSeparator();
+    String decimalSeparator();
 
 }

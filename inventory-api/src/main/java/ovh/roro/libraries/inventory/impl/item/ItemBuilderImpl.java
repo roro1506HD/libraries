@@ -23,8 +23,7 @@ import org.bukkit.craftbukkit.util.CraftMagicNumbers;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.item.ItemBuilder;
 import ovh.roro.libraries.language.api.Translation;
 
@@ -37,26 +36,26 @@ import java.util.UUID;
 @ApiStatus.Internal
 public class ItemBuilderImpl implements ItemBuilder {
 
-    private final @NotNull ItemStack delegate;
+    private final ItemStack delegate;
 
     private @Nullable Translation name;
-    private @NotNull Translation @Nullable [] description;
+    private Translation @Nullable [] description;
 
-    public ItemBuilderImpl(@NotNull ItemStack delegate) {
+    public ItemBuilderImpl(ItemStack delegate) {
         this.delegate = delegate;
     }
 
-    public ItemBuilderImpl(@NotNull Material material, int amount) {
+    public ItemBuilderImpl(Material material, int amount) {
         this(new ItemStack(CraftMagicNumbers.getItem(material), amount));
     }
 
     @Override
-    public @NotNull Material material() {
+    public Material material() {
         return CraftMagicNumbers.getMaterial(this.delegate.getItem());
     }
 
     @Override
-    public @NotNull ItemBuilder damage(int damage) {
+    public ItemBuilder damage(int damage) {
         this.delegate.setDamageValue(damage);
         return this;
     }
@@ -67,7 +66,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder amount(int amount) {
+    public ItemBuilder amount(int amount) {
         this.delegate.setCount(amount);
         return this;
     }
@@ -78,7 +77,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder name(@Nullable Translation translation) {
+    public ItemBuilder name(@Nullable Translation translation) {
         this.name = translation;
         return this;
     }
@@ -89,29 +88,29 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder description(@NotNull Translation @Nullable ... translations) {
+    public ItemBuilder description(Translation @Nullable ... translations) {
         this.description = translations;
         return this;
     }
 
     @Override
-    public @NotNull Translation @Nullable [] description() {
+    public Translation @Nullable [] description() {
         return this.description;
     }
 
     @Override
-    public @NotNull ItemBuilder enchant(@NotNull Enchantment enchantment, int level) {
+    public ItemBuilder enchant(Enchantment enchantment, int level) {
         this.delegate.enchant(CraftEnchantment.bukkitToMinecraftHolder(enchantment), level);
         return this;
     }
 
     @Override
-    public int enchant(@NotNull Enchantment enchantment) {
+    public int enchant(Enchantment enchantment) {
         return this.delegate.getEnchantments().getLevel(CraftEnchantment.bukkitToMinecraftHolder(enchantment));
     }
 
     @Override
-    public @NotNull ItemBuilder removeEnchant(@NotNull Enchantment enchantment) {
+    public ItemBuilder removeEnchant(Enchantment enchantment) {
         EnchantmentHelper.updateEnchantments(this.delegate, mutable -> {
             mutable.set(CraftEnchantment.bukkitToMinecraftHolder(enchantment), 0); // Level 0 removes the enchantment
         });
@@ -120,7 +119,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder hideTooltip(boolean hide) {
+    public ItemBuilder hideTooltip(boolean hide) {
         if (hide) {
             TooltipDisplay display = this.delegate.get(DataComponents.TOOLTIP_DISPLAY);
 
@@ -147,7 +146,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder hideComponents(io.papermc.paper.datacomponent.@NotNull DataComponentType... componentTypes) {
+    public ItemBuilder hideComponents(io.papermc.paper.datacomponent.DataComponentType... componentTypes) {
         Key[] componentKeys = new Key[componentTypes.length];
 
         for (int i = 0; i < componentTypes.length; i++) {
@@ -158,7 +157,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder hideComponents(@NotNull Key... componentKeys) {
+    public ItemBuilder hideComponents(Key... componentKeys) {
         TooltipDisplay display = this.delegate.get(DataComponents.TOOLTIP_DISPLAY);
         Set<DataComponentType<?>> vanillaTypes = new HashSet<>();
 
@@ -186,7 +185,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder hideAllComponents() {
+    public ItemBuilder hideAllComponents() {
         TooltipDisplay display = this.delegate.get(DataComponents.TOOLTIP_DISPLAY);
 
         if (display == null) {
@@ -209,7 +208,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder showComponents(io.papermc.paper.datacomponent.@NotNull DataComponentType... componentTypes) {
+    public ItemBuilder showComponents(io.papermc.paper.datacomponent.DataComponentType... componentTypes) {
         Key[] componentKeys = new Key[componentTypes.length];
 
         for (int i = 0; i < componentTypes.length; i++) {
@@ -220,7 +219,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder showComponents(@NotNull Key... componentKeys) {
+    public ItemBuilder showComponents(Key... componentKeys) {
         TooltipDisplay display = this.delegate.get(DataComponents.TOOLTIP_DISPLAY);
 
         if (display == null) {
@@ -252,7 +251,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder showAllComponents() {
+    public ItemBuilder showAllComponents() {
         TooltipDisplay display = this.delegate.get(DataComponents.TOOLTIP_DISPLAY);
 
         if (display != null) {
@@ -267,12 +266,12 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public boolean isComponentHidden(io.papermc.paper.datacomponent.@NotNull DataComponentType componentType) {
+    public boolean isComponentHidden(io.papermc.paper.datacomponent.DataComponentType componentType) {
         return this.isComponentHidden(componentType.key());
     }
 
     @Override
-    public boolean isComponentHidden(@NotNull Key componentKey) {
+    public boolean isComponentHidden(Key componentKey) {
         TooltipDisplay display = this.delegate.get(DataComponents.TOOLTIP_DISPLAY);
 
         if (display == null) {
@@ -289,7 +288,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder unbreakable(boolean unbreakable) {
+    public ItemBuilder unbreakable(boolean unbreakable) {
         this.delegate.set(DataComponents.UNBREAKABLE, Unit.INSTANCE);
 
         return this;
@@ -301,7 +300,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder glowing(boolean glowing) {
+    public ItemBuilder glowing(boolean glowing) {
         this.delegate.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, glowing);
 
         return this;
@@ -318,7 +317,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder skull(@NotNull Player player) {
+    public ItemBuilder skull(Player player) {
         GameProfile gameProfile = ((CraftPlayer) player).getProfile();
 
         for (Property property : gameProfile.properties().get("textures")) {
@@ -329,7 +328,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder skull(@NotNull String texture, @NotNull String signature) {
+    public ItemBuilder skull(String texture, String signature) {
         Preconditions.checkState(this.delegate.getItem() == Items.PLAYER_HEAD, "ItemBuilder#skull can only be used on skulls");
 
         GameProfile gameProfile = new GameProfile(
@@ -347,7 +346,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
-    public @NotNull ItemBuilder overrideModel(@Nullable Key key) {
+    public ItemBuilder overrideModel(@Nullable Key key) {
         if (key == null) {
             this.delegate.set(DataComponents.ITEM_MODEL, this.delegate.getItem().components().get(DataComponents.ITEM_MODEL));
         } else {
@@ -358,7 +357,7 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @SuppressWarnings("MethodDoesntCallSuperMethod")
-    public @NotNull ItemBuilder clone() {
+    public ItemBuilder clone() {
         ItemBuilderImpl builder = new ItemBuilderImpl(this.delegate.copy());
 
         builder.name = this.name;
@@ -367,7 +366,7 @@ public class ItemBuilderImpl implements ItemBuilder {
         return builder;
     }
 
-    public @NotNull ItemStack delegate() {
+    public ItemStack delegate() {
         return this.delegate;
     }
 }

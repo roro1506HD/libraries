@@ -9,8 +9,7 @@ import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
@@ -27,20 +26,20 @@ import java.util.List;
 @ApiStatus.Internal
 public class InventoryWrapper<T, U extends InventoryInstance<T, V>, V extends InventoryPlayerHolder> implements Container {
 
-    private static final @NotNull Logger LOGGER = LoggerFactory.getLogger("InventoryAPI - Wrapper");
+    private static final Logger LOGGER = LoggerFactory.getLogger("InventoryAPI - Wrapper");
 
-    private final @NotNull InventoryManagerImpl inventoryManager;
-    private final @NotNull V player;
+    private final InventoryManagerImpl inventoryManager;
+    private final V player;
 
-    private final @NotNull NonNullList<ItemStack> itemsCache;
-    private final long @NotNull [] hash;
-    private final @NotNull InventoryImpl<T, U, V> inventory;
+    private final NonNullList<ItemStack> itemsCache;
+    private final long[] hash;
+    private final InventoryImpl<T, U, V> inventory;
     private final @Nullable T value;
 
     private boolean viewing;
     private boolean softClose;
 
-    public InventoryWrapper(@NotNull InventoryManagerImpl inventoryManager, @NotNull V player, @NotNull InventoryImpl<T, U, V> inventory, @Nullable T value) {
+    public InventoryWrapper(InventoryManagerImpl inventoryManager, V player, InventoryImpl<T, U, V> inventory, @Nullable T value) {
         this.inventoryManager = inventoryManager;
         this.player = player;
 
@@ -60,7 +59,7 @@ public class InventoryWrapper<T, U extends InventoryInstance<T, V>, V extends In
         return this.value;
     }
 
-    public @NotNull InventoryImpl<T, U, V> inventory() {
+    public InventoryImpl<T, U, V> inventory() {
         return this.inventory;
     }
 
@@ -91,7 +90,8 @@ public class InventoryWrapper<T, U extends InventoryInstance<T, V>, V extends In
                 ItemStack stack = ItemStack.EMPTY;
 
                 if (item != null) {
-                    stack = this.inventoryManager.toMinecraftStack(this.player.language(), item, slot.item());;
+                    stack = this.inventoryManager.toMinecraftStack(this.player.language(), item, slot.item());
+                    ;
                 }
 
                 this.itemsCache.set(i, stack);
@@ -217,7 +217,7 @@ public class InventoryWrapper<T, U extends InventoryInstance<T, V>, V extends In
         this.softClose = true;
     }
 
-    public @NotNull V player() {
+    public V player() {
         return this.player;
     }
 }

@@ -1,8 +1,7 @@
 package ovh.roro.libraries.inventory.impl.slot;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.annotation.ItemRefresh;
 import ovh.roro.libraries.inventory.api.item.Item;
@@ -16,14 +15,14 @@ import java.util.function.BiFunction;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class AttachedSlotImpl<T, U, V extends InventoryPlayerHolder> implements Slot<T, V> {
 
-    public static final @NotNull SlotTypeImpl TYPE = new SlotTypeImpl(AttachedSlotImpl::new);
+    public static final SlotTypeImpl TYPE = new SlotTypeImpl(AttachedSlotImpl::new);
 
-    private static final @NotNull BiFunction EMPTY_MAPPER = (crimsonPlayer, t) -> null;
+    private static final BiFunction EMPTY_MAPPER = (crimsonPlayer, t) -> null;
 
     private long hash;
 
     private @Nullable Item<U, V> item;
-    private @NotNull BiFunction<@NotNull V, @Nullable T, @Nullable U> valueMapper;
+    private BiFunction<V, @Nullable T, @Nullable U> valueMapper;
 
     public AttachedSlotImpl() {
         this.valueMapper = AttachedSlotImpl.EMPTY_MAPPER;
@@ -31,7 +30,7 @@ public class AttachedSlotImpl<T, U, V extends InventoryPlayerHolder> implements 
     }
 
     @Override
-    public @Nullable ItemBuilder createItem(@NotNull V player, @Nullable T value) {
+    public @Nullable ItemBuilder createItem(V player, @Nullable T value) {
         if (this.item == null) {
             return null;
         }
@@ -50,7 +49,7 @@ public class AttachedSlotImpl<T, U, V extends InventoryPlayerHolder> implements 
         this.update();
     }
 
-    public @Nullable BiFunction<@NotNull V, @Nullable T, @Nullable U> valueMapper() {
+    public @Nullable BiFunction<V, @Nullable T, @Nullable U> valueMapper() {
         return this.valueMapper;
     }
 

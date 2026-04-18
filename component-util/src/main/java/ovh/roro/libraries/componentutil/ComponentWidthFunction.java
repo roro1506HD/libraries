@@ -1,7 +1,6 @@
 package ovh.roro.libraries.componentutil;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @hidden
@@ -10,6 +9,6 @@ import org.jetbrains.annotations.NotNull;
 @FunctionalInterface
 interface ComponentWidthFunction<T> {
 
-    float apply(@NotNull T component);
+    float apply(T component);
 
 }

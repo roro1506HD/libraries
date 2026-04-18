@@ -2,8 +2,7 @@ package ovh.roro.libraries.inventory.impl.content;
 
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryContent;
 import ovh.roro.libraries.inventory.api.InventoryManager;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
@@ -21,16 +20,16 @@ import java.util.function.BiFunction;
 @SuppressWarnings("rawtypes")
 public class InventoryContentImpl<T, U extends InventoryPlayerHolder> implements InventoryContent<T, U> {
 
-    protected final @NotNull InventoryManager inventoryManager;
+    protected final InventoryManager inventoryManager;
 
-    protected final @NotNull InventoryImpl<T, ?, U> inventory;
+    protected final InventoryImpl<T, ?, U> inventory;
 
     protected @Nullable Layout layout;
     protected @Nullable Item layoutItem;
 
-    protected final @NotNull Slot @NotNull [] slots;
+    protected final Slot[] slots;
 
-    public InventoryContentImpl(@NotNull InventoryManager inventoryManager, @NotNull InventoryImpl<T, ?, U> inventory) {
+    public InventoryContentImpl(InventoryManager inventoryManager, InventoryImpl<T, ?, U> inventory) {
         this.inventoryManager = inventoryManager;
 
         this.inventory = inventory;
@@ -42,22 +41,20 @@ public class InventoryContentImpl<T, U extends InventoryPlayerHolder> implements
         }
     }
 
-    @NotNull
     protected Slot createSlot(int index) {
         return this.inventory.slotType(index).createSlot();
     }
 
     @Override
-    public @NotNull Slot slot(int index) {
+    public Slot slot(int index) {
         return this.slots[index];
     }
 
     @Override
-    public @NotNull Slot slot(int x, int y) {
+    public Slot slot(int x, int y) {
         return this.slot(y * 9 + x);
     }
 
-    @Nullable
     @Override
     public void item(int index, @Nullable Item item) {
         this.slots[index].item(item);
@@ -82,7 +79,7 @@ public class InventoryContentImpl<T, U extends InventoryPlayerHolder> implements
 
     @SuppressWarnings("unchecked")
     @Override
-    public <V> void attachment(int index, @NotNull BiFunction<@NotNull U, @Nullable T, @Nullable V> valueMapper) {
+    public <V> void attachment(int index, BiFunction<U, @Nullable T, @Nullable V> valueMapper) {
         Slot slot = this.slots[index];
 
         if (slot instanceof AttachedSlotImpl attachedSlot) {
@@ -93,7 +90,7 @@ public class InventoryContentImpl<T, U extends InventoryPlayerHolder> implements
     }
 
     @Override
-    public <V> void attachment(int x, int y, @NotNull BiFunction<@NotNull U, @Nullable T, @Nullable V> valueMapper) {
+    public <V> void attachment(int x, int y, BiFunction<U, @Nullable T, @Nullable V> valueMapper) {
         this.attachment(y * 9 + x, valueMapper);
     }
 
@@ -108,7 +105,7 @@ public class InventoryContentImpl<T, U extends InventoryPlayerHolder> implements
     }
 
     @Override
-    public void layout(@NotNull Layout layout, @NotNull Item item) {
+    public void layout(Layout layout, Item item) {
         Preconditions.checkArgument(this.layout == null, "Only one layout can be applied at a time");
 
         this.layout = layout;
@@ -127,13 +124,11 @@ public class InventoryContentImpl<T, U extends InventoryPlayerHolder> implements
         }
     }
 
-    @Nullable
-    public Layout layout() {
+    public @Nullable Layout layout() {
         return this.layout;
     }
 
-    @Nullable
-    public Item layoutItem() {
+    public @Nullable Item layoutItem() {
         return this.layoutItem;
     }
 }

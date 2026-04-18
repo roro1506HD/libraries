@@ -1,8 +1,7 @@
 package ovh.roro.libraries.inventory.api.slot;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.item.Item;
 import ovh.roro.libraries.inventory.api.item.ItemBuilder;
@@ -11,7 +10,7 @@ import ovh.roro.libraries.inventory.api.item.ItemBuilder;
 @SuppressWarnings("rawtypes")
 public interface Slot<T, U extends InventoryPlayerHolder> {
 
-    @Nullable ItemBuilder createItem(@NotNull U player, @Nullable T value);
+    @Nullable ItemBuilder createItem(U player, @Nullable T value);
 
     @Nullable Item item();
 

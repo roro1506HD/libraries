@@ -5,21 +5,20 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import net.minecraft.network.protocol.Packet;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
-import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("rawtypes")
 class ChannelListener extends ChannelDuplexHandler {
 
-    private final @NotNull PacketManager packetManager;
-    private final @NotNull CraftPlayer player;
+    private final PacketManager packetManager;
+    private final CraftPlayer player;
 
-    public ChannelListener(@NotNull PacketManager packetManager, @NotNull CraftPlayer player) {
+    public ChannelListener(PacketManager packetManager, CraftPlayer player) {
         this.packetManager = packetManager;
         this.player = player;
     }
 
     @Override
-    public void channelRead(@NotNull ChannelHandlerContext ctx, @NotNull Object msg) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         PacketEvent<Packet> event = this.packetManager.handlePacket((Packet) msg, this.player);
 
         if (event == null) {

@@ -5,7 +5,6 @@ import net.kyori.adventure.text.minimessage.tag.Tag;
 import net.kyori.adventure.text.minimessage.tag.resolver.Formatter;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import ovh.roro.libraries.language.api.Placeholder;
 import ovh.roro.libraries.language.api.Translation;
 import ovh.roro.libraries.language.api.ZonedTime;
@@ -18,21 +17,21 @@ import java.util.function.Function;
 @ApiStatus.Internal
 public final class PlaceholderImpl implements Placeholder {
 
-    private final @NotNull String code;
-    private final @NotNull Object value;
-    private final @NotNull Function<LanguageImpl, TagResolver> toTagResolver;
+    private final String code;
+    private final Object value;
+    private final Function<LanguageImpl, TagResolver> toTagResolver;
 
     private PlaceholderImpl(
-            @NotNull String code,
-            @NotNull Object value,
-            @NotNull Function<LanguageImpl, TagResolver> toTagResolver
+            String code,
+            Object value,
+            Function<LanguageImpl, TagResolver> toTagResolver
     ) {
         this.code = code;
         this.value = value;
         this.toTagResolver = toTagResolver;
     }
 
-    public static @NotNull PlaceholderImpl string(@NotNull String code, @NotNull Object value) {
+    public static PlaceholderImpl string(String code, Object value) {
         return new PlaceholderImpl(
                 code,
                 value,
@@ -40,7 +39,7 @@ public final class PlaceholderImpl implements Placeholder {
         );
     }
 
-    public static @NotNull PlaceholderImpl translation(@NotNull String code, @NotNull Translation translation) {
+    public static PlaceholderImpl translation(String code, Translation translation) {
         return new PlaceholderImpl(
                 code,
                 translation,
@@ -48,7 +47,7 @@ public final class PlaceholderImpl implements Placeholder {
         );
     }
 
-    public static @NotNull PlaceholderImpl date(@NotNull String code, @NotNull ZonedTime time) {
+    public static PlaceholderImpl date(String code, ZonedTime time) {
         return new PlaceholderImpl(
                 code,
                 time,
@@ -56,7 +55,7 @@ public final class PlaceholderImpl implements Placeholder {
         );
     }
 
-    public static @NotNull PlaceholderImpl decimal(@NotNull String code, @NotNull double value) {
+    public static PlaceholderImpl decimal(String code, double value) {
         return new PlaceholderImpl(
                 code,
                 value,
@@ -64,7 +63,7 @@ public final class PlaceholderImpl implements Placeholder {
         );
     }
 
-    public static @NotNull PlaceholderImpl number(@NotNull String code, @NotNull long value) {
+    public static PlaceholderImpl number(String code, long value) {
         return new PlaceholderImpl(
                 code,
                 value,
@@ -72,7 +71,7 @@ public final class PlaceholderImpl implements Placeholder {
         );
     }
 
-    public static @NotNull PlaceholderImpl translated(@NotNull String code, @NotNull Component component) {
+    public static PlaceholderImpl translated(String code, Component component) {
         return new PlaceholderImpl(
                 code,
                 component,
@@ -81,16 +80,16 @@ public final class PlaceholderImpl implements Placeholder {
     }
 
     @Override
-    public @NotNull String code() {
+    public String code() {
         return this.code;
     }
 
     @Override
-    public @NotNull Object value() {
+    public Object value() {
         return this.value;
     }
 
-    public @NotNull Function<LanguageImpl, TagResolver> toTagResolver() {
+    public Function<LanguageImpl, TagResolver> toTagResolver() {
         return this.toTagResolver;
     }
 

@@ -7,8 +7,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.contents.PlainTextContents;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,11 +19,11 @@ import java.util.function.Consumer;
 @ApiStatus.Internal
 class ComponentCenterer {
 
-    private static final @NotNull LazyGlyphWidthSupplier SPACE_WIDTH = new LazyGlyphWidthSupplier(Component.literal(" "));
+    private static final LazyGlyphWidthSupplier SPACE_WIDTH = new LazyGlyphWidthSupplier(Component.literal(" "));
 
     private @Nullable MutableComponent result;
 
-    public @NotNull Component apply(@NotNull Component input) {
+    public Component apply(Component input) {
         Component lastComponent = this.splitAndCollectNewlines(
                 input,
                 input.getStyle(),
@@ -42,10 +41,10 @@ class ComponentCenterer {
     }
 
     private @Nullable MutableComponent splitAndCollectNewlines(
-            @NotNull Component component,
-            @NotNull Style componentStyle,
+            Component component,
+            Style componentStyle,
             @Nullable MutableComponent currentComponent,
-            @NotNull Consumer<Component> consumer
+            Consumer<Component> consumer
     ) {
         if (component.getContents() instanceof PlainTextContents contents) {
             String text = contents.text();
@@ -71,9 +70,9 @@ class ComponentCenterer {
         return currentComponent;
     }
 
-    private @NotNull MutableComponent setOrAppend(
+    private MutableComponent setOrAppend(
             @Nullable MutableComponent currentComponent,
-            @NotNull MutableComponent toAppend
+            MutableComponent toAppend
     ) {
         if (currentComponent == null) {
             return toAppend;
@@ -82,7 +81,7 @@ class ComponentCenterer {
         return currentComponent.append(toAppend);
     }
 
-    private @NotNull MutableComponent centerSingleLine(@NotNull Component component) {
+    private MutableComponent centerSingleLine(Component component) {
         float componentHalfWidth = ComponentUtil.widthVanilla(component) / 2.0F;
         float toCompensate = ComponentUtil.HALF_CHAT_BOX_WIDTH - componentHalfWidth;
         float spaceWidth = ComponentCenterer.SPACE_WIDTH.getWidth();
@@ -97,7 +96,7 @@ class ComponentCenterer {
         return Component.literal(" ".repeat(spaceCount)).append(component);
     }
 
-    private @NotNull String @NotNull [] splitNewline(@NotNull String input) {
+    private String[] splitNewline(String input) {
         Preconditions.checkNotNull(input);
 
         List<String> list = new ObjectArrayList<>();

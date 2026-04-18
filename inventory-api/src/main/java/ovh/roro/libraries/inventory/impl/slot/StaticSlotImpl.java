@@ -2,8 +2,7 @@ package ovh.roro.libraries.inventory.impl.slot;
 
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.annotation.ItemRefresh;
 import ovh.roro.libraries.inventory.api.item.Item;
@@ -15,7 +14,7 @@ import ovh.roro.libraries.inventory.impl.item.StaticItemImpl;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class StaticSlotImpl<T, U extends InventoryPlayerHolder> implements Slot<T, U> {
 
-    public static final @NotNull SlotTypeImpl TYPE = new SlotTypeImpl(StaticSlotImpl::new);
+    public static final SlotTypeImpl TYPE = new SlotTypeImpl(StaticSlotImpl::new);
 
     private long hash;
 
@@ -26,7 +25,7 @@ public class StaticSlotImpl<T, U extends InventoryPlayerHolder> implements Slot<
     }
 
     @Override
-    public @Nullable ItemBuilder createItem(@NotNull U player, @Nullable T value) {
+    public @Nullable ItemBuilder createItem(U player, @Nullable T value) {
         if (this.item == null) {
             return null;
         }

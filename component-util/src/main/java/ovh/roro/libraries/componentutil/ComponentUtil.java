@@ -17,8 +17,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.StringDecomposer;
 import org.apache.commons.lang3.mutable.MutableFloat;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,12 +48,12 @@ public final class ComponentUtil {
      */
     public static final int HALF_CHAT_BOX_WIDTH = ComponentUtil.DEFAULT_CHAT_BOX_WIDTH / 2;
 
-    private static final @NotNull Logger LOGGER = LoggerFactory.getLogger("ComponentUtil");
-    private static final @NotNull Int2ObjectMap<GlyphData> GLYPH_DATA = new Int2ObjectOpenHashMap<>();
+    private static final Logger LOGGER = LoggerFactory.getLogger("ComponentUtil");
+    private static final Int2ObjectMap<GlyphData> GLYPH_DATA = new Int2ObjectOpenHashMap<>();
     private static final int NEWLINE_CODE_POINT = '\n';
 
-    private static final @NotNull net.minecraft.network.chat.Component FOREGROUND_PREFIX_COMPONENT = net.minecraft.network.chat.Component.empty().withStyle(style -> style.withFont(new FontDescription.Resource(Identifier.fromNamespaceAndPath("component-util", "foreground"))));
-    private static final @NotNull net.minecraft.network.chat.Style BACKGROUND_STYLE = net.minecraft.network.chat.Style.EMPTY.withFont(new FontDescription.Resource(Identifier.fromNamespaceAndPath("component-util", "default"))).withShadowColor(0);
+    private static final net.minecraft.network.chat.Component FOREGROUND_PREFIX_COMPONENT = net.minecraft.network.chat.Component.empty().withStyle(style -> style.withFont(new FontDescription.Resource(Identifier.fromNamespaceAndPath("component-util", "foreground"))));
+    private static final net.minecraft.network.chat.Style BACKGROUND_STYLE = net.minecraft.network.chat.Style.EMPTY.withFont(new FontDescription.Resource(Identifier.fromNamespaceAndPath("component-util", "default"))).withShadowColor(0);
 
     /**
      * @hidden
@@ -68,7 +67,7 @@ public final class ComponentUtil {
      *
      * @param plugin the plugin that includes the {@literal font_data} file
      */
-    public static void load(@NotNull JavaPlugin plugin) {
+    public static void load(JavaPlugin plugin) {
         ComponentUtil.load(plugin, Int2ObjectMaps.emptyMap());
     }
 
@@ -78,7 +77,7 @@ public final class ComponentUtil {
      *
      * @param plugin the plugin that includes the {@literal font_data} file
      */
-    public static void load(@NotNull JavaPlugin plugin, @NotNull Int2ObjectMap<GlyphData> extraGlyphData) {
+    public static void load(JavaPlugin plugin, Int2ObjectMap<GlyphData> extraGlyphData) {
         try (InputStream inputStream = plugin.getClass().getResourceAsStream("/font_data")) {
             ComponentUtil.load(Objects.requireNonNull(inputStream, "font_data not found").readAllBytes());
 
@@ -93,7 +92,7 @@ public final class ComponentUtil {
      *
      * @param path the path to the {@literal font_data} file
      */
-    public static void loadCustom(@NotNull Path path) {
+    public static void loadCustom(Path path) {
         ComponentUtil.loadCustom(path, Int2ObjectMaps.emptyMap());
     }
 
@@ -103,7 +102,7 @@ public final class ComponentUtil {
      *
      * @param path the path to the {@literal font_data} file
      */
-    public static void loadCustom(@NotNull Path path, @NotNull Int2ObjectMap<GlyphData> extraGlyphData) {
+    public static void loadCustom(Path path, Int2ObjectMap<GlyphData> extraGlyphData) {
         try (InputStream inputStream = Files.newInputStream(path)) {
             ComponentUtil.loadCustom(inputStream, extraGlyphData);
         } catch (IOException ex) {
@@ -116,7 +115,7 @@ public final class ComponentUtil {
      *
      * @param inputStream the {@link InputStream} containing the glyphs
      */
-    public static void loadCustom(@NotNull InputStream inputStream) {
+    public static void loadCustom(InputStream inputStream) {
         ComponentUtil.loadCustom(inputStream, Int2ObjectMaps.emptyMap());
     }
 
@@ -126,7 +125,7 @@ public final class ComponentUtil {
      *
      * @param inputStream the {@link InputStream} containing the glyphs
      */
-    public static void loadCustom(@NotNull InputStream inputStream, @NotNull Int2ObjectMap<GlyphData> extraGlyphData) {
+    public static void loadCustom(InputStream inputStream, Int2ObjectMap<GlyphData> extraGlyphData) {
         try {
             ComponentUtil.load(inputStream.readAllBytes());
 
@@ -142,7 +141,7 @@ public final class ComponentUtil {
      * @param component the component to get the width for
      * @return the width
      */
-    public static float widthAdventure(@NotNull Component component) {
+    public static float widthAdventure(Component component) {
         return ComponentUtil.widthVanilla(PaperAdventure.asVanilla(component));
     }
 
@@ -152,7 +151,7 @@ public final class ComponentUtil {
      * @param component the component to get the width for
      * @return the width
      */
-    public static float widthVanilla(@NotNull net.minecraft.network.chat.Component component) {
+    public static float widthVanilla(net.minecraft.network.chat.Component component) {
         MutableFloat width = new MutableFloat();
 
         StringDecomposer.iterateFormatted(component, net.minecraft.network.chat.Style.EMPTY, (index, style, codePoint) -> {
@@ -180,7 +179,7 @@ public final class ComponentUtil {
      * @param component the component to center
      * @return the centered component
      */
-    public static @NotNull Component centerAdventure(@NotNull Component component) {
+    public static Component centerAdventure(Component component) {
         net.minecraft.network.chat.Component componentVanilla = PaperAdventure.asVanilla(component);
         net.minecraft.network.chat.Component resultVanilla = ComponentUtil.centerVanilla(componentVanilla);
 
@@ -193,12 +192,12 @@ public final class ComponentUtil {
      * @param component the component to center
      * @return the centered component
      */
-    public static @NotNull net.minecraft.network.chat.Component centerVanilla(@NotNull net.minecraft.network.chat.Component component) {
+    public static net.minecraft.network.chat.Component centerVanilla(net.minecraft.network.chat.Component component) {
         return new ComponentCenterer().apply(component);
     }
 
-    public static @NotNull Component fillAdventure(
-            @NotNull String characters,
+    public static Component fillAdventure(
+            String characters,
             @Nullable ComponentStyleFillProcessor<Style> processor
     ) {
         return ComponentUtil.<Component, Style>fill(
@@ -212,8 +211,8 @@ public final class ComponentUtil {
         );
     }
 
-    public static @NotNull net.minecraft.network.chat.Component fillVanilla(
-            @NotNull String characters,
+    public static net.minecraft.network.chat.Component fillVanilla(
+            String characters,
             @Nullable ComponentStyleFillProcessor<net.minecraft.network.chat.Style> processor
     ) {
         return ComponentUtil.fill(
@@ -227,14 +226,14 @@ public final class ComponentUtil {
         );
     }
 
-    private static <T, U> @NotNull T fill(
-            @NotNull String characters,
+    private static <T, U> T fill(
+            String characters,
             @Nullable ComponentStyleFillProcessor<U> processor,
-            @NotNull Supplier<T> emptyComponentSupplier,
-            @NotNull Function<String, T> componentFromString,
-            @NotNull ComponentWidthFunction<T> componentToWidth,
-            @NotNull BiFunction<T, U, T> styleApplier,
-            @NotNull BiFunction<T, T, T> componentAppender
+            Supplier<T> emptyComponentSupplier,
+            Function<String, T> componentFromString,
+            ComponentWidthFunction<T> componentToWidth,
+            BiFunction<T, U, T> styleApplier,
+            BiFunction<T, T, T> componentAppender
     ) {
         Preconditions.checkArgument(!characters.isEmpty(), "There must be at least one character");
 
@@ -275,14 +274,14 @@ public final class ComponentUtil {
         return result;
     }
 
-    public static @NotNull Component addBackgroundAdventure(@NotNull Component component) {
+    public static Component addBackgroundAdventure(Component component) {
         net.minecraft.network.chat.Component componentVanilla = PaperAdventure.asVanilla(component);
         net.minecraft.network.chat.Component resultVanilla = ComponentUtil.addBackgroundVanilla(componentVanilla);
 
         return PaperAdventure.asAdventure(resultVanilla);
     }
 
-    public static @NotNull net.minecraft.network.chat.Component addBackgroundVanilla(@NotNull net.minecraft.network.chat.Component component) {
+    public static net.minecraft.network.chat.Component addBackgroundVanilla(net.minecraft.network.chat.Component component) {
         int width = Mth.ceil(ComponentUtil.widthVanilla(component));
         int backgroundPadding = -width - 2;
         int backgroundWidth = width + 4 - 1; // Remove the extra pixel from the size output
@@ -317,7 +316,7 @@ public final class ComponentUtil {
                 .append("\uE612\uE611");
     }
 
-    private static void load(byte @NotNull [] data) throws IOException {
+    private static void load(byte[] data) throws IOException {
         FriendlyByteBuf byteBuf = new FriendlyByteBuf(Unpooled.copiedBuffer(data));
 
         // "Missing" data
@@ -339,7 +338,7 @@ public final class ComponentUtil {
         }
     }
 
-    private static float readWidth(@NotNull FriendlyByteBuf byteBuf) {
+    private static float readWidth(FriendlyByteBuf byteBuf) {
         byte whole = byteBuf.readByte();
         byte decimal = byteBuf.readByte();
 

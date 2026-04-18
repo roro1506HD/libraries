@@ -3,8 +3,7 @@ package ovh.roro.libraries.inventory.api;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.instance.ClassicInventoryInstance;
 import ovh.roro.libraries.inventory.api.instance.ConfirmationInventoryInstance;
 import ovh.roro.libraries.inventory.api.instance.InventoryInstance;
@@ -27,58 +26,58 @@ import java.util.function.Function;
 @SuppressWarnings("rawtypes")
 public interface InventoryManager {
 
-    static @NotNull InventoryManager inventoryManager() {
+    static InventoryManager inventoryManager() {
         return InventoryManagerImpl.LOADER.getOrCreate();
     }
 
-    void register(@NotNull Function<UUID, InventoryPlayerHolder> playerMapper);
+    void register(Function<UUID, InventoryPlayerHolder> playerMapper);
 
-    <T, U extends InventoryInstance<T, V>, V extends InventoryPlayerHolder> void openInventory(@NotNull Inventory<T, U, V> inventory, @NotNull V player, @Nullable T value);
+    <T, U extends InventoryInstance<T, V>, V extends InventoryPlayerHolder> void openInventory(Inventory<T, U, V> inventory, V player, @Nullable T value);
 
-    void openPreviousInventory(@NotNull InventoryPlayerHolder player);
+    void openPreviousInventory(InventoryPlayerHolder player);
 
-    void openPreviousInventory(@NotNull InventoryPlayerHolder player, int inventoriesToSkip);
+    void openPreviousInventory(InventoryPlayerHolder player, int inventoriesToSkip);
 
-    boolean hasPreviousInventory(@NotNull InventoryPlayerHolder player);
+    boolean hasPreviousInventory(InventoryPlayerHolder player);
 
-    void updateInventory(@NotNull InventoryPlayerHolder player);
+    void updateInventory(InventoryPlayerHolder player);
 
-    void softCloseInventory(@NotNull InventoryPlayerHolder player);
+    void softCloseInventory(InventoryPlayerHolder player);
 
-    boolean isRegisteredInventory(@NotNull org.bukkit.inventory.Inventory inventory);
+    boolean isRegisteredInventory(org.bukkit.inventory.Inventory inventory);
 
-    <T extends InventoryPlayerHolder> @NotNull List<T> getInventoryViewers(@NotNull Inventory<?, ?, T> inventory);
+    <T extends InventoryPlayerHolder> List<T> getInventoryViewers(Inventory<?, ?, T> inventory);
 
-    @NotNull Optional<Item> parseItem(@Nullable ItemStack itemStack);
+    Optional<Item> parseItem(@Nullable ItemStack itemStack);
 
-    @NotNull Optional<Item> parseItem(@Nullable net.minecraft.world.item.ItemStack itemStack);
+    Optional<Item> parseItem(net.minecraft.world.item.@Nullable ItemStack itemStack);
 
-    <T, U extends InventoryPlayerHolder> @NotNull ClassicInventory<T, U> createInventory(@NotNull ClassicInventoryInstance<T, U> inventoryInstance);
+    <T, U extends InventoryPlayerHolder> ClassicInventory<T, U> createInventory(ClassicInventoryInstance<T, U> inventoryInstance);
 
-    <T, U, V extends InventoryPlayerHolder> @NotNull PageableInventory<T, U, V> createPageableInventory(@NotNull PageableInventoryInstance<T, U, V> inventoryInstance);
+    <T, U, V extends InventoryPlayerHolder> PageableInventory<T, U, V> createPageableInventory(PageableInventoryInstance<T, U, V> inventoryInstance);
 
-    <T, U extends InventoryPlayerHolder> @NotNull ConfirmationInventory<T, U> createConfirmationInventory(@NotNull ConfirmationInventoryInstance<T, U> inventoryInstance);
+    <T, U extends InventoryPlayerHolder> ConfirmationInventory<T, U> createConfirmationInventory(ConfirmationInventoryInstance<T, U> inventoryInstance);
 
-    <T, U extends InventoryPlayerHolder> @NotNull Item<T, U> createItem(@NotNull ItemInstance<T, U> itemInstance);
+    <T, U extends InventoryPlayerHolder> Item<T, U> createItem(ItemInstance<T, U> itemInstance);
 
-    <T extends InventoryPlayerHolder> @NotNull StaticItem createStaticItem(@NotNull StaticItemInstance itemInstance);
+    <T extends InventoryPlayerHolder> StaticItem createStaticItem(StaticItemInstance itemInstance);
 
-    @NotNull ItemBuilder createItemBuilder(@NotNull Material material);
+    ItemBuilder createItemBuilder(Material material);
 
-    @NotNull ItemBuilder createItemBuilder(@NotNull Material material, int amount);
+    ItemBuilder createItemBuilder(Material material, int amount);
 
-    @NotNull ItemBuilder fromLegacy(@NotNull ItemStack itemStack);
+    ItemBuilder fromLegacy(ItemStack itemStack);
 
-    @NotNull ItemBuilder fromLegacy(@NotNull net.minecraft.world.item.ItemStack itemStack);
+    ItemBuilder fromLegacy(net.minecraft.world.item.ItemStack itemStack);
 
-    @NotNull <T, U extends InventoryPlayerHolder> net.minecraft.world.item.ItemStack toMinecraftStack(@NotNull Item<T, U> item, @NotNull U player, @Nullable T value);
+    <T, U extends InventoryPlayerHolder> net.minecraft.world.item.ItemStack toMinecraftStack(Item<T, U> item, U player, @Nullable T value);
 
-    @NotNull net.minecraft.world.item.ItemStack toMinecraftStack(@NotNull ItemBuilder builder, @NotNull Language language);
+    net.minecraft.world.item.ItemStack toMinecraftStack(ItemBuilder builder, Language language);
 
-    @NotNull <T, U extends InventoryPlayerHolder> ItemStack toBukkitStack(@NotNull Item<T, U> item, @NotNull U player, @Nullable T value);
+    <T, U extends InventoryPlayerHolder> ItemStack toBukkitStack(Item<T, U> item, U player, @Nullable T value);
 
-    @NotNull ItemStack toBukkitStack(@NotNull ItemBuilder builder, @NotNull Language language);
+    ItemStack toBukkitStack(ItemBuilder builder, Language language);
 
-    @NotNull DefaultItemFactory defaultItemFactory();
+    DefaultItemFactory defaultItemFactory();
 
 }

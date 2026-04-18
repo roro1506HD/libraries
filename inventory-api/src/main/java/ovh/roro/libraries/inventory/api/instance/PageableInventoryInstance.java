@@ -2,8 +2,7 @@ package ovh.roro.libraries.inventory.api.instance;
 
 import org.bukkit.Material;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryManager;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.context.PaginationContext;
@@ -16,7 +15,7 @@ import java.util.List;
 @ApiStatus.OverrideOnly
 public interface PageableInventoryInstance<T, U, V extends InventoryPlayerHolder> extends ClassicInventoryInstance<PaginationContext<T, U, V>, V> {
 
-    int @NotNull [] @NotNull [] DEFAULT_SLOTS = {
+    int[][] DEFAULT_SLOTS = {
             {
                     10, 11, 12, 13, 14, 15, 16
             },
@@ -38,7 +37,7 @@ public interface PageableInventoryInstance<T, U, V extends InventoryPlayerHolder
     };
 
     // Defaults in the bottom left corner
-    int @NotNull [] DEFAULT_PREVIOUS_SLOTS = {
+    int[] DEFAULT_PREVIOUS_SLOTS = {
             18,
             27,
             36,
@@ -46,14 +45,14 @@ public interface PageableInventoryInstance<T, U, V extends InventoryPlayerHolder
     };
 
     // Defaults in the bottom right corner
-    int @NotNull [] DEFAULT_NEXT_SLOTS = {
+    int[] DEFAULT_NEXT_SLOTS = {
             26,
             35,
             44,
             53
     };
 
-    default int @NotNull [] elementsSlots() {
+    default int[] elementsSlots() {
         if (this.rows() > 2 && this.rows() <= PageableInventoryInstance.DEFAULT_SLOTS.length + 2) {
             return PageableInventoryInstance.DEFAULT_SLOTS[this.rows() - 3];
         }
@@ -69,7 +68,7 @@ public interface PageableInventoryInstance<T, U, V extends InventoryPlayerHolder
         return 0;
     }
 
-    default @NotNull ItemBuilder previousItemBuilder(@NotNull InventoryManager inventoryManager, int previousPage, int maxPage) {
+    default ItemBuilder previousItemBuilder(InventoryManager inventoryManager, int previousPage, int maxPage) {
         return inventoryManager.createItemBuilder(Material.ARROW)
                 .name(Translation.translation(
                         "inventory.api.item.pagination.previous.name",
@@ -86,7 +85,7 @@ public interface PageableInventoryInstance<T, U, V extends InventoryPlayerHolder
         return 0;
     }
 
-    default @NotNull ItemBuilder nextItemBuilder(@NotNull InventoryManager inventoryManager, int nextPage, int maxPage) {
+    default ItemBuilder nextItemBuilder(InventoryManager inventoryManager, int nextPage, int maxPage) {
         return inventoryManager.createItemBuilder(Material.ARROW)
                 .name(Translation.translation(
                         "inventory.api.item.pagination.next.name",
@@ -95,8 +94,8 @@ public interface PageableInventoryInstance<T, U, V extends InventoryPlayerHolder
                 ));
     }
 
-    @NotNull ItemInstance<@Nullable U, V> createSlotItem();
+    ItemInstance<@Nullable U, V> createSlotItem();
 
-    @NotNull List<U> elements(@NotNull V player, @Nullable T value);
+    List<U> elements(V player, @Nullable T value);
 
 }

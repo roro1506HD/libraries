@@ -1,8 +1,7 @@
 package ovh.roro.libraries.inventory.impl.confirmation;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.ConfirmationInventory;
 import ovh.roro.libraries.inventory.api.InventoryManager;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
@@ -23,26 +22,26 @@ import java.util.List;
 @ApiStatus.Internal
 public class ConfirmationInventoryImpl<T, U extends InventoryPlayerHolder> extends InventoryImpl<ConfirmationContext<T, U>, ConfirmationInventoryInstance<T, U>, U> implements ConfirmationInventory<T, U> {
 
-    private final @NotNull InventoryManager inventoryManager;
+    private final InventoryManager inventoryManager;
 
-    public ConfirmationInventoryImpl(@NotNull InventoryManager inventoryManager, @NotNull ConfirmationInventoryInstance<T, U> inventoryInstance) {
+    public ConfirmationInventoryImpl(InventoryManager inventoryManager, ConfirmationInventoryInstance<T, U> inventoryInstance) {
         super(inventoryInstance, inventory -> new InventoryContentImpl<>(inventoryManager, inventory));
 
         this.inventoryManager = inventoryManager;
     }
 
     @Override
-    public @NotNull ConfirmationInventoryInstance<T, U> instance() {
+    public ConfirmationInventoryInstance<T, U> instance() {
         return this.inventoryInstance;
     }
 
     @Override
-    public @NotNull List<U> viewers() {
+    public List<U> viewers() {
         return this.inventoryManager.getInventoryViewers(this);
     }
 
     @Override
-    public @NotNull Translation title(@NotNull U player, @Nullable ConfirmationContext<T, U> value) {
+    public Translation title(U player, @Nullable ConfirmationContext<T, U> value) {
         return Translation.translation("inventory.api.inventory.confirmation.title");
     }
 
@@ -57,7 +56,7 @@ public class ConfirmationInventoryImpl<T, U extends InventoryPlayerHolder> exten
     }
 
     @Override
-    public @NotNull SlotType slotType(int index) {
+    public SlotType slotType(int index) {
         return SlotType.DYNAMIC;
     }
 
@@ -71,11 +70,11 @@ public class ConfirmationInventoryImpl<T, U extends InventoryPlayerHolder> exten
     }
 
     @Override
-    public void updateInventory(@NotNull U player, @Nullable ConfirmationContext<T, U> value) {
+    public void updateInventory(U player, @Nullable ConfirmationContext<T, U> value) {
     }
 
     @Override
-    public void openConfirmation(@NotNull U player, @NotNull T value) {
+    public void openConfirmation(U player, T value) {
         this.inventoryManager.openInventory(this, player, new ConfirmationContextImpl<>(this.inventoryInstance, value));
     }
 }

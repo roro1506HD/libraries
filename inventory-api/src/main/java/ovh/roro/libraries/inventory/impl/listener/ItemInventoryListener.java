@@ -12,8 +12,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
@@ -37,11 +36,11 @@ import java.util.Optional;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class ItemInventoryListener implements Listener {
 
-    private static final @NotNull Logger LOGGER = LoggerFactory.getLogger("InventoryManager");
+    private static final Logger LOGGER = LoggerFactory.getLogger("InventoryManager");
 
-    private final @NotNull InventoryManagerImpl inventoryManager;
+    private final InventoryManagerImpl inventoryManager;
 
-    public ItemInventoryListener(@NotNull InventoryManagerImpl inventoryManager) {
+    public ItemInventoryListener(InventoryManagerImpl inventoryManager) {
         this.inventoryManager = inventoryManager;
     }
 
@@ -90,7 +89,7 @@ public class ItemInventoryListener implements Listener {
         }
     }
 
-    private void handlePlayerInventoryClick(@NotNull InventoryClickEvent event, @NotNull InventoryPlayerHolder player) {
+    private void handlePlayerInventoryClick(InventoryClickEvent event, InventoryPlayerHolder player) {
         if (event.getSlotType() == InventoryType.SlotType.ARMOR || event.getSlotType() == InventoryType.SlotType.CRAFTING) {
             if (event.getAction() != InventoryAction.HOTBAR_SWAP) {
                 ItemStack cursorItem = player.bukkitPlayer().getItemOnCursor();
@@ -119,7 +118,7 @@ public class ItemInventoryListener implements Listener {
     }
 
     @SuppressWarnings("DataFlowIssue")
-    private void handleInventoryClick(@NotNull InventoryClickEvent event, @NotNull InventoryPlayerHolder player) {
+    private void handleInventoryClick(InventoryClickEvent event, InventoryPlayerHolder player) {
         if (event.getClick() == ClickType.NUMBER_KEY) {
             Optional<Item> hotbarItem = this.inventoryManager.parseItem(player.bukkitPlayer().getInventory().getItem(event.getHotbarButton()));
             Optional<Item> slotItem = this.inventoryManager.parseItem(event.getClickedInventory().getItem(event.getSlot()));
@@ -186,7 +185,7 @@ public class ItemInventoryListener implements Listener {
         }
     }
 
-    private void handleInventoryWrapperClick(@NotNull InventoryClickEvent event, @NotNull InventoryPlayerHolder player, @NotNull InventoryWrapper wrapper) {
+    private void handleInventoryWrapperClick(InventoryClickEvent event, InventoryPlayerHolder player, InventoryWrapper wrapper) {
         InventoryImpl inventory = wrapper.inventory();
         Slot slot = inventory.inventoryContent().slot(event.getSlot());
         Item item = slot.item();
@@ -262,7 +261,7 @@ public class ItemInventoryListener implements Listener {
         }
     }
 
-    private void handleHotbarSwap(@NotNull InventoryClickEvent event, @NotNull InventoryPlayerHolder player, @NotNull Item item, @Nullable InventoryWrapper wrapper, int slotIndex) {
+    private void handleHotbarSwap(InventoryClickEvent event, InventoryPlayerHolder player, Item item, @Nullable InventoryWrapper wrapper, int slotIndex) {
         if (!item.instance().getClass().isAnnotationPresent(ItemMovable.class)) {
             event.setCancelled(true);
         }
@@ -303,7 +302,7 @@ public class ItemInventoryListener implements Listener {
         });
     }
 
-    private int firstPossibleSlot(@NotNull Inventory inventory, @NotNull ItemStack itemStack) {
+    private int firstPossibleSlot(Inventory inventory, ItemStack itemStack) {
         ItemStack[] contents = inventory.getStorageContents();
 
         for (int i = 0; i < contents.length; i++) {

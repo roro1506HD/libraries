@@ -1,8 +1,7 @@
 package ovh.roro.libraries.inventory.impl.context;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.inventory.api.InventoryPlayerHolder;
 import ovh.roro.libraries.inventory.api.PageableInventory;
 import ovh.roro.libraries.inventory.api.context.PaginationContext;
@@ -14,16 +13,16 @@ import java.util.List;
 public class PaginationContextImpl<T, U, V extends InventoryPlayerHolder> implements PaginationContext<T, U, V> {
 
     private final int elementsPerPage;
-    private final @NotNull List<@NotNull U> elements;
-    private final @NotNull List<@NotNull U> currentElements;
+    private final List<U> elements;
+    private final List<U> currentElements;
 
-    private final @NotNull PageableInventory<T, U, V> inventory;
+    private final PageableInventory<T, U, V> inventory;
     private final @Nullable T inventoryValue;
 
     private int maxPage;
     private int currentPage;
 
-    public PaginationContextImpl(int elementsPerPage, @NotNull PageableInventory<T, U, V> inventory, @Nullable T inventoryValue, int page) {
+    public PaginationContextImpl(int elementsPerPage, PageableInventory<T, U, V> inventory, @Nullable T inventoryValue, int page) {
         this.elementsPerPage = elementsPerPage;
         this.elements = new ArrayList<>();
         this.currentElements = new ArrayList<>(elementsPerPage);
@@ -34,7 +33,7 @@ public class PaginationContextImpl<T, U, V extends InventoryPlayerHolder> implem
     }
 
     @Override
-    public void update(@NotNull List<U> elements) {
+    public void update(List<U> elements) {
         this.elements.clear();
         this.elements.addAll(elements);
 
@@ -74,14 +73,13 @@ public class PaginationContextImpl<T, U, V extends InventoryPlayerHolder> implem
         return this.maxPage;
     }
 
-    @NotNull
     @Override
     public List<U> currentElements() {
         return this.currentElements;
     }
 
     @Override
-    public @NotNull PageableInventory<T, U, V> inventory() {
+    public PageableInventory<T, U, V> inventory() {
         return this.inventory;
     }
 

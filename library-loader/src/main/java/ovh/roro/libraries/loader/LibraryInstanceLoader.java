@@ -4,7 +4,6 @@ import io.papermc.paper.plugin.provider.classloader.ConfiguredPluginClassLoader;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Optional;
@@ -18,23 +17,23 @@ import java.util.function.Function;
 @ApiStatus.Internal
 public class LibraryInstanceLoader<T> {
 
-    private static final @NotNull StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
+    private static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
 
-    private final @NotNull String libraryName;
+    private final String libraryName;
 
-    private final @NotNull Map<JavaPlugin, T> instanceByPlugin;
-    private final @NotNull Map<Class<?>, T> instanceByClass;
+    private final Map<JavaPlugin, T> instanceByPlugin;
+    private final Map<Class<?>, T> instanceByClass;
 
-    private final @NotNull Function<JavaPlugin, T> instanceCreator;
+    private final Function<JavaPlugin, T> instanceCreator;
 
     /**
      * Creates a loader that is capable of creating multiple instances of a library for multiple plugins,
      * preventing state interference between plugins that use the same library
      *
-     * @param libraryName the library name to log if an error occurs
+     * @param libraryName     the library name to log if an error occurs
      * @param instanceCreator the function called when creating an instance of the library for a specific plugin
      */
-    public LibraryInstanceLoader(@NotNull String libraryName, @NotNull Function<JavaPlugin, T> instanceCreator) {
+    public LibraryInstanceLoader(String libraryName, Function<JavaPlugin, T> instanceCreator) {
         this.libraryName = libraryName;
 
         this.instanceByPlugin = new Object2ObjectArrayMap<>();
@@ -53,7 +52,7 @@ public class LibraryInstanceLoader<T> {
      * @return the library instance associated with the plugin calling this method
      */
     @SuppressWarnings("UnstableApiUsage")
-    public @NotNull T getOrCreate() {
+    public T getOrCreate() {
         Optional<Class<?>> caller = LibraryInstanceLoader.STACK_WALKER.walk(s -> {
             return s.<Class<?>>map(StackWalker.StackFrame::getDeclaringClass)
                     .filter(clazz -> clazz.getClassLoader() instanceof ConfiguredPluginClassLoader)
@@ -71,7 +70,7 @@ public class LibraryInstanceLoader<T> {
      * @param callerClass any class of the plugin getting an instance of the library
      * @return the library instance associated with the caller class' plugin
      */
-    public @NotNull T getOrCreate(@NotNull Class<?> callerClass) {
+    public T getOrCreate(Class<?> callerClass) {
         T existingInstance = this.instanceByClass.get(callerClass);
 
         if (existingInstance != null) {
@@ -99,7 +98,7 @@ public class LibraryInstanceLoader<T> {
     }
 
     @SuppressWarnings("UnstableApiUsage")
-    private @NotNull JavaPlugin getPluginFromClass(@NotNull Class<?> callerClass) {
+    private JavaPlugin getPluginFromClass(Class<?> callerClass) {
         ClassLoader classLoader = callerClass.getClassLoader();
 
         if (!(classLoader instanceof ConfiguredPluginClassLoader pluginClassLoader)) {

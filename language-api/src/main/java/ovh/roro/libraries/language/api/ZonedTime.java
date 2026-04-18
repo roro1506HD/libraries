@@ -1,7 +1,6 @@
 package ovh.roro.libraries.language.api;
 
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import ovh.roro.libraries.language.impl.ZonedTimeImpl;
 
 import java.time.ZoneId;
@@ -22,7 +21,7 @@ public interface ZonedTime {
      * @param millis the time
      * @return a new ZonedTime
      */
-    static @NotNull ZonedTime of(long millis) {
+    static ZonedTime of(long millis) {
         return ZonedTime.of(millis, TimeZone.getTimeZone("GMT").toZoneId());
     }
 
@@ -33,7 +32,7 @@ public interface ZonedTime {
      * @param zone   the timezone
      * @return a new ZonedTime
      */
-    static @NotNull ZonedTime of(long millis, @NotNull ZoneId zone) {
+    static ZonedTime of(long millis, ZoneId zone) {
         return new ZonedTimeImpl(millis, zone);
     }
 
@@ -49,6 +48,6 @@ public interface ZonedTime {
      *
      * @return the timezone
      */
-    @NotNull ZoneId zone();
+    ZoneId zone();
 
 }
