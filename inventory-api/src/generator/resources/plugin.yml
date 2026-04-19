@@ -1,0 +1,4 @@
+name: InventoryAPIGenerator
+version: 1.21.11
+main: ovh.roro.libraries.inventory.generator.Generator
+api-version: '1.21.11'

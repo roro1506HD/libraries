@@ -373,7 +373,7 @@ public class InventoryManagerImpl implements InventoryManager {
     }
 
     public net.minecraft.world.item.ItemStack toMinecraftStack(Language language, ItemBuilder builder, @Nullable Item item) {
-        ItemBuilderImpl clonedBuilder = (ItemBuilderImpl) builder.clone();
+        ItemBuilderImpl clonedBuilder = (ItemBuilderImpl) builder.copy();
         net.minecraft.world.item.ItemStack delegate = clonedBuilder.delegate();
 
         if (item != null) {
@@ -387,7 +387,7 @@ public class InventoryManagerImpl implements InventoryManager {
             delegate.set(DataComponents.CUSTOM_NAME, this.removeDefaultItalic(PaperAdventure.asVanilla(this.languageManager.translate(language, name))));
         }
 
-        Translation[] description = clonedBuilder.description();
+        List<Translation> description = clonedBuilder.description();
         if (description != null) {
             List<Component> lore = new ArrayList<>();
 

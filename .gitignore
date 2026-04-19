@@ -28,3 +28,6 @@ out/
 
 # unwanted logs
 logs/
+
+# run-paper plugin
+run/
