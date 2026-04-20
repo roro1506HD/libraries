@@ -16,7 +16,8 @@ sequenceOf(
     "packet-listener",
     "component-util",
     "language-api",
-    "inventory-api"
+    "inventory-api",
+    "config-api"
 ).forEach {
     include(it)
 }
