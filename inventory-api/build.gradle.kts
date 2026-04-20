@@ -33,8 +33,8 @@ sourceSets {
 dependencies {
     paperweight.paperDevBundle("1.21.11-R0.1-SNAPSHOT")
 
-    implementation(project(":library-loader"))
-    implementation(project(":language-api"))
+    api(project(":library-loader"))
+    api(project(":language-api"))
 
     generatorImplementationConfiguration("com.palantir.javapoet:javapoet:0.14.0")
     generatorImplementationConfiguration("org.jetbrains:annotations:26.0.2-1")
