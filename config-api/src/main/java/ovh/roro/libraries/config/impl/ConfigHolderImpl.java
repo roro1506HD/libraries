@@ -26,7 +26,7 @@ public class ConfigHolderImpl<T> implements ConfigHolder<T> {
 
     ConfigHolderImpl(JavaPlugin plugin, Path path, Function<ConfigReader, T> readMapper, BiConsumer<T, ConfigWriter> writeMapper) {
         this.plugin = plugin;
-        this.path = path;
+        this.path = plugin.getDataPath().resolve(path);
         this.readMapper = readMapper;
         this.writeMapper = writeMapper;
     }
