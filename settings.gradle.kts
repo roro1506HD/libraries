@@ -11,6 +11,7 @@ plugins {
 rootProject.name = "libraries"
 
 sequenceOf(
+    "bom",
     "library-loader",
     "reflection-util",
     "packet-listener",
