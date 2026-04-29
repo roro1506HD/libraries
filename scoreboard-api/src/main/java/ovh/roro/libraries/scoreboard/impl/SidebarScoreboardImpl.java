@@ -40,7 +40,7 @@ public class SidebarScoreboardImpl implements SidebarScoreboard {
 
     private boolean created;
 
-    public SidebarScoreboardImpl(ScoreboardPlayerHolder player) {
+    public SidebarScoreboardImpl(ScoreboardPlayerHolder<?> player) {
         this.player = ((CraftPlayer) player.bukkitPlayer()).getHandle();
         this.objective = this.createObjective();
         this.languagePlayer = player;

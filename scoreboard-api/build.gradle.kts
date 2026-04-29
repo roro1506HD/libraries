@@ -1,5 +1,5 @@
 plugins {
-    id("io.papermc.paperweight.userdev")
+    id("library.paper")
 }
 
 dependencies {

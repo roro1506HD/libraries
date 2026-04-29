@@ -2,7 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import xyz.jpenilla.runpaper.task.RunServer
 
 plugins {
-    id("io.papermc.paperweight.userdev")
+    id("library.paper")
     id("com.gradleup.shadow") version "9.4.1"
     id("xyz.jpenilla.run-paper") version "3.0.2"
 }

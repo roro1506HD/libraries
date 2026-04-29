@@ -1,7 +1,7 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
-    id("io.papermc.paperweight.userdev")
+    id("library.paper")
 }
 
 dependencies {
