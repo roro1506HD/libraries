@@ -18,7 +18,7 @@ sequenceOf(
     "language-api",
     "inventory-api",
     "config-api",
-//    "scoreboard-api"
+    "scoreboard-api"
 ).forEach {
     include(it)
 }

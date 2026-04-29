@@ -1,6 +1,7 @@
 package ovh.roro.libraries.scoreboard.api.holder;
 
 import org.jetbrains.annotations.ApiStatus;
+import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.scoreboard.api.instance.ScoreboardInstance;
 
 import java.util.function.Consumer;
@@ -10,8 +11,8 @@ public interface SingleScoreboardHolder<T extends ScoreboardInstance<?>> extends
 
     void setActiveScoreboard(T scoreboard);
 
-    T getActiveScoreboard(Class<T> clazz);
+    @Nullable T getActiveScoreboard();
 
-    void updateActiveScoreboard(Class<T> clazz, Consumer<T> consumer);
+    void updateActiveScoreboard(Consumer<T> consumer);
 
 }

@@ -10,13 +10,21 @@ import ovh.roro.libraries.language.api.Translation;
 @ApiStatus.NonExtendable
 public interface SidebarScoreboard {
 
-    void title(Component objectiveName);
+    boolean create();
+
+    boolean destroy();
+
+    void title(Component title);
 
     void title(String translation, Placeholder... placeholders);
 
     void title(Translatable translatable, Placeholder... placeholders);
 
     void title(Translation translation);
+
+    Component title();
+
+    @Nullable Translation titleTranslation();
 
     void line(int index, Component line);
 
@@ -32,10 +40,10 @@ public interface SidebarScoreboard {
 
     @Nullable Component line(int index);
 
-    @Nullable Translation translation(int index);
+    @Nullable Translation lineTranslation(int index);
 
     @Nullable Component[] lines();
 
-    @Nullable Translation[] translations();
+    @Nullable Translation[] linesTranslations();
 
 }
