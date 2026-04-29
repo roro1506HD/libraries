@@ -46,13 +46,7 @@ subprojects {
     extensions.configure<PublishingExtension> {
         publications {
             create<MavenPublication>("maven") {
-                artifact(tasks["jar"])
-                artifact(tasks["javadocJar"]) {
-                    classifier = "javadoc"
-                }
-                artifact(tasks["sourcesJar"]) {
-                    classifier = "sources"
-                }
+                from(components["java"])
             }
         }
 
