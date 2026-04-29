@@ -17,7 +17,8 @@ sequenceOf(
     "component-util",
     "language-api",
     "inventory-api",
-    "config-api"
+    "config-api",
+//    "scoreboard-api"
 ).forEach {
     include(it)
 }
