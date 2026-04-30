@@ -22,6 +22,7 @@ public class MultiScoreboardHolderImpl extends AbstractScoreboardHolder<MultiSco
         this.clearScoreboardLines();
 
         this.activeScoreboard = scoreboard;
+        this.activeScoreboard.init();
     }
 
     @Override

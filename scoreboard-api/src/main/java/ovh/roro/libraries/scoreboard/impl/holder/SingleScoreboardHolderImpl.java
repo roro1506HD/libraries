@@ -22,6 +22,7 @@ public class SingleScoreboardHolderImpl<T extends ScoreboardInstance<?>> extends
         this.clearScoreboardLines();
 
         this.activeScoreboard = scoreboard;
+        this.activeScoreboard.init();
     }
 
     @Override
