@@ -1,13 +1,10 @@
-package ovh.roro.libraries.componentutil;
+package ovh.roro.libraries.componentutil.internal;
 
 import org.jetbrains.annotations.ApiStatus;
 
-/**
- * @hidden
- */
 @ApiStatus.Internal
 @FunctionalInterface
-interface ComponentWidthFunction<T> {
+public interface ComponentWidthFunction<T> {
 
     float apply(T component);
 

@@ -1,4 +1,4 @@
-package ovh.roro.libraries.componentutil;
+package ovh.roro.libraries.componentutil.internal;
 
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -8,16 +8,14 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.contents.PlainTextContents;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
+import ovh.roro.libraries.componentutil.ComponentUtil;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-/**
- * @hidden
- */
 @ApiStatus.Internal
-class ComponentCenterer {
+public class ComponentCenterer {
 
     private static final LazyGlyphWidthSupplier SPACE_WIDTH = new LazyGlyphWidthSupplier(Component.literal(" "));
 

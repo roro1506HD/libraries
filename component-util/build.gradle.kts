@@ -20,3 +20,7 @@ tasks.withType<Test>().configureEach {
     }
     failFast = true
 }
+
+tasks.withType<Javadoc> {
+    exclude("ovh/roro/libraries/componentutil/internal")
+}

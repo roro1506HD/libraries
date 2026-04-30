@@ -20,6 +20,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ovh.roro.libraries.componentutil.internal.ComponentCenterer;
+import ovh.roro.libraries.componentutil.internal.ComponentWidthFunction;
 
 import java.io.IOException;
 import java.io.InputStream;
