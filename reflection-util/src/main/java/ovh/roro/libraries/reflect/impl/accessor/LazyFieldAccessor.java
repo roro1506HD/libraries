@@ -3,10 +3,9 @@ package ovh.roro.libraries.reflect.impl.accessor;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 @ApiStatus.Internal
 public final class LazyFieldAccessor extends AbstractFieldAccessor {
@@ -14,7 +13,8 @@ public final class LazyFieldAccessor extends AbstractFieldAccessor {
     private final MethodHandles.Lookup lookup;
     private final Field field;
 
-    private @Nullable VarHandle varHandle;
+    private @Nullable MethodHandle getterHandle;
+    private @Nullable MethodHandle setterHandle;
 
     public LazyFieldAccessor(MethodHandles.Lookup lookup, Field field) {
         this.lookup = lookup;
@@ -22,19 +22,20 @@ public final class LazyFieldAccessor extends AbstractFieldAccessor {
     }
 
     @Override
-    protected VarHandle varHandle() {
-        if (this.varHandle == null) {
-            try {
-                if (Modifier.isStatic(this.field.getModifiers())) {
-                    this.varHandle = this.lookup.findStaticVarHandle(this.field.getDeclaringClass(), this.field.getName(), this.field.getType());
-                } else {
-                    this.varHandle = this.lookup.findVarHandle(this.field.getDeclaringClass(), this.field.getName(), this.field.getType());
-                }
-            } catch (Exception ex) {
-                throw new IllegalStateException("Could not find VarHandle", ex);
-            }
+    protected MethodHandle getterHandle() {
+        if (this.getterHandle == null) {
+            this.getterHandle = this.createHandle(this.field, this.lookup::unreflectGetter);
         }
 
-        return this.varHandle;
+        return this.getterHandle;
+    }
+
+    @Override
+    protected MethodHandle setterHandle() {
+        if (this.setterHandle == null) {
+            this.setterHandle = this.createHandle(this.field, this.lookup::unreflectSetter);
+        }
+
+        return this.setterHandle;
     }
 }

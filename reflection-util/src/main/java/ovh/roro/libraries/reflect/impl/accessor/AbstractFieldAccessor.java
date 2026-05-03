@@ -4,63 +4,90 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 import ovh.roro.libraries.reflect.api.FieldAccessor;
 
-import java.lang.invoke.VarHandle;
+import java.lang.invoke.MethodHandle;
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 @ApiStatus.Internal
 public abstract class AbstractFieldAccessor implements FieldAccessor {
 
-    protected abstract VarHandle varHandle();
+    protected abstract MethodHandle getterHandle();
+
+    protected abstract MethodHandle setterHandle();
+
+    protected MethodHandle createHandle(Field field, MethodHandleSupplier supplier) {
+        try {
+            return supplier.get(field);
+        } catch (Exception ex) {
+            throw new IllegalStateException("Could not find MethodHandle", ex);
+        }
+    }
+
+    private void setInternal(@Nullable Object instance, @Nullable Object value) {
+        try {
+            this.setterHandle().invoke(instance, value);
+        } catch (Throwable ex) {
+            throw new RuntimeException("Could not set field", ex);
+        }
+    }
+
+    private Object getInternal(@Nullable Object instance) {
+        try {
+            return this.getterHandle().invoke(instance);
+        } catch (Throwable ex) {
+            throw new RuntimeException("Could not set field", ex);
+        }
+    }
 
     @Override
     public void setObject(@Nullable Object instance, @Nullable Object value) {
-        this.varHandle().set(instance, value);
+        this.setInternal(instance, value);
     }
 
     @Override
     public void setByte(@Nullable Object instance, byte value) {
-        this.varHandle().set(instance, value);
+        this.setInternal(instance, value);
     }
 
     @Override
     public void setShort(@Nullable Object instance, short value) {
-        this.varHandle().set(instance, value);
+        this.setInternal(instance, value);
     }
 
     @Override
     public void setInt(@Nullable Object instance, int value) {
-        this.varHandle().set(instance, value);
+        this.setInternal(instance, value);
     }
 
     @Override
     public void setLong(@Nullable Object instance, long value) {
-        this.varHandle().set(instance, value);
+        this.setInternal(instance, value);
     }
 
     @Override
     public void setFloat(@Nullable Object instance, float value) {
-        this.varHandle().set(instance, value);
+        this.setInternal(instance, value);
     }
 
     @Override
     public void setDouble(@Nullable Object instance, double value) {
-        this.varHandle().set(instance, value);
+        this.setInternal(instance, value);
     }
 
     @Override
     public void setChar(@Nullable Object instance, char value) {
-        this.varHandle().set(instance, value);
+        this.setInternal(instance, value);
     }
 
     @Override
     public void setBoolean(@Nullable Object instance, boolean value) {
-        this.varHandle().set(instance, value);
+        this.setInternal(instance, value);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T> @Nullable T getObject(@Nullable Object instance) {
-        return (T) this.varHandle().get(instance);
+        return (T) this.getInternal(instance);
     }
 
     @Override
@@ -70,41 +97,41 @@ public abstract class AbstractFieldAccessor implements FieldAccessor {
 
     @Override
     public byte getByte(@Nullable Object instance) {
-        return (byte) this.varHandle().get(instance);
+        return (byte) this.getInternal(instance);
     }
 
     @Override
     public short getShort(@Nullable Object instance) {
-        return (short) this.varHandle().get(instance);
+        return (short) this.getInternal(instance);
     }
 
     @Override
     public int getInt(@Nullable Object instance) {
-        return (int) this.varHandle().get(instance);
+        return (int) this.getInternal(instance);
     }
 
     @Override
     public long getLong(@Nullable Object instance) {
-        return (long) this.varHandle().get(instance);
+        return (long) this.getInternal(instance);
     }
 
     @Override
     public float getFloat(@Nullable Object instance) {
-        return (float) this.varHandle().get(instance);
+        return (float) this.getInternal(instance);
     }
 
     @Override
     public double getDouble(@Nullable Object instance) {
-        return (double) this.varHandle().get(instance);
+        return (double) this.getInternal(instance);
     }
 
     @Override
     public char getChar(@Nullable Object instance) {
-        return (char) this.varHandle().get(instance);
+        return (char) this.getInternal(instance);
     }
 
     @Override
     public boolean getBoolean(@Nullable Object instance) {
-        return (boolean) this.varHandle().get(instance);
+        return (boolean) this.getInternal(instance);
     }
 }

@@ -7,10 +7,9 @@ import ovh.roro.libraries.reflect.impl.accessor.LazyFieldAccessor;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;
+import java.lang.reflect.InaccessibleObjectException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
 @ApiStatus.Internal
 public final class ReflectionHelper {
@@ -20,7 +19,17 @@ public final class ReflectionHelper {
     private final MethodHandles.Lookup lookup;
 
     public ReflectionHelper() {
-        this.lookup = MethodHandles.lookup();
+        try {
+            // Get this special lookup that has a trusted status, which allows to modify final fields
+            Field field = this.getField(MethodHandles.Lookup.class, "IMPL_LOOKUP");
+            this.lookup = (MethodHandles.Lookup) field.get(null);
+        } catch (Exception ex) {
+            Module module = this.getClass().getModule();
+            String moduleName = module.isNamed() ? module.getName() : "ALL-UNNAMED";
+            String argumentName = "--add-opens java.base/java.lang.invoke=" + moduleName;
+
+            throw new RuntimeException("Could not retrieve IMPL_LOOKUP, make sure you have the following starting flag: " + argumentName, ex);
+        }
     }
 
     public Class<?> getClass(String classPath) {
@@ -34,7 +43,11 @@ public final class ReflectionHelper {
     public Field getField(Class<?> clazz, String fieldName) {
         try {
             Field field = clazz.getDeclaredField(fieldName);
-            field.setAccessible(true);
+
+            try {
+                field.setAccessible(true);
+            } catch (InaccessibleObjectException ignored) {
+            }
 
             return field;
         } catch (Exception ex) {
@@ -45,7 +58,11 @@ public final class ReflectionHelper {
     public Method getMethod(Class<?> clazz, String methodName, Class<?>... params) {
         try {
             Method method = clazz.getDeclaredMethod(methodName, params);
-            method.setAccessible(true);
+
+            try {
+                method.setAccessible(true);
+            } catch (InaccessibleObjectException ignored) {
+            }
 
             return method;
         } catch (Exception ex) {
@@ -97,14 +114,7 @@ public final class ReflectionHelper {
         try {
             MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(clazz, this.lookup);
 
-            VarHandle varHandle;
-            if (Modifier.isStatic(field.getModifiers())) {
-                varHandle = lookup.findStaticVarHandle(field.getDeclaringClass(), field.getName(), field.getType());
-            } else {
-                varHandle = lookup.findVarHandle(field.getDeclaringClass(), field.getName(), field.getType());
-            }
-
-            return new ConstantFieldAccessor(varHandle);
+            return new ConstantFieldAccessor(lookup, field);
         } catch (Exception ex) {
             throw new IllegalArgumentException("Could not find VarHandle", ex);
         }
