@@ -6,7 +6,7 @@ Feel free to use them in your projects if you want!
 I have a bad habit of making breaking changes, but will try to keep a "one major minecraft version" deprecation notice
 on such changes so that you have one entire Minecraft release to make changes.
 
-These libraries are made for latest Minecraft version only, currently 1.21.11, and only for the PaperMC software.
+These libraries are made for latest Minecraft version only, currently 26.1.2, and only for the PaperMC software.
 They are expected to be updated near the time PaperMC releases a stable build.
 
 > [!WARNING]
@@ -41,7 +41,7 @@ repositories {
 
 dependencies {
     // Use a BOM so that all libraries are on the same version
-    implementation(platform("ovh.roro.libraries:bom:1.21.11"))
+    implementation(platform("ovh.roro.libraries:bom:26.1.2"))
     implementation("ovh.roro.libraries:config-api")
     implementation("ovh.roro.libraries:reflection-util")
     // ...
@@ -67,7 +67,7 @@ dependencies {
         <dependency>
             <groupId>ovh.roro.libraries</groupId>
             <artifactId>bom</artifactId>
-            <version>1.21.11</version>
+            <version>26.1.2</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>

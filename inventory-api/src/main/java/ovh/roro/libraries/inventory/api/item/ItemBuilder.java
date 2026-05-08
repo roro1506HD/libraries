@@ -128,6 +128,9 @@ public interface ItemBuilder {
     ItemBuilder color(Material... dyes);
 
     @Contract("_ -> this")
+    ItemBuilder color(ItemStack... dyes);
+
+    @Contract("_ -> this")
     ItemBuilder color(DyeColor... dyes);
 
     @Contract("_ -> this")
@@ -135,6 +138,9 @@ public interface ItemBuilder {
 
     @Contract("_ -> this")
     ItemBuilder mixColor(Material... dyes);
+
+    @Contract("_ -> this")
+    ItemBuilder mixColor(ItemStack... dyes);
 
     @Contract("_ -> this")
     ItemBuilder mixColor(DyeColor... dyes);

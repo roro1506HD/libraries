@@ -1,11 +1,13 @@
 package ovh.roro.libraries.inventory.impl.item;
 
+import com.destroystokyo.paper.MaterialSetTag;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMultimap;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import io.papermc.paper.adventure.PaperAdventure;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.PaperPotDecorations;
 import io.papermc.paper.datacomponent.item.PotDecorations;
 import net.kyori.adventure.key.Key;
@@ -13,12 +15,11 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Unit;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -33,6 +34,7 @@ import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.bukkit.DyeColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.craftbukkit.block.banner.CraftPatternType;
 import org.bukkit.craftbukkit.enchantments.CraftEnchantment;
@@ -70,6 +72,15 @@ import java.util.UUID;
 
 @ApiStatus.Internal
 public class ItemBuilderImpl implements ItemBuilder {
+
+    private static final MaterialSetTag DYEABLE = new MaterialSetTag(new NamespacedKey("inventory-api", "dyeable"))
+            .startsWith("LEATHER_")
+            .add(Material.WOLF_ARMOR)
+            .lock();
+
+    private static final MaterialSetTag POTIONS = new MaterialSetTag(new NamespacedKey("inventory-api", "potions"))
+            .add(Material.POTION, Material.LINGERING_POTION, Material.SPLASH_POTION, Material.TIPPED_ARROW)
+            .lock();
 
     private final ItemStack delegate;
 
@@ -435,6 +446,11 @@ public class ItemBuilderImpl implements ItemBuilder {
     }
 
     @Override
+    public ItemBuilder color(org.bukkit.inventory.ItemStack... dyes) {
+        return this.color(this.parseDyes(dyes));
+    }
+
+    @Override
     public ItemBuilder color(DyeColor... dyes) {
         return this.color(dyes, 0, 0, 0);
     }
@@ -446,6 +462,11 @@ public class ItemBuilderImpl implements ItemBuilder {
 
     @Override
     public ItemBuilder mixColor(Material... dyes) {
+        return this.mixColor(this.parseDyes(dyes));
+    }
+
+    @Override
+    public ItemBuilder mixColor(org.bukkit.inventory.ItemStack... dyes) {
         return this.mixColor(this.parseDyes(dyes));
     }
 
@@ -464,34 +485,34 @@ public class ItemBuilderImpl implements ItemBuilder {
         return this.mixColor(this.parseDyes(dyes));
     }
 
-    private DyeColor[] parseDyes(Material[] dyes) {
-        List<DyeColor> colors = new ArrayList<>();
-
-        for (Material dye : dyes) {
-            if (CraftMagicNumbers.getItem(dye) instanceof DyeItem dyeItem) {
-                colors.add(ItemBuilderImpl.fromVanilla(dyeItem.getDyeColor()));
-            } else {
-                throw new IllegalArgumentException("Invalid dye item: " + dye.key());
-            }
-        }
-
-        return colors.toArray(DyeColor[]::new);
+    private DyeColor[] parseDyes(Object[] dyes) {
+        return this.parseDyes(Arrays.asList(dyes));
     }
 
     private DyeColor[] parseDyes(Collection<?> dyes) {
         List<DyeColor> colors = new ArrayList<>();
 
         for (Object dye : dyes) {
-            if (dye instanceof Material material) {
-                if (CraftMagicNumbers.getItem(material) instanceof DyeItem dyeItem) {
-                    colors.add(ItemBuilderImpl.fromVanilla(dyeItem.getDyeColor()));
-                } else {
-                    throw new IllegalArgumentException("Invalid dye item: " + material.key());
+            switch (dye) {
+                case Material material -> {
+                    net.minecraft.world.item.DyeColor dyeColor = CraftMagicNumbers.getItem(material).components().get(DataComponents.DYE);
+                    if (dyeColor != null) {
+                        colors.add(ItemBuilderImpl.fromVanilla(dyeColor));
+                    } else {
+                        throw new IllegalArgumentException("Invalid dye item: " + material.key());
+                    }
                 }
-            } else if (dye instanceof DyeColor dyeColor) {
-                colors.add(dyeColor);
-            } else {
-                throw new IllegalArgumentException("Cannot parse dye for unknown type. Expected Material or DyeColor, found " + dye.getClass().getCanonicalName());
+                case DyeColor dyeColor -> colors.add(dyeColor);
+                case org.bukkit.inventory.ItemStack itemStack -> {
+                    DyeColor dyeColor = itemStack.getData(DataComponentTypes.DYE);
+                    if (dyeColor != null) {
+                        colors.add(dyeColor);
+                    } else {
+                        throw new IllegalArgumentException("Invalid dye item: " + itemStack);
+                    }
+                }
+                default ->
+                        throw new IllegalArgumentException("Cannot parse dye for unknown type. Expected Material, DyeColor or ItemStack, found " + dye.getClass().getCanonicalName());
             }
         }
 
@@ -540,11 +561,12 @@ public class ItemBuilderImpl implements ItemBuilder {
     public ItemBuilder color(int rgb) {
         rgb &= 0xFFFFFF; // Get rid of alpha channel no matter what
 
-        if (this.delegate.is(ItemTags.DYEABLE)) {
+        Material material = this.material();
+        if (ItemBuilderImpl.DYEABLE.isTagged(material)) {
             this.delegate.set(DataComponents.DYED_COLOR, new DyedItemColor(rgb));
         } else if (this.delegate.is(Items.FILLED_MAP)) {
             this.delegate.set(DataComponents.MAP_COLOR, new MapItemColor(rgb));
-        } else {
+        } else if (ItemBuilderImpl.POTIONS.isTagged(material)) {
             PotionContents potionContents = this.delegate.get(DataComponents.POTION_CONTENTS);
             if (potionContents != null) {
                 this.delegate.set(DataComponents.POTION_CONTENTS, new PotionContents(potionContents.potion(), Optional.of(rgb), potionContents.customEffects(), potionContents.customName()));
@@ -558,11 +580,12 @@ public class ItemBuilderImpl implements ItemBuilder {
 
     @Override
     public ItemBuilder removeColor() {
-        if (this.delegate.is(ItemTags.DYEABLE)) {
+        Material material = this.material();
+        if (ItemBuilderImpl.DYEABLE.isTagged(material)) {
             this.delegate.remove(DataComponents.DYED_COLOR);
         } else if (this.delegate.is(Items.FILLED_MAP)) {
             this.delegate.remove(DataComponents.MAP_COLOR);
-        } else {
+        } else if (ItemBuilderImpl.POTIONS.isTagged(material)) {
             PotionContents potionContents = this.delegate.get(DataComponents.POTION_CONTENTS);
             if (potionContents != null) {
                 if (potionContents.potion().isEmpty() && potionContents.customEffects().isEmpty() && potionContents.customName().isEmpty()) {
@@ -587,17 +610,18 @@ public class ItemBuilderImpl implements ItemBuilder {
 
     @Override
     public int color() {
-        if (this.delegate.is(ItemTags.DYEABLE)) {
+        Material material = this.material();
+        if (ItemBuilderImpl.DYEABLE.isTagged(material)) {
             DyedItemColor dyedItemColor = this.delegate.get(DataComponents.DYED_COLOR);
             return dyedItemColor == null ? 0 : dyedItemColor.rgb();
         } else if (this.delegate.is(Items.FILLED_MAP)) {
             MapItemColor mapItemColor = this.delegate.get(DataComponents.MAP_COLOR);
             return mapItemColor == null ? 0 : mapItemColor.rgb();
-        }
-
-        PotionContents potionContents = this.delegate.get(DataComponents.POTION_CONTENTS);
-        if (potionContents != null) {
-            return potionContents.customColor().orElse(0);
+        } else if (ItemBuilderImpl.POTIONS.isTagged(material)) {
+            PotionContents potionContents = this.delegate.get(DataComponents.POTION_CONTENTS);
+            if (potionContents != null) {
+                return potionContents.customColor().orElse(0);
+            }
         }
 
         return 0;
@@ -605,16 +629,17 @@ public class ItemBuilderImpl implements ItemBuilder {
 
     @Override
     public boolean hasColor() {
-        if (this.delegate.is(ItemTags.DYEABLE)) {
+        Material material = this.material();
+        if (ItemBuilderImpl.DYEABLE.isTagged(material)) {
             return this.delegate.has(DataComponents.DYED_COLOR);
         } else if (this.delegate.is(Items.FILLED_MAP)) {
             MapItemColor mapItemColor = this.delegate.get(DataComponents.MAP_COLOR);
             return mapItemColor != null && mapItemColor != MapItemColor.DEFAULT;
-        }
-
-        PotionContents potionContents = this.delegate.get(DataComponents.POTION_CONTENTS);
-        if (potionContents != null) {
-            return potionContents.customColor().isPresent();
+        } else if (ItemBuilderImpl.POTIONS.isTagged(material)) {
+            PotionContents potionContents = this.delegate.get(DataComponents.POTION_CONTENTS);
+            if (potionContents != null) {
+                return potionContents.customColor().isPresent();
+            }
         }
 
         return false;
@@ -630,7 +655,13 @@ public class ItemBuilderImpl implements ItemBuilder {
         if (contents == null) {
             this.delegate.remove(DataComponents.BUNDLE_CONTENTS);
         } else {
-            this.delegate.set(DataComponents.BUNDLE_CONTENTS, new BundleContents(CraftItemStack.asNMSCopy(contents)));
+            List<ItemStackTemplate> bundleContents = new ArrayList<>();
+
+            for (org.bukkit.inventory.ItemStack itemStack : contents) {
+                bundleContents.add(CraftItemStack.asTemplate(itemStack));
+            }
+
+            this.delegate.set(DataComponents.BUNDLE_CONTENTS, new BundleContents(bundleContents));
         }
 
         return this;
@@ -642,8 +673,8 @@ public class ItemBuilderImpl implements ItemBuilder {
         if (bundleContents != null) {
             List<org.bukkit.inventory.ItemStack> contents = new ArrayList<>(bundleContents.size());
 
-            for (ItemStack stack : bundleContents.items()) {
-                contents.add(CraftItemStack.asCraftMirror(stack));
+            for (ItemStackTemplate stack : bundleContents.items()) {
+                contents.add(CraftItemStack.asBukkitCopy(stack));
             }
 
             return contents;
