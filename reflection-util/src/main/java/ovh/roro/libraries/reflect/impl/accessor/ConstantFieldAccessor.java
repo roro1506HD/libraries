@@ -1,10 +1,11 @@
 package ovh.roro.libraries.reflect.impl.accessor;
 
 import org.jetbrains.annotations.ApiStatus;
+import ovh.roro.libraries.reflect.impl.ReflectionHelper;
 
 import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 @ApiStatus.Internal
 public final class ConstantFieldAccessor extends AbstractFieldAccessor {
@@ -12,9 +13,11 @@ public final class ConstantFieldAccessor extends AbstractFieldAccessor {
     private final MethodHandle getterHandle;
     private final MethodHandle setterHandle;
 
-    public ConstantFieldAccessor(MethodHandles.Lookup lookup, Field field) {
-        this.getterHandle = this.createHandle(field, lookup::unreflectGetter);
-        this.setterHandle = this.createHandle(field, lookup::unreflectSetter);
+    public ConstantFieldAccessor(Field field) {
+        super(Modifier.isStatic(field.getModifiers()));
+
+        this.getterHandle = this.createHandle(field, ReflectionHelper.INSTANCE::unreflectGetter);
+        this.setterHandle = this.createHandle(field, ReflectionHelper.INSTANCE::unreflectSetter);
     }
 
     @Override

@@ -11,6 +11,12 @@ import java.util.Objects;
 @ApiStatus.Internal
 public abstract class AbstractFieldAccessor implements FieldAccessor {
 
+    private final boolean isStatic;
+
+    public AbstractFieldAccessor(boolean isStatic) {
+        this.isStatic = isStatic;
+    }
+
     protected abstract MethodHandle getterHandle();
 
     protected abstract MethodHandle setterHandle();
@@ -18,7 +24,7 @@ public abstract class AbstractFieldAccessor implements FieldAccessor {
     protected MethodHandle createHandle(Field field, MethodHandleSupplier supplier) {
         try {
             return supplier.get(field);
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             throw new IllegalStateException("Could not find MethodHandle", ex);
         }
     }
@@ -33,9 +39,13 @@ public abstract class AbstractFieldAccessor implements FieldAccessor {
 
     private Object getInternal(@Nullable Object instance) {
         try {
-            return this.getterHandle().invoke(instance);
+            if (this.isStatic) {
+                return this.getterHandle().invoke();
+            } else {
+                return this.getterHandle().invoke(instance);
+            }
         } catch (Throwable ex) {
-            throw new RuntimeException("Could not set field", ex);
+            throw new RuntimeException("Could not get field", ex);
         }
     }
 

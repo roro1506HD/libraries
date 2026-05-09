@@ -2,29 +2,30 @@ package ovh.roro.libraries.reflect.impl.accessor;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
+import ovh.roro.libraries.reflect.impl.ReflectionHelper;
 
 import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 @ApiStatus.Internal
 public final class LazyFieldAccessor extends AbstractFieldAccessor {
 
-    private final MethodHandles.Lookup lookup;
     private final Field field;
 
     private @Nullable MethodHandle getterHandle;
     private @Nullable MethodHandle setterHandle;
 
-    public LazyFieldAccessor(MethodHandles.Lookup lookup, Field field) {
-        this.lookup = lookup;
+    public LazyFieldAccessor(Field field) {
+        super(Modifier.isStatic(field.getModifiers()));
+
         this.field = field;
     }
 
     @Override
     protected MethodHandle getterHandle() {
         if (this.getterHandle == null) {
-            this.getterHandle = this.createHandle(this.field, this.lookup::unreflectGetter);
+            this.getterHandle = this.createHandle(this.field, ReflectionHelper.INSTANCE::unreflectGetter);
         }
 
         return this.getterHandle;
@@ -33,7 +34,7 @@ public final class LazyFieldAccessor extends AbstractFieldAccessor {
     @Override
     protected MethodHandle setterHandle() {
         if (this.setterHandle == null) {
-            this.setterHandle = this.createHandle(this.field, this.lookup::unreflectSetter);
+            this.setterHandle = this.createHandle(this.field, ReflectionHelper.INSTANCE::unreflectSetter);
         }
 
         return this.setterHandle;

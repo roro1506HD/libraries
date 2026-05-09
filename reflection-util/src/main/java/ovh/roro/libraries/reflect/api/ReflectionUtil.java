@@ -46,11 +46,11 @@ public interface ReflectionUtil {
         return ReflectionHelper.INSTANCE.getFieldAccessorLazy(className, fieldName);
     }
 
-    static FieldAccessor getFieldAccessor(Class<?> clazz, Field field) {
-        return ReflectionHelper.INSTANCE.getFieldAccessor(clazz, field);
+    static FieldAccessor getFieldAccessor(Field field) {
+        return ReflectionHelper.INSTANCE.getFieldAccessor(field);
     }
 
-    static FieldAccessor getFieldAccessorLazy(Class<?> clazz, Field field) {
-        return ReflectionHelper.INSTANCE.getFieldAccessorLazy(clazz, field);
+    static FieldAccessor getFieldAccessorLazy(Field field) {
+        return ReflectionHelper.INSTANCE.getFieldAccessorLazy(field);
     }
 }

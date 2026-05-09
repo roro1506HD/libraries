@@ -8,6 +8,6 @@ import java.lang.reflect.Field;
 @ApiStatus.Internal
 public interface MethodHandleSupplier {
 
-    MethodHandle get(Field field) throws IllegalAccessException;
+    MethodHandle get(Field field) throws Throwable;
 
 }
