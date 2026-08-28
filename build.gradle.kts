@@ -1,2 +1,2 @@
 group = "ovh.roro.libraries"
-version = "26.1.2"
+version = "26.2"

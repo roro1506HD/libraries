@@ -4,7 +4,7 @@ import xyz.jpenilla.runpaper.task.RunServer
 plugins {
     id("library.paper")
     id("com.gradleup.shadow") version "9.4.1"
-    id("xyz.jpenilla.run-paper") version "3.0.2"
+    id("xyz.jpenilla.run-paper") version "3.1.0"
 }
 
 val generatorImplementationConfiguration: Configuration by configurations.creating {
@@ -53,7 +53,7 @@ tasks.register<RunServer>("runGenerator") {
     dependsOn(tasks.named("generatorShadowJar"))
 
     group = "run paper"
-    minecraftVersion("1.21.11")
+    minecraftVersion("26.2")
     disablePluginRemapping()
     systemProperty("com.mojang.eula.agree", "true")
 

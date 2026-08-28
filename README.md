@@ -41,7 +41,7 @@ repositories {
 
 dependencies {
     // Use a BOM so that all libraries are on the same version
-    implementation(platform("ovh.roro.libraries:bom:26.1.2"))
+    implementation(platform("ovh.roro.libraries:bom:26.2"))
     implementation("ovh.roro.libraries:config-api")
     implementation("ovh.roro.libraries:reflection-util")
     // ...
@@ -67,7 +67,7 @@ dependencies {
         <dependency>
             <groupId>ovh.roro.libraries</groupId>
             <artifactId>bom</artifactId>
-            <version>26.1.2</version>
+            <version>26.2</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>

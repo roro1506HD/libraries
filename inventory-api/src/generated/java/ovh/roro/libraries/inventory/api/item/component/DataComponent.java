@@ -8,10 +8,12 @@ import ovh.roro.libraries.inventory.impl.item.component.DataComponentImpl;
 
 @Generated(
         value = "ovh.roro.libraries.inventory.generator.Generator",
-        date = "Sat Apr 18 21:14:15 CEST 2026"
+        date = "Fri Aug 28 16:15:44 CEST 2026"
 )
 @ApiStatus.NonExtendable
 public interface DataComponent extends Keyed {
+    DataComponent ADDITIONAL_TRADE_COST = new DataComponentImpl(Key.key("minecraft", "additional_trade_cost"));
+
     DataComponent ATTACK_RANGE = new DataComponentImpl(Key.key("minecraft", "attack_range"));
 
     DataComponent ATTRIBUTE_MODIFIERS = new DataComponentImpl(Key.key("minecraft", "attribute_modifiers"));
@@ -42,9 +44,13 @@ public interface DataComponent extends Keyed {
 
     DataComponent CAT_COLLAR = new DataComponentImpl(Key.key("minecraft", "cat/collar"));
 
+    DataComponent CAT_SOUND_VARIANT = new DataComponentImpl(Key.key("minecraft", "cat/sound_variant"));
+
     DataComponent CAT_VARIANT = new DataComponentImpl(Key.key("minecraft", "cat/variant"));
 
     DataComponent CHARGED_PROJECTILES = new DataComponentImpl(Key.key("minecraft", "charged_projectiles"));
+
+    DataComponent CHICKEN_SOUND_VARIANT = new DataComponentImpl(Key.key("minecraft", "chicken/sound_variant"));
 
     DataComponent CHICKEN_VARIANT = new DataComponentImpl(Key.key("minecraft", "chicken/variant"));
 
@@ -53,6 +59,8 @@ public interface DataComponent extends Keyed {
     DataComponent CONTAINER = new DataComponentImpl(Key.key("minecraft", "container"));
 
     DataComponent CONTAINER_LOOT = new DataComponentImpl(Key.key("minecraft", "container_loot"));
+
+    DataComponent COW_SOUND_VARIANT = new DataComponentImpl(Key.key("minecraft", "cow/sound_variant"));
 
     DataComponent COW_VARIANT = new DataComponentImpl(Key.key("minecraft", "cow/variant"));
 
@@ -73,6 +81,8 @@ public interface DataComponent extends Keyed {
     DataComponent DEATH_PROTECTION = new DataComponentImpl(Key.key("minecraft", "death_protection"));
 
     DataComponent DEBUG_STICK_STATE = new DataComponentImpl(Key.key("minecraft", "debug_stick_state"));
+
+    DataComponent DYE = new DataComponentImpl(Key.key("minecraft", "dye"));
 
     DataComponent DYED_COLOR = new DataComponentImpl(Key.key("minecraft", "dyed_color"));
 
@@ -146,6 +156,8 @@ public interface DataComponent extends Keyed {
 
     DataComponent PIERCING_WEAPON = new DataComponentImpl(Key.key("minecraft", "piercing_weapon"));
 
+    DataComponent PIG_SOUND_VARIANT = new DataComponentImpl(Key.key("minecraft", "pig/sound_variant"));
+
     DataComponent PIG_VARIANT = new DataComponentImpl(Key.key("minecraft", "pig/variant"));
 
     DataComponent POT_DECORATIONS = new DataComponentImpl(Key.key("minecraft", "pot_decorations"));
@@ -177,6 +189,8 @@ public interface DataComponent extends Keyed {
     DataComponent SHULKER_COLOR = new DataComponentImpl(Key.key("minecraft", "shulker/color"));
 
     DataComponent STORED_ENCHANTMENTS = new DataComponentImpl(Key.key("minecraft", "stored_enchantments"));
+
+    DataComponent SULFUR_CUBE_CONTENT = new DataComponentImpl(Key.key("minecraft", "sulfur_cube_content"));
 
     DataComponent SUSPICIOUS_STEW_EFFECTS = new DataComponentImpl(Key.key("minecraft", "suspicious_stew_effects"));
 
