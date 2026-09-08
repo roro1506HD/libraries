@@ -96,11 +96,11 @@ public class ItemInventoryListener implements Listener {
             if (event.getAction() != InventoryAction.HOTBAR_SWAP) {
                 ItemStack cursorItem = player.bukkitPlayer().getItemOnCursor();
 
-                this.inventoryManager.parseItem(cursorItem).ifPresent(item -> {
+                this.inventoryManager.parseItem(cursorItem).ifPresent(_ -> {
                     event.setCancelled(true);
                 });
             } else {
-                ItemStack hotbarItem = player.bukkitPlayer().getInventory().getItem(event.getHotbarButton());
+                ItemStack hotbarItem = this.getHotbarItem(event, player);
 
                 this.inventoryManager.parseItem(hotbarItem).ifPresent(item -> {
                     event.setCancelled(true);
@@ -122,7 +122,7 @@ public class ItemInventoryListener implements Listener {
     @SuppressWarnings("DataFlowIssue")
     private void handleInventoryClick(InventoryClickEvent event, InventoryPlayerHolder player) {
         if (event.getClick() == ClickType.NUMBER_KEY) {
-            Optional<Item> hotbarItem = this.inventoryManager.parseItem(player.bukkitPlayer().getInventory().getItem(event.getHotbarButton()));
+            Optional<Item> hotbarItem = this.inventoryManager.parseItem(this.getHotbarItem(event, player));
             Optional<Item> slotItem = this.inventoryManager.parseItem(event.getClickedInventory().getItem(event.getSlot()));
 
             if (slotItem.isPresent()) {
@@ -193,7 +193,7 @@ public class ItemInventoryListener implements Listener {
         Item item = slot.item();
 
         if (event.getClick() == ClickType.NUMBER_KEY) {
-            Optional<Item> hotbarItem = this.inventoryManager.parseItem(player.bukkitPlayer().getInventory().getItem(event.getHotbarButton()));
+            Optional<Item> hotbarItem = this.inventoryManager.parseItem(this.getHotbarItem(event, player));
 
             if (item != null) {
                 this.handleHotbarSwap(event, player, item, wrapper, event.getSlot());
@@ -302,6 +302,14 @@ public class ItemInventoryListener implements Listener {
                 ItemInventoryListener.LOGGER.error("An exception occurred while handling hotbar swap for item {}", item.instance().getClass().getSimpleName(), throwable);
             }
         });
+    }
+
+    private @Nullable ItemStack getHotbarItem(InventoryClickEvent event, InventoryPlayerHolder player) {
+        if (event.getClick() == ClickType.SWAP_OFFHAND) {
+            return player.bukkitPlayer().getInventory().getItemInOffHand();
+        }
+
+        return player.bukkitPlayer().getInventory().getItem(event.getHotbarButton());
     }
 
     private int firstPossibleSlot(Inventory inventory, ItemStack itemStack) {
