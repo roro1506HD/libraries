@@ -3,13 +3,15 @@ package ovh.roro.libraries.config.impl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ovh.roro.libraries.config.api.ConfigHolder;
 import ovh.roro.libraries.config.api.ConfigReader;
 import ovh.roro.libraries.config.api.ConfigWriter;
 import ovh.roro.libraries.loader.LibraryLoader;
 import ovh.roro.libraries.loader.plugin.PluginLibraryLoader;
+import ovh.roro.libraries.loader.standalone.StandaloneLibraryLoader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,17 +24,25 @@ import java.util.function.Function;
 @ApiStatus.Internal
 public final class ConfigProviderImpl {
 
-    public static final LibraryLoader<ConfigProviderImpl> LOADER = new PluginLibraryLoader<>(ConfigProviderImpl::new);
+    public static final LibraryLoader<ConfigProviderImpl> LOADER;
 
     static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
             .disableHtmlEscaping()
             .create();
 
-    private final JavaPlugin plugin;
+    static {
+        if (LibraryLoader.isPaper()) {
+            LOADER = new PluginLibraryLoader<>(plugin -> new ConfigProviderImpl(plugin.getSLF4JLogger()));
+        } else {
+            LOADER = new StandaloneLibraryLoader<>(() -> new ConfigProviderImpl(LoggerFactory.getLogger("Config API")));
+        }
+    }
 
-    private ConfigProviderImpl(JavaPlugin plugin) {
-        this.plugin = plugin;
+    private final Logger logger;
+
+    private ConfigProviderImpl(Logger logger) {
+        this.logger = logger;
     }
 
     public static ConfigProviderImpl instance() {
@@ -40,7 +50,7 @@ public final class ConfigProviderImpl {
     }
 
     public <T> ConfigHolder<T> createHolder(Path path, Function<ConfigReader, T> readMapper, BiConsumer<T, ConfigWriter> writeMapper) {
-        return new ConfigHolderImpl<>(this.plugin, path, readMapper, writeMapper);
+        return new ConfigHolderImpl<>(this.logger, path, readMapper, writeMapper);
     }
 
     public ConfigReader createReaderFromPath(Path path) {
