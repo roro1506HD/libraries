@@ -20,8 +20,8 @@ import ovh.roro.libraries.language.api.LanguagePlayerHolder;
 import ovh.roro.libraries.language.api.Placeholder;
 import ovh.roro.libraries.language.api.Translatable;
 import ovh.roro.libraries.language.api.Translation;
-import ovh.roro.libraries.scoreboard.api.player.ScoreboardPlayerHolder;
 import ovh.roro.libraries.scoreboard.api.SidebarScoreboard;
+import ovh.roro.libraries.scoreboard.api.player.ScoreboardPlayerHolder;
 
 import java.util.Optional;
 
@@ -98,6 +98,10 @@ public class SidebarScoreboardImpl implements SidebarScoreboard {
 
     @Override
     public void title(Component title) {
+        if (title.equals(this.title)) {
+            return;
+        }
+
         this.title = title;
         this.titleTranslation = null;
 
@@ -120,7 +124,13 @@ public class SidebarScoreboardImpl implements SidebarScoreboard {
 
     @Override
     public void title(Translation translation) {
-        this.title = LanguageManager.languageManager().translate(this.languagePlayer.language(), translation);
+        Component newTitle = LanguageManager.languageManager().translate(this.languagePlayer.language(), translation);
+
+        if (newTitle.equals(this.title)) {
+            return;
+        }
+
+        this.title = newTitle;
         this.titleTranslation = translation;
 
         this.objective.setDisplayName(PaperAdventure.asVanilla(this.title));
@@ -171,7 +181,7 @@ public class SidebarScoreboardImpl implements SidebarScoreboard {
         }
 
         Component line = LanguageManager.languageManager().translate(this.languagePlayer.language(), translation);
-        ;
+
         if (!line.equals(this.lines[index])) {
             this.lines[index] = line;
             this.sendLine(index);
