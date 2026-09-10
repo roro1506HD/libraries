@@ -27,7 +27,8 @@ import ovh.roro.libraries.language.api.Translatable;
 import ovh.roro.libraries.language.api.Translation;
 import ovh.roro.libraries.language.api.data.LanguageNumberData;
 import ovh.roro.libraries.language.impl.data.LanguageNumberDataImpl;
-import ovh.roro.libraries.loader.LibraryInstanceLoader;
+import ovh.roro.libraries.loader.LibraryLoader;
+import ovh.roro.libraries.loader.plugin.PluginLibraryLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,9 +46,8 @@ import java.util.stream.Stream;
 @ApiStatus.Internal
 public class LanguageManagerImpl implements LanguageManager {
 
-    public static final LibraryInstanceLoader<LanguageManagerImpl> LOADER = new LibraryInstanceLoader<>(
-            "LanguageManager",
-            plugin -> new LanguageManagerImpl()
+    public static final LibraryLoader<LanguageManagerImpl> LOADER = new PluginLibraryLoader<>(
+            _ -> new LanguageManagerImpl()
     );
 
     private static final Logger LOGGER = LoggerFactory.getLogger("LanguageManager");

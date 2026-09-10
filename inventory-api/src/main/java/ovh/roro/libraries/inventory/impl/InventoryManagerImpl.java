@@ -61,7 +61,8 @@ import ovh.roro.libraries.inventory.impl.util.StringUtil;
 import ovh.roro.libraries.language.api.Language;
 import ovh.roro.libraries.language.api.LanguageManager;
 import ovh.roro.libraries.language.api.Translation;
-import ovh.roro.libraries.loader.LibraryInstanceLoader;
+import ovh.roro.libraries.loader.LibraryLoader;
+import ovh.roro.libraries.loader.plugin.PluginLibraryLoader;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -80,10 +81,7 @@ import java.util.function.Function;
 @SuppressWarnings("rawtypes")
 public class InventoryManagerImpl implements InventoryManager {
 
-    public static final LibraryInstanceLoader<InventoryManagerImpl> LOADER = new LibraryInstanceLoader<>(
-            "InventoryManager",
-            InventoryManagerImpl::new
-    );
+    public static final LibraryLoader<InventoryManagerImpl> LOADER = new PluginLibraryLoader<>(InventoryManagerImpl::new);
 
     private static final Int2ObjectMap<@Nullable MenuType<?>> ROWS_TO_MENU_TYPE = Util.make(new Int2ObjectArrayMap<>(), map -> {
         map.defaultReturnValue(null);

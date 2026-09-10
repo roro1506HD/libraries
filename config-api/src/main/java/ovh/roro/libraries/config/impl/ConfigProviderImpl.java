@@ -8,7 +8,8 @@ import org.jetbrains.annotations.ApiStatus;
 import ovh.roro.libraries.config.api.ConfigHolder;
 import ovh.roro.libraries.config.api.ConfigReader;
 import ovh.roro.libraries.config.api.ConfigWriter;
-import ovh.roro.libraries.loader.LibraryInstanceLoader;
+import ovh.roro.libraries.loader.LibraryLoader;
+import ovh.roro.libraries.loader.plugin.PluginLibraryLoader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,10 +22,7 @@ import java.util.function.Function;
 @ApiStatus.Internal
 public final class ConfigProviderImpl {
 
-    public static final LibraryInstanceLoader<ConfigProviderImpl> LOADER = new LibraryInstanceLoader<>(
-            "Config API",
-            ConfigProviderImpl::new
-    );
+    public static final LibraryLoader<ConfigProviderImpl> LOADER = new PluginLibraryLoader<>(ConfigProviderImpl::new);
 
     static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
