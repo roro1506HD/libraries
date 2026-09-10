@@ -1,7 +1,6 @@
 package ovh.roro.libraries.config.impl;
 
 import com.google.gson.JsonObject;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
