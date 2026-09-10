@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     api(project(":library-loader"))
+    api(project(":common"))
 }
 
 tasks.withType<Javadoc> {

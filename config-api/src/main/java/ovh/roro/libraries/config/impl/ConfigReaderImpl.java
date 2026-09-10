@@ -5,12 +5,19 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
+import ovh.roro.libraries.common.function.ByteSupplier;
+import ovh.roro.libraries.common.function.FloatSupplier;
+import ovh.roro.libraries.common.function.ShortSupplier;
 import ovh.roro.libraries.config.api.ConfigReader;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 import java.util.function.Function;
+import java.util.function.IntSupplier;
+import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 
 @ApiStatus.Internal
@@ -85,9 +92,21 @@ public class ConfigReaderImpl implements ConfigReader {
     }
 
     @Override
+    public boolean readBoolean(String key, BooleanSupplier fallback) {
+        JsonElement element = this.asObject().get(key);
+        return element == null || !element.isJsonPrimitive() ? fallback.getAsBoolean() : element.getAsBoolean();
+    }
+
+    @Override
     public boolean readBoolean(boolean fallback) {
         JsonElement element = this.asArrayElement();
         return !element.isJsonPrimitive() ? fallback : element.getAsBoolean();
+    }
+
+    @Override
+    public boolean readBoolean(BooleanSupplier fallback) {
+        JsonElement element = this.asArrayElement();
+        return !element.isJsonPrimitive() ? fallback.getAsBoolean() : element.getAsBoolean();
     }
 
     @Override
@@ -97,9 +116,21 @@ public class ConfigReaderImpl implements ConfigReader {
     }
 
     @Override
+    public byte readByte(String key, ByteSupplier fallback) {
+        JsonElement element = this.asObject().get(key);
+        return element == null || !element.isJsonPrimitive() ? fallback.getAsByte() : element.getAsByte();
+    }
+
+    @Override
     public byte readByte(byte fallback) {
         JsonElement element = this.asArrayElement();
         return !element.isJsonPrimitive() ? fallback : element.getAsByte();
+    }
+
+    @Override
+    public byte readByte(ByteSupplier fallback) {
+        JsonElement element = this.asArrayElement();
+        return !element.isJsonPrimitive() ? fallback.getAsByte() : element.getAsByte();
     }
 
     @Override
@@ -109,9 +140,21 @@ public class ConfigReaderImpl implements ConfigReader {
     }
 
     @Override
+    public short readShort(String key, ShortSupplier fallback) {
+        JsonElement element = this.asObject().get(key);
+        return element == null || !element.isJsonPrimitive() ? fallback.getAsShort() : element.getAsShort();
+    }
+
+    @Override
     public short readShort(short fallback) {
         JsonElement element = this.asArrayElement();
         return !element.isJsonPrimitive() ? fallback : element.getAsShort();
+    }
+
+    @Override
+    public short readShort(ShortSupplier fallback) {
+        JsonElement element = this.asArrayElement();
+        return !element.isJsonPrimitive() ? fallback.getAsShort() : element.getAsShort();
     }
 
     @Override
@@ -121,9 +164,21 @@ public class ConfigReaderImpl implements ConfigReader {
     }
 
     @Override
+    public int readInt(String key, IntSupplier fallback) {
+        JsonElement element = this.asObject().get(key);
+        return element == null || !element.isJsonPrimitive() ? fallback.getAsInt() : element.getAsInt();
+    }
+
+    @Override
     public int readInt(int fallback) {
         JsonElement element = this.asArrayElement();
         return !element.isJsonPrimitive() ? fallback : element.getAsInt();
+    }
+
+    @Override
+    public int readInt(IntSupplier fallback) {
+        JsonElement element = this.asArrayElement();
+        return !element.isJsonPrimitive() ? fallback.getAsInt() : element.getAsInt();
     }
 
     @Override
@@ -133,9 +188,21 @@ public class ConfigReaderImpl implements ConfigReader {
     }
 
     @Override
+    public long readLong(String key, LongSupplier fallback) {
+        JsonElement element = this.asObject().get(key);
+        return element == null || !element.isJsonPrimitive() ? fallback.getAsLong() : element.getAsLong();
+    }
+
+    @Override
     public long readLong(long fallback) {
         JsonElement element = this.asArrayElement();
         return !element.isJsonPrimitive() ? fallback : element.getAsLong();
+    }
+
+    @Override
+    public long readLong(LongSupplier fallback) {
+        JsonElement element = this.asArrayElement();
+        return !element.isJsonPrimitive() ? fallback.getAsLong() : element.getAsLong();
     }
 
     @Override
@@ -145,9 +212,21 @@ public class ConfigReaderImpl implements ConfigReader {
     }
 
     @Override
+    public float readFloat(String key, FloatSupplier fallback) {
+        JsonElement element = this.asObject().get(key);
+        return element == null || !element.isJsonPrimitive() ? fallback.getAsFloat() : element.getAsFloat();
+    }
+
+    @Override
     public float readFloat(float fallback) {
         JsonElement element = this.asArrayElement();
         return !element.isJsonPrimitive() ? fallback : element.getAsFloat();
+    }
+
+    @Override
+    public float readFloat(FloatSupplier fallback) {
+        JsonElement element = this.asArrayElement();
+        return !element.isJsonPrimitive() ? fallback.getAsFloat() : element.getAsFloat();
     }
 
     @Override
@@ -157,9 +236,21 @@ public class ConfigReaderImpl implements ConfigReader {
     }
 
     @Override
+    public double readDouble(String key, DoubleSupplier fallback) {
+        JsonElement element = this.asObject().get(key);
+        return element == null || !element.isJsonPrimitive() ? fallback.getAsDouble() : element.getAsDouble();
+    }
+
+    @Override
     public double readDouble(double fallback) {
         JsonElement element = this.asArrayElement();
         return !element.isJsonPrimitive() ? fallback : element.getAsDouble();
+    }
+
+    @Override
+    public double readDouble(DoubleSupplier fallback) {
+        JsonElement element = this.asArrayElement();
+        return !element.isJsonPrimitive() ? fallback.getAsDouble() : element.getAsDouble();
     }
 
     @Override
@@ -169,9 +260,21 @@ public class ConfigReaderImpl implements ConfigReader {
     }
 
     @Override
+    public String readString(String key, Supplier<String> fallback) {
+        JsonElement element = this.asObject().get(key);
+        return element == null || !element.isJsonPrimitive() ? fallback.get() : element.getAsString();
+    }
+
+    @Override
     public String readString(String fallback) {
         JsonElement element = this.asArrayElement();
         return !element.isJsonPrimitive() ? fallback : element.getAsString();
+    }
+
+    @Override
+    public String readString(Supplier<String> fallback) {
+        JsonElement element = this.asArrayElement();
+        return !element.isJsonPrimitive() ? fallback.get() : element.getAsString();
     }
 
     @Override
