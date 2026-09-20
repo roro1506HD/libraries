@@ -1,9 +1,9 @@
 package ovh.roro.libraries.config.api;
 
 import org.jetbrains.annotations.ApiStatus;
-import ovh.roro.libraries.common.function.ByteSupplier;
-import ovh.roro.libraries.common.function.FloatSupplier;
-import ovh.roro.libraries.common.function.ShortSupplier;
+import ovh.roro.libraries.common.supplier.ByteSupplier;
+import ovh.roro.libraries.common.supplier.FloatSupplier;
+import ovh.roro.libraries.common.supplier.ShortSupplier;
 import ovh.roro.libraries.config.impl.ConfigProviderImpl;
 
 import java.io.File;

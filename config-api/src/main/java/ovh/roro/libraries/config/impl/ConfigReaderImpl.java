@@ -5,9 +5,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
-import ovh.roro.libraries.common.function.ByteSupplier;
-import ovh.roro.libraries.common.function.FloatSupplier;
-import ovh.roro.libraries.common.function.ShortSupplier;
+import ovh.roro.libraries.common.supplier.ByteSupplier;
+import ovh.roro.libraries.common.supplier.FloatSupplier;
+import ovh.roro.libraries.common.supplier.ShortSupplier;
 import ovh.roro.libraries.config.api.ConfigReader;
 
 import java.util.ArrayDeque;
