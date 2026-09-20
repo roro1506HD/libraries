@@ -1,5 +1,6 @@
 package ovh.roro.libraries.config.api;
 
+import com.google.gson.JsonObject;
 import org.jetbrains.annotations.ApiStatus;
 import ovh.roro.libraries.common.supplier.ByteSupplier;
 import ovh.roro.libraries.common.supplier.FloatSupplier;
@@ -25,6 +26,10 @@ public interface ConfigReader {
 
     static ConfigReader fromPath(Path path) {
         return ConfigProviderImpl.instance().createReaderFromPath(path);
+    }
+
+    static ConfigReader fromJson(JsonObject root) {
+        return ConfigProviderImpl.instance().createReaderFromJson(root);
     }
 
     boolean readBoolean(String key, boolean fallback);

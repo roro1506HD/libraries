@@ -55,10 +55,14 @@ public final class ConfigProviderImpl {
 
     public ConfigReader createReaderFromPath(Path path) {
         try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-            return new ConfigReaderImpl(ConfigProviderImpl.GSON.fromJson(reader, JsonObject.class));
+            return this.createReaderFromJson(ConfigProviderImpl.GSON.fromJson(reader, JsonObject.class));
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public ConfigReader createReaderFromJson(JsonObject root) {
+        return new ConfigReaderImpl(root);
     }
 
     public ConfigWriter createWriterToPath(Path path) {
