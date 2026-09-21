@@ -31,7 +31,11 @@ public abstract class AbstractFieldAccessor implements FieldAccessor {
 
     private void setInternal(@Nullable Object instance, @Nullable Object value) {
         try {
-            this.setterHandle().invoke(instance, value);
+            if (this.isStatic) {
+                this.setterHandle().invoke(value);
+            } else {
+                this.setterHandle().invoke(instance, value);
+            }
         } catch (Throwable ex) {
             throw new RuntimeException("Could not set field", ex);
         }
