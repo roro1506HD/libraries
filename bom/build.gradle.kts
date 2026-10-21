@@ -16,7 +16,8 @@ dependencies {
             "language-api",
             "inventory-api",
             "config-api",
-            "scoreboard-api"
+            "scoreboard-api",
+            "common"
         ).forEach {
             api(project(":${it}"))
         }
