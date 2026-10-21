@@ -74,7 +74,7 @@ public class ItemImpl<T, U extends InventoryPlayerHolder> implements Item<T, U> 
 
     @Override
     public ItemStack asBukkitItem(U player, @Nullable T value) {
-        return CraftItemStack.asCraftMirror(this.asMinecraftItem(player, value));
+        return CraftItemStack.asBukkitMirror(this.asMinecraftItem(player, value));
     }
 
     @Override

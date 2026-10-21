@@ -362,12 +362,12 @@ public class InventoryManagerImpl implements InventoryManager {
 
     @Override
     public <T, U extends InventoryPlayerHolder> ItemStack toBukkitStack(Item<T, U> item, U player, @Nullable T value) {
-        return CraftItemStack.asCraftMirror(this.toMinecraftStack(item, player, value));
+        return CraftItemStack.asBukkitMirror(this.toMinecraftStack(item, player, value));
     }
 
     @Override
     public ItemStack toBukkitStack(ItemBuilder builder, Language language) {
-        return CraftItemStack.asCraftMirror(this.toMinecraftStack(builder, language));
+        return CraftItemStack.asBukkitMirror(this.toMinecraftStack(builder, language));
     }
 
     public net.minecraft.world.item.ItemStack toMinecraftStack(Language language, ItemBuilder builder, @Nullable Item item) {

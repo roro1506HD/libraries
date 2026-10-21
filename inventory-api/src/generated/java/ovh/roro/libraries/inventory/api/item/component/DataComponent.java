@@ -8,11 +8,13 @@ import ovh.roro.libraries.inventory.impl.item.component.DataComponentImpl;
 
 @Generated(
         value = "ovh.roro.libraries.inventory.generator.Generator",
-        date = "Fri Aug 28 16:15:44 CEST 2026"
+        date = "Wed Oct 21 14:26:59 CEST 2026"
 )
 @ApiStatus.NonExtendable
 public interface DataComponent extends Keyed {
     DataComponent ADDITIONAL_TRADE_COST = new DataComponentImpl(Key.key("minecraft", "additional_trade_cost"));
+
+    DataComponent ATTACK_ANIMATION = new DataComponentImpl(Key.key("minecraft", "attack_animation"));
 
     DataComponent ATTACK_RANGE = new DataComponentImpl(Key.key("minecraft", "attack_range"));
 
@@ -30,9 +32,13 @@ public interface DataComponent extends Keyed {
 
     DataComponent BLOCK_STATE = new DataComponentImpl(Key.key("minecraft", "block_state"));
 
+    DataComponent BLOCK_TRANSFORMER = new DataComponentImpl(Key.key("minecraft", "block_transformer"));
+
     DataComponent BLOCKS_ATTACKS = new DataComponentImpl(Key.key("minecraft", "blocks_attacks"));
 
     DataComponent BREAK_SOUND = new DataComponentImpl(Key.key("minecraft", "break_sound"));
+
+    DataComponent BREWING_FUEL = new DataComponentImpl(Key.key("minecraft", "brewing_fuel"));
 
     DataComponent BUCKET_ENTITY_DATA = new DataComponentImpl(Key.key("minecraft", "bucket_entity_data"));
 
@@ -54,17 +60,23 @@ public interface DataComponent extends Keyed {
 
     DataComponent CHICKEN_VARIANT = new DataComponentImpl(Key.key("minecraft", "chicken/variant"));
 
+    DataComponent COMPOSTABLE = new DataComponentImpl(Key.key("minecraft", "compostable"));
+
     DataComponent CONSUMABLE = new DataComponentImpl(Key.key("minecraft", "consumable"));
 
     DataComponent CONTAINER = new DataComponentImpl(Key.key("minecraft", "container"));
 
     DataComponent CONTAINER_LOOT = new DataComponentImpl(Key.key("minecraft", "container_loot"));
 
+    DataComponent COOKING_FUEL = new DataComponentImpl(Key.key("minecraft", "cooking_fuel"));
+
     DataComponent COW_SOUND_VARIANT = new DataComponentImpl(Key.key("minecraft", "cow/sound_variant"));
 
     DataComponent COW_VARIANT = new DataComponentImpl(Key.key("minecraft", "cow/variant"));
 
     DataComponent CREATIVE_SLOT_LOCK = new DataComponentImpl(Key.key("minecraft", "creative_slot_lock"));
+
+    DataComponent CUSHION_COLOR = new DataComponentImpl(Key.key("minecraft", "cushion/color"));
 
     DataComponent CUSTOM_DATA = new DataComponentImpl(Key.key("minecraft", "custom_data"));
 
@@ -114,6 +126,8 @@ public interface DataComponent extends Keyed {
 
     DataComponent INTANGIBLE_PROJECTILE = new DataComponentImpl(Key.key("minecraft", "intangible_projectile"));
 
+    DataComponent INTERACT_ANIMATION = new DataComponentImpl(Key.key("minecraft", "interact_animation"));
+
     DataComponent ITEM_MODEL = new DataComponentImpl(Key.key("minecraft", "item_model"));
 
     DataComponent ITEM_NAME = new DataComponentImpl(Key.key("minecraft", "item_name"));
@@ -130,8 +144,6 @@ public interface DataComponent extends Keyed {
 
     DataComponent LORE = new DataComponentImpl(Key.key("minecraft", "lore"));
 
-    DataComponent MAP_COLOR = new DataComponentImpl(Key.key("minecraft", "map_color"));
-
     DataComponent MAP_DECORATIONS = new DataComponentImpl(Key.key("minecraft", "map_decorations"));
 
     DataComponent MAP_ID = new DataComponentImpl(Key.key("minecraft", "map_id"));
@@ -143,6 +155,8 @@ public interface DataComponent extends Keyed {
     DataComponent MAX_STACK_SIZE = new DataComponentImpl(Key.key("minecraft", "max_stack_size"));
 
     DataComponent MINIMUM_ATTACK_CHARGE = new DataComponentImpl(Key.key("minecraft", "minimum_attack_charge"));
+
+    DataComponent MOB_VISIBILITY = new DataComponentImpl(Key.key("minecraft", "mob_visibility"));
 
     DataComponent MOOSHROOM_VARIANT = new DataComponentImpl(Key.key("minecraft", "mooshroom/variant"));
 
@@ -170,6 +184,8 @@ public interface DataComponent extends Keyed {
 
     DataComponent PROVIDES_BANNER_PATTERNS = new DataComponentImpl(Key.key("minecraft", "provides_banner_patterns"));
 
+    DataComponent PROVIDES_POTTERY_PATTERN = new DataComponentImpl(Key.key("minecraft", "provides_pottery_pattern"));
+
     DataComponent PROVIDES_TRIM_MATERIAL = new DataComponentImpl(Key.key("minecraft", "provides_trim_material"));
 
     DataComponent RABBIT_VARIANT = new DataComponentImpl(Key.key("minecraft", "rabbit/variant"));
@@ -188,13 +204,15 @@ public interface DataComponent extends Keyed {
 
     DataComponent SHULKER_COLOR = new DataComponentImpl(Key.key("minecraft", "shulker/color"));
 
+    DataComponent SIGN_TEXT_BACK = new DataComponentImpl(Key.key("minecraft", "sign_text_back"));
+
+    DataComponent SIGN_TEXT_FRONT = new DataComponentImpl(Key.key("minecraft", "sign_text_front"));
+
     DataComponent STORED_ENCHANTMENTS = new DataComponentImpl(Key.key("minecraft", "stored_enchantments"));
 
     DataComponent SULFUR_CUBE_CONTENT = new DataComponentImpl(Key.key("minecraft", "sulfur_cube_content"));
 
     DataComponent SUSPICIOUS_STEW_EFFECTS = new DataComponentImpl(Key.key("minecraft", "suspicious_stew_effects"));
-
-    DataComponent SWING_ANIMATION = new DataComponentImpl(Key.key("minecraft", "swing_animation"));
 
     DataComponent TOOL = new DataComponentImpl(Key.key("minecraft", "tool"));
 
@@ -219,6 +237,10 @@ public interface DataComponent extends Keyed {
     DataComponent USE_REMAINDER = new DataComponentImpl(Key.key("minecraft", "use_remainder"));
 
     DataComponent VILLAGER_VARIANT = new DataComponentImpl(Key.key("minecraft", "villager/variant"));
+
+    DataComponent VILLAGER_FOOD = new DataComponentImpl(Key.key("minecraft", "villager_food"));
+
+    DataComponent WAXED = new DataComponentImpl(Key.key("minecraft", "waxed"));
 
     DataComponent WEAPON = new DataComponentImpl(Key.key("minecraft", "weapon"));
 

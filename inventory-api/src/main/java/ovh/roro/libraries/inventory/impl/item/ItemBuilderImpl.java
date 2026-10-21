@@ -26,7 +26,6 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.BundleContents;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.component.FireworkExplosion;
-import net.minecraft.world.item.component.MapItemColor;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -564,8 +563,6 @@ public class ItemBuilderImpl implements ItemBuilder {
         Material material = this.material();
         if (ItemBuilderImpl.DYEABLE.isTagged(material)) {
             this.delegate.set(DataComponents.DYED_COLOR, new DyedItemColor(rgb));
-        } else if (this.delegate.is(Items.FILLED_MAP)) {
-            this.delegate.set(DataComponents.MAP_COLOR, new MapItemColor(rgb));
         } else if (ItemBuilderImpl.POTIONS.isTagged(material)) {
             PotionContents potionContents = this.delegate.get(DataComponents.POTION_CONTENTS);
             if (potionContents != null) {
@@ -583,8 +580,6 @@ public class ItemBuilderImpl implements ItemBuilder {
         Material material = this.material();
         if (ItemBuilderImpl.DYEABLE.isTagged(material)) {
             this.delegate.remove(DataComponents.DYED_COLOR);
-        } else if (this.delegate.is(Items.FILLED_MAP)) {
-            this.delegate.remove(DataComponents.MAP_COLOR);
         } else if (ItemBuilderImpl.POTIONS.isTagged(material)) {
             PotionContents potionContents = this.delegate.get(DataComponents.POTION_CONTENTS);
             if (potionContents != null) {
@@ -601,10 +596,6 @@ public class ItemBuilderImpl implements ItemBuilder {
 
     @Override
     public ItemBuilder resetColor() {
-        if (this.delegate.is(Items.FILLED_MAP)) {
-            this.delegate.set(DataComponents.MAP_COLOR, MapItemColor.DEFAULT);
-        }
-
         return this.removeColor();
     }
 
@@ -614,9 +605,6 @@ public class ItemBuilderImpl implements ItemBuilder {
         if (ItemBuilderImpl.DYEABLE.isTagged(material)) {
             DyedItemColor dyedItemColor = this.delegate.get(DataComponents.DYED_COLOR);
             return dyedItemColor == null ? 0 : dyedItemColor.rgb();
-        } else if (this.delegate.is(Items.FILLED_MAP)) {
-            MapItemColor mapItemColor = this.delegate.get(DataComponents.MAP_COLOR);
-            return mapItemColor == null ? 0 : mapItemColor.rgb();
         } else if (ItemBuilderImpl.POTIONS.isTagged(material)) {
             PotionContents potionContents = this.delegate.get(DataComponents.POTION_CONTENTS);
             if (potionContents != null) {
@@ -632,9 +620,6 @@ public class ItemBuilderImpl implements ItemBuilder {
         Material material = this.material();
         if (ItemBuilderImpl.DYEABLE.isTagged(material)) {
             return this.delegate.has(DataComponents.DYED_COLOR);
-        } else if (this.delegate.is(Items.FILLED_MAP)) {
-            MapItemColor mapItemColor = this.delegate.get(DataComponents.MAP_COLOR);
-            return mapItemColor != null && mapItemColor != MapItemColor.DEFAULT;
         } else if (ItemBuilderImpl.POTIONS.isTagged(material)) {
             PotionContents potionContents = this.delegate.get(DataComponents.POTION_CONTENTS);
             if (potionContents != null) {

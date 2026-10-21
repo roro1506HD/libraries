@@ -33,7 +33,7 @@ sourceSets {
 dependencies {
     api(project(":language-api"))
 
-    generatorImplementationConfiguration("com.palantir.javapoet:javapoet:0.14.0")
+    generatorImplementationConfiguration("com.palantir.javapoet:javapoet:0.22.0")
     generatorImplementationConfiguration("org.jetbrains:annotations:26.0.2-1")
 }
 
@@ -53,7 +53,7 @@ tasks.register<RunServer>("runGenerator") {
     dependsOn(tasks.named("generatorShadowJar"))
 
     group = "run paper"
-    minecraftVersion("26.2")
+    minecraftVersion("26.3")
     disablePluginRemapping()
     systemProperty("com.mojang.eula.agree", "true")
 
